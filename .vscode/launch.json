@@ -1,0 +1,24 @@
+{
+	"version": "0.2.0",
+	"configurations": [{
+		"name": "chrome调试",
+		"type": "chrome",
+		"request": "launch",
+		// 首页
+		"url": "${workspaceRoot}/bin/index.html",
+		"file": "${workspaceRoot}/bin/index.html",
+		// "换成自己的谷歌安装路径，": 比如
+		//window 默认安装路径为: "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"
+		//mac 系统上的默认安装路径为 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+		// "runtimeExecutable": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+		// window 上的开发版安装路径为【强烈建议安装开发版，更快，对开发者更友好，下载地址 https://www.google.cn/chrome/dev/ 】
+		"runtimeExecutable": "C:/Program Files/Google/Chrome Dev/Application/chrome.exe",
+		"runtimeArgs": [
+			"--allow-file-access-from-files",
+			"--allow-file-access-frome-files",
+			" --disable-web-security"
+		],
+		"sourceMaps": true,
+		"webRoot": "${workspaceRoot}",
+	}]
+}

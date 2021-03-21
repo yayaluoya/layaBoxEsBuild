@@ -1,0 +1,13 @@
+{
+    //设置不显示在编辑器的文件夹
+    "files.exclude": {
+        ".rpt2_cache/**": true, //laya缓存
+        ".laya/chrome/**": true, //谷歌插件代码
+        "laya/**": true, //laya自带
+        ".laya/**": true, //laya自带
+        "node_modules/**": true, //npm 包文件夹
+    },
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "git.ignoreLimitWarning": true
+}

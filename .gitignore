@@ -1,0 +1,15 @@
+﻿# 谷歌浏览器缓存目录
+.laya/chrome/
+
+# laya缓存
+.rpt2_cache
+
+#npm 包文件夹
+node_modules/
+
+# Excel导致提交失败文件
+~$*.xlsx
+
+# 强制不忽略
+!*.dll
+!*.obj
