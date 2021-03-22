@@ -4,7 +4,6 @@
   "description": "Laya小游戏框架，简化工作流程。",
   "scripts": {
     "-compile": "gulp compile",
-    "打开前端工具": "gulp startWeb",
     "EsBuild-增量-构建-超快": "cd .node/esbuild && ts-node -r tsconfig-paths/register src/main.ts",
     "Webpack-增量-编译": "webpack --config ./.node/config/webpack.config.js",
     "LayaAir-直接-编译": "gulp layaCompile",
