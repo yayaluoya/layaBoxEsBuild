@@ -41,8 +41,12 @@ export default class FileCache {
      * @param _url url
      */
     private static byUrlGetModule(_url: string): FileModule {
-        return this.m_moduleCache.find((item) => {
+        let _fileModule: FileModule = this.m_moduleCache.find((item) => {
             return new RegExp(`^${item.url}$`, 'i').test(_url);
         });
+        //
+        // console.log('更新模块', _url, _fileModule && _fileModule.url);
+        //
+        return _fileModule;
     }
 }

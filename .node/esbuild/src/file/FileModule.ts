@@ -16,11 +16,11 @@ export default class FileModule {
     /** 路径 */
     private m_url: string;
 
-    /** 期约 */
-    private m_promise: Promise<FileModule>;
+    /** 任务 */
+    private m_promise: Promise<FileModule> = new Promise((r) => { r(undefined); });
 
     /** 内容 */
-    private m_content: string;
+    private m_content: string = '';
 
     /** 更新次数 */
     private m_updateNumber: number = 0;
@@ -35,7 +35,7 @@ export default class FileModule {
         return this.m_url;
     }
 
-    /** 获取 模块期约 */
+    /** 获取 模块任务 */
     public get promise(): Promise<FileModule> {
         return this.m_promise;
     }
@@ -89,21 +89,24 @@ export default class FileModule {
     private getContent() {
         //先判断地址是否存在
         if (this.m_url) {
-            //初始化期约
+            //
+            let _promise: Promise<FileModule> = this.m_promise;
             this.m_promise = new Promise<FileModule>((r, e) => {
-                //打包文件
-                FileBuild.build(this.m_url).then((_content) => {
-                    //赋值内容
-                    this.m_content = _content;
-                    //
-                    r(this);
-                }).catch((E) => {
-                    //空内容
-                    this.m_content = '';
-                    //
-                    r(this);
+                //等上一个任务执行完之后在执行
+                _promise.then(() => {
+                    //打包文件
+                    FileBuild.build(this.m_url).then((_content) => {
+                        //赋值内容
+                        this.m_content = _content;
+                        //
+                        r(this);
+                    }).catch((E) => {
+                        //
+                        r(this);
+                    });
                 });
             });
+            //
         } else {
             this.m_promise = new Promise<FileModule>((r, e) => {
                 this.m_content = '';

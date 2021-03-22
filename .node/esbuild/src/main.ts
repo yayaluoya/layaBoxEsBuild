@@ -14,6 +14,7 @@ Init.init().then(() => {
             'Content-Type': 'application/javascript;charset=UTF-8',
             'Access-Control-Allow-Origin': '*',//跨域
             'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE',//跨域
+            'cache-control': 'no-cache',//协商缓存
         };
         //get请求
         if (req.method === 'GET') {
@@ -24,6 +25,7 @@ Init.init().then(() => {
                     ..._head,
                     ..._fileData.resHead
                 });
+                // console.log(_fileData.stateCode, _fileData.content.slice(0, 10));
                 //返回数据
                 res.end(_fileData.content);
             });
