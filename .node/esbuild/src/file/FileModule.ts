@@ -1,11 +1,18 @@
 import FileBuild from "./FileBuild";
 const chalk = require('chalk');
 var moment = require('moment');
+const crypto = require('crypto');
 
 /**
  * 文件模块
  */
 export default class FileModule {
+    /** 标识符 */
+    private m_key: string;
+
+    /** 修改时间 */
+    private m_modifyTime: number;
+
     /** 路径 */
     private m_url: string;
 
@@ -17,6 +24,11 @@ export default class FileModule {
 
     /** 更新次数 */
     private m_updateNumber: number = 0;
+
+    /** 获取修改标识符 */
+    public get modifyKey(): string {
+        return this.m_key + '_' + this.m_modifyTime;
+    }
 
     /** 获取模块路径 */
     public get url(): string {
@@ -39,6 +51,10 @@ export default class FileModule {
      */
     public constructor(_url: string) {
         this.m_url = _url;
+        //通过url生成唯一标识符
+        this.m_key = crypto.createHash('md5').update(_url).digest('hex');;
+        //设置修改时间
+        this.m_modifyTime = Date.now();
         //
         console.log(chalk.gray('-> 创建模块', this.m_url));
         //
@@ -52,6 +68,8 @@ export default class FileModule {
         //
         // console.log('更新模块', this.m_url);
         let _time: number = Date.now();
+        //重置修改时间
+        this.m_modifyTime = _time;
         //
         this.getContent();
         //记录当前的promis

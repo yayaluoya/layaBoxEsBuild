@@ -5,25 +5,28 @@ import ResURL from "./_T/ResURL";
 const chalk = require('chalk');
 const http = require('http');
 
-
 //先初始化项目
 Init.init().then(() => {
     // req 请求， res 响应 
     const app = http.createServer(function (req, res) {
-        //设置跨域
-        res.writeHead(200, {
+        //head
+        let _head = {
             'Content-Type': 'application/javascript;charset=UTF-8',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE'
-        })
+            'Access-Control-Allow-Origin': '*',//跨域
+            'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE',//跨域
+            'cache-control': 'no-cache',//协商缓存
+        };
         //get请求
         if (req.method === 'GET') {
-            //解析出路径
-            let _url: string = req.url;
             //
-            FileOperation.getFile(_url).then((data) => {
+            FileOperation.getFile(req).then((_fileData) => {
+                //
+                res.writeHead(_fileData.stateCode, {
+                    ..._head,
+                    ..._fileData.resHead
+                });
                 //返回数据
-                res.end(data);
+                res.end(_fileData.content);
             });
         }
         //post请求
