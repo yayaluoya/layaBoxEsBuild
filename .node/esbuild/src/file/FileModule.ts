@@ -88,7 +88,7 @@ export default class FileModule {
         this.updateModifyV();
         //
         console.log(chalk.gray('>'));
-        console.log(chalk.green('--> 模块更新'), chalk.gray(this.m_absolutePath));
+        console.log(chalk.green('--> 模块更新'), chalk.yellow(this.m_absolutePath));
         console.log(chalk.magenta('x', this.m_updateNumber, 'X', FileModule.updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
     }
 
