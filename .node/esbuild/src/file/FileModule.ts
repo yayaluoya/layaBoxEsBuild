@@ -1,3 +1,5 @@
+import ResURL from "src/_T/ResURL";
+import URLT from "src/_T/URLT";
 import FileBuild from "./FileBuild";
 const chalk = require('chalk');
 var moment = require('moment');
@@ -7,39 +9,46 @@ const crypto = require('crypto');
  * 文件模块
  */
 export default class FileModule {
-    /** 标识符 */
+    /** 更新总数 */
+    private static updateSum: number = 0;
+
+    /** 标识符，md5生成的 */
     private m_key: string;
 
-    /** 修改时间 */
-    private m_modifyTime: number;
+    /** 修改版本 */
+    private m_modifyV: string;
+    /** 当前异步任务的修改版本 */
+    private m_onPromiseModifyV: string;
 
     /** 路径 */
     private m_url: string;
+    /** 绝对路径 */
+    private m_absolutePath: string;
 
     /** 任务 */
     private m_promise: Promise<FileModule> = new Promise((r) => { r(undefined); });
-
     /** 内容 */
     private m_content: string = '';
-
     /** 更新次数 */
     private m_updateNumber: number = 0;
 
     /** 获取修改标识符 */
     public get modifyKey(): string {
-        return this.m_key + '_' + this.m_modifyTime;
+        return this.m_key + '_' + this.m_modifyV;
     }
 
     /** 获取模块路径 */
     public get url(): string {
         return this.m_url;
     }
-
     /** 获取 模块任务 */
     public get promise(): Promise<FileModule> {
+        //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务
+        if (this.m_onPromiseModifyV != this.m_modifyV) {
+            this.updatePromise();
+        }
         return this.m_promise;
     }
-
     /** 获取 代码内容 */
     public get code(): string {
         return this.m_content;
@@ -51,42 +60,45 @@ export default class FileModule {
      */
     public constructor(_url: string) {
         this.m_url = _url;
+        this.m_absolutePath = URLT.join(ResURL.srcURL, this.m_url) + '.ts';
         //通过url生成唯一标识符
-        this.m_key = crypto.createHash('md5').update(_url).digest('hex');;
-        //设置修改时间
-        this.m_modifyTime = Date.now();
+        this.m_key = crypto.createHash('md5').update(_url).digest('hex');
+        //更新修改版本
+        this.updateModifyV();
         //
-        console.log(chalk.gray('-> 创建模块', this.m_url));
+        this.m_onPromiseModifyV = '';
         //
-        this.getContent();
+        console.log(chalk.gray('-> 创建模块'));
+        console.log(chalk.gray(this.m_absolutePath));
+    }
+
+    /** 更新修改版本 */
+    public updateModifyV() {
+        this.m_modifyV = Date.now() + '_' + this.m_updateNumber;
     }
 
     /**
      * 更新内容
      */
     public update() {
+        //更新次数刷新
+        this.m_updateNumber++;
+        FileModule.updateSum++;
+        //更新修改版本
+        this.updateModifyV();
         //
-        // console.log('更新模块', this.m_url);
-        let _time: number = Date.now();
-        //重置修改时间
-        this.m_modifyTime = _time;
-        //
-        this.getContent();
-        //记录当前的promis
-        let _promise: Promise<any> = this.promise;
-        //
-        _promise.then(() => {
-            //判断当前的promise是否是最后一个执行的promise
-            if (_promise == this.promise) {
-                this.m_updateNumber++;
-                console.log(chalk.gray('>'));
-                console.log(chalk.green('----> 模块更新'), chalk.gray((Date.now() - _time) + 'ms'), chalk.yellow(this.m_url), chalk.magenta('x', this.m_updateNumber), chalk.gray(moment(Date.now()).format('HH:mm:ss')));
-            }
-        });
+        console.log(chalk.gray('>'));
+        console.log(chalk.green('--> 模块更新'), chalk.gray(this.m_absolutePath));
+        console.log(chalk.magenta('x', this.m_updateNumber, 'X', FileModule.updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
     }
 
-    /** 获取内容 */
-    private getContent() {
+    /** 
+     * 更新任务
+     * ! 只会被动执行
+     */
+    private updatePromise() {
+        //重置修改版本
+        this.m_onPromiseModifyV = this.m_modifyV;
         //先判断地址是否存在
         if (this.m_url) {
             //

@@ -33,40 +33,35 @@ export default class FileBuild {
                     } else {
                         rootCode = rootCode.toString();
                         // console.log('源码', chalk.gray(rootCode.slice(0, 50)));
-                        //判断源代码存不存在，有些编辑器在保存时会先清空文件在保存，中间就有一次没有数据
-                        if (rootCode) {
-                            // rootCode = 'let a: string = \'哈哈哈\'; console.log(a);';
-                            //使用esbuild打包
-                            esbuild.transform(rootCode, {
-                                //装载器
-                                loader: 'ts',
-                                //内联映射
-                                sourcemap: 'inline',
-                                //是否压缩
-                                minify: Config.minify,
-                                //资源文件
-                                sourcefile: _url,
-                                //字符集
-                                charset: 'utf8',
-                                //
-                            }).then(({ code, map, warnings }) => {
-                                //文件过渡
-                                code = FileTransition.buildBack(code);//打包后
-                                // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));
-                                if (warnings.length > 0) {
-                                    warnings.forEach((item) => {
-                                        console.log(item);
-                                    });
-                                }
-                                //返回内容
-                                r(code);
-                            }).catch((E) => {
-                                console.error(E);
-                                e('');
-                            });
-                        } else {
+                        // rootCode = 'let a: string = \'哈哈哈\'; console.log(a);';
+                        //使用esbuild打包
+                        esbuild.transform(rootCode, {
+                            //装载器
+                            loader: 'ts',
+                            //内联映射
+                            sourcemap: 'inline',
+                            //是否压缩
+                            minify: Config.minify,
+                            //资源文件
+                            sourcefile: _url,
+                            //字符集
+                            charset: 'utf8',
+                            //
+                        }).then(({ code, map, warnings }) => {
+                            //文件过渡
+                            code = FileTransition.buildBack(code);//打包后
+                            // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));
+                            if (warnings.length > 0) {
+                                warnings.forEach((item) => {
+                                    console.log(item);
+                                });
+                            }
+                            //返回内容
+                            r(code);
+                        }).catch((E) => {
+                            console.error(E);
                             e('');
-                        }
+                        });
                     }
                 });
             } catch (E) {
