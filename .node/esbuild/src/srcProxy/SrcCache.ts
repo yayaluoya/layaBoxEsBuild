@@ -1,23 +1,23 @@
-import FileModule from "./FileModule";
+import SrcModule from "./SrcModule";
 
 /**
- * 文件缓存
+ * Src目录缓存
  */
-export default class FileCache {
+export default class SrcCache {
     /** 文件模块缓存列表 */
-    private static m_moduleCache: FileModule[] = [];
+    private static m_moduleCache: SrcModule[] = [];
 
     /**
      * 根据模块路径获取模块
      * @param _url 模块路径
      */
-    public static getModule(_url: string): FileModule {
+    public static getModule(_url: string): SrcModule {
         //是否从缓存里面拿
         let _ifCache: boolean = true;
-        let _module: FileModule = this.byUrlGetModule(_url);
+        let _module: SrcModule = this.byUrlGetModule(_url);
         if (!_module) {
             _ifCache = false;
-            _module = new FileModule(_url);
+            _module = new SrcModule(_url);
             this.m_moduleCache.push(_module);
         }
         // console.log('获取模块', _url, _ifCache);
@@ -40,13 +40,13 @@ export default class FileCache {
      * ! 不区分大小写
      * @param _url url
      */
-    private static byUrlGetModule(_url: string): FileModule {
-        let _fileModule: FileModule = this.m_moduleCache.find((item) => {
+    private static byUrlGetModule(_url: string): SrcModule {
+        let _SrcModule: SrcModule = this.m_moduleCache.find((item) => {
             return new RegExp(`^${item.url}$`, 'i').test(_url);
         });
         //
-        // console.log('更新模块', _url, _fileModule && _fileModule.url);
+        // console.log('更新模块', _url, _SrcModule && _SrcModule.url);
         //
-        return _fileModule;
+        return _SrcModule;
     }
 }

@@ -1,15 +1,14 @@
 import Config from "src/config/Config";
 import ResURL from "src/_T/ResURL";
 import URLT from "src/_T/URLT";
-import FileTransition from "./FileTransition";
+import SrcTransition from "./SrcTransition";
 var fs = require("fs");
-const chalk = require('chalk');
 const esbuild = require('esbuild');
 
 /**
- * 文件打包
+ * ts文件打包
  */
-export default class FileBuild {
+export default class TsBuild {
     /**
      * 打包
      * @param _url 模块路径
@@ -49,7 +48,7 @@ export default class FileBuild {
                             //
                         }).then(({ code, map, warnings }) => {
                             //文件过渡
-                            code = FileTransition.buildBack(code);//打包后
+                            code = SrcTransition.buildBack(code);//打包后
                             // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));
                             if (warnings.length > 0) {
                                 warnings.forEach((item) => {

@@ -1,11 +1,11 @@
 import Config from "src/config/Config";
 import URLT from "src/_T/URLT";
-import FileCache from "./FileCache";
+import SrcCache from "./SrcCache";
 const chokidar = require('chokidar');
 /**
- * 文件监视
+ * Src文件监视
  */
-export default class FileWatch {
+export default class SrcWatch {
     /**
      * 开始监视
      */
@@ -20,7 +20,7 @@ export default class FileWatch {
             //去掉后缀
             _url = _url.replace(/\..*?$/, '');
             //更新缓存文件模块
-            FileCache.updateModule(_url);
+            SrcCache.updateModule(_url);
         });
     }
 }

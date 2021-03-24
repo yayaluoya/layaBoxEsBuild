@@ -1,10 +1,10 @@
 import Config from "src/config/Config";
 
 /**
- * 文件过渡操作
+ * Src文件过渡操作
  * 当从本地读取文件的是否会经过这个流程
  */
-export default class FileTransition {
+export default class SrcTransition {
     /**
      * 打包后
      * @param _content 文件内容

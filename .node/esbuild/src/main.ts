@@ -1,6 +1,6 @@
 import Config from "./config/Config";
-import FileOperation from "./file/FileOperation";
 import Init from "./Init";
+import SrcOperation from "./srcProxy/SrcOperation";
 import ResURL from "./_T/ResURL";
 const chalk = require('chalk');
 const http = require('http');
@@ -19,7 +19,7 @@ Init.init().then(() => {
         //get请求
         if (req.method === 'GET') {
             //
-            FileOperation.getFile(req).then((_fileData) => {
+            SrcOperation.getFile(req).then((_fileData) => {
                 //
                 res.writeHead(_fileData.stateCode, {
                     ..._head,
@@ -40,6 +40,6 @@ Init.init().then(() => {
     app.listen(3060);
     //提示
     // console.log('后端路径', ResURL.rootURL);
-    console.log('代理路径 ', ResURL.srcURL);
+    // console.log('代理路径 ', ResURL.srcURL);
     console.log(chalk.magenta('主页地址 ', Config.home));
 });

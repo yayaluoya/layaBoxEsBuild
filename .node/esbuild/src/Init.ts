@@ -1,5 +1,4 @@
-import FileWatch from "./file/FileWatch";
-const fs = require('fs');
+import SrcWatch from "./srcProxy/SrcWatch";
 
 /**
  * 初始化
@@ -11,7 +10,7 @@ export default class Init {
     public static init(): Promise<void> {
         return new Promise<void>((r, e) => {
             //开启文件监听
-            FileWatch.start();
+            SrcWatch.start();
             //
             r();
         });
