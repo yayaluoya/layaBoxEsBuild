@@ -31,6 +31,6 @@ export default class SrcModule extends FileModule {
     /** 更新内容 */
     protected _updateContent(): Promise<string> {
         //打包ts文件
-        return TsBuild.build(this.url);
+        return TsBuild.build(this.url, this.suffix);
     }
 }

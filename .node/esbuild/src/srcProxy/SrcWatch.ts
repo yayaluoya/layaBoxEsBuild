@@ -17,8 +17,6 @@ export default class SrcWatch {
             if (URLT.sep == '\\') {
                 _url = _url.replace(/\\/g, '/');
             }
-            //去掉后缀
-            _url = _url.replace(/\..*?$/, '');
             //更新缓存文件模块
             SrcCache.updateModule(_url);
         });

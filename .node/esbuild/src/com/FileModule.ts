@@ -19,6 +19,8 @@ export default class FileModule {
     private m_url: string;
     /** 绝对路径 */
     private m_absolutePath: string;
+    /** 后缀 */
+    private m_suffix: string = 'ts';
 
     /** 任务 */
     private m_task: Promise<FileModule> = new Promise((r) => { r(this); });
@@ -45,6 +47,10 @@ export default class FileModule {
     public get absolutePath(): string {
         return this.m_absolutePath;
     }
+    /** 获取后缀 */
+    public get suffix(): string {
+        return this.m_suffix;
+    }
     /** 获取 任务 */
     public get task(): Promise<FileModule> {
         //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务
@@ -64,10 +70,15 @@ export default class FileModule {
      * @param _url 模块路径
      */
     public constructor(_url: string) {
-        this.m_url = _url;
-        this.m_absolutePath = URLT.join(ResURL.srcURL, this.m_url) + '.ts';
+        //剔除后缀
+        this.m_url = _url.replace(/\..*?$/, '');
+        //提取后缀
+        let _suffix = _url.match(/\.(.*?)$/);
+        _suffix && (this.m_suffix = _suffix[1]);
+        //
+        this.m_absolutePath = URLT.join(ResURL.srcURL, this.m_url) + '.' + this.m_suffix;
         //通过url生成唯一标识符
-        this.m_key = crypto.createHash('md5').update(_url).digest('hex');
+        this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
         //更新修改版本
         this.updateModifyV();
         //

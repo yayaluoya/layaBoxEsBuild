@@ -26,7 +26,7 @@ export default class SrcCache {
 
     /**
      * 更新模块
-     * @param _url 模块路径
+     * @param _url 模块路径，包含后缀的格式
      */
     public static updateModule(_url: string) {
         // console.log('准备更新模块', _url, this.m_moduleCache.map((item) => {
@@ -41,8 +41,11 @@ export default class SrcCache {
      * @param _url url
      */
     private static byUrlGetModule(_url: string): SrcModule {
+        //是否包含后缀
+        let _ifSuffix: boolean = /\..*?$/.test(_url);
+        //查找
         let _SrcModule: SrcModule = this.m_moduleCache.find((item) => {
-            return new RegExp(`^${item.url}$`, 'i').test(_url);
+            return (_ifSuffix ? new RegExp(`^${item.url + '.' + item.suffix}$`, 'i') : new RegExp(`^${item.url}$`, 'i')).test(_url);
         });
         //
         // console.log('更新模块', _url, _SrcModule && _SrcModule.url);
