@@ -4,6 +4,8 @@ const path = require('path');
 module.exports = {
     //代理目录
     src: path.resolve(__dirname, '../../src/'),
+    /** bin目录 */
+    bin: path.resolve(__dirname, '../../bin/'),
     //路径替换
     filePathModify: [
         {
@@ -11,8 +13,13 @@ module.exports = {
             b: '$1/'
         }
     ],
-    //是否压缩代码
-    minify: false,
-    //主页地址
-    home: path.resolve(__dirname, '../../bin/esBuildIndex.html'),
+    /** 代理端口 */
+    port: {
+        src: 3061,
+        bin: 3062,
+    },
+    /** 主页， 相对于bin目录 */
+    homePage: 'index.html',
+    /** 主页脚本， 相对于bin目录 */
+    homeJs: 'index.js',
 };

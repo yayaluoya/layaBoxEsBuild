@@ -14,13 +14,20 @@ export default Config;
 export interface IConfig {
     /** 代理文件夹目录 */
     src: string,
+    /** bin目录 */
+    bin: string,
     /** 文件路径修改 */
     filePathModify: {
         a: RegExp,
         b: string,
     }[];
-    /** 是否压缩代码 */
-    minify: boolean,
-    /** 主页地址 */
-    home: string,
+    /** 代理端口 */
+    port: {
+        src: number,
+        bin: number,
+    },
+    /** 主页地址， 相对于bin目录 */
+    homePage: string,
+    /** 主页脚本， 相对于bin目录 */
+    homeJs: string,
 }

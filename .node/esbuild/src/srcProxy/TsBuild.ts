@@ -1,5 +1,4 @@
 import Config from "src/config/Config";
-import ResURL from "src/_T/ResURL";
 import URLT from "src/_T/URLT";
 import SrcTransition from "./SrcTransition";
 var fs = require("fs");
@@ -20,7 +19,7 @@ export default class TsBuild {
             try {
                 //源url
                 let _rootUrl: string = _url;
-                _url = URLT.join(ResURL.srcURL, _rootUrl + '.' + _suffix);
+                _url = URLT.join(Config.src, _rootUrl + '.' + _suffix);
                 //读取目标文件
                 fs.readFile(_url, (err, rootCode) => {
                     if (err) {
@@ -36,8 +35,6 @@ export default class TsBuild {
                                 loader: _suffix,
                                 //内联映射
                                 sourcemap: 'inline',
-                                //是否压缩
-                                minify: Config.minify,
                                 //资源文件
                                 sourcefile: _url,
                                 //字符集

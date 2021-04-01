@@ -13,7 +13,7 @@ export default class SrcModule extends FileModule {
     /** 初始化回调 */
     protected _init() {
         //
-        console.log(chalk.gray('-> 创建src模块'));
+        console.log(chalk.gray('-> 创建模块'));
         console.log(chalk.gray(this.absolutePath));
     }
 
@@ -24,8 +24,8 @@ export default class SrcModule extends FileModule {
         SrcModule.m_updateSum++;
         //
         console.log(chalk.gray('>'));
-        console.log(chalk.green('--> 模块更新'), chalk.yellow(this.absolutePath));
-        console.log(chalk.magenta('x', this.updateNumber, 'X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
+        console.log(chalk.gray('--> 模块更新'), chalk.yellow(this.absolutePath));
+        console.log(chalk.gray('x', this.updateNumber), chalk.magenta('X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
     }
 
     /** 更新内容 */

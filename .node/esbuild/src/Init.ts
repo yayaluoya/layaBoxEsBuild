@@ -1,3 +1,4 @@
+import SrcCache from "./srcProxy/SrcCache";
 import SrcWatch from "./srcProxy/SrcWatch";
 
 /**
@@ -11,6 +12,8 @@ export default class Init {
         return new Promise<void>((r, e) => {
             //开启文件监听
             SrcWatch.start();
+            //开启缓存自动更新计时器
+            SrcCache.init();
             //
             r();
         });

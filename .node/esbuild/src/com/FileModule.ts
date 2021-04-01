@@ -1,4 +1,4 @@
-import ResURL from "src/_T/ResURL";
+import Config from "src/config/Config";
 import URLT from "src/_T/URLT";
 const crypto = require('crypto');
 
@@ -76,7 +76,7 @@ export default class FileModule {
         let _suffix = _url.match(/\.(.*?)$/);
         _suffix && (this.m_suffix = _suffix[1]);
         //
-        this.m_absolutePath = URLT.join(ResURL.srcURL, this.m_url) + '.' + this.m_suffix;
+        this.m_absolutePath = URLT.join(Config.src, this.m_url) + '.' + this.m_suffix;
         //通过url生成唯一标识符
         this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
         //更新修改版本
@@ -109,6 +109,22 @@ export default class FileModule {
 
     /** 更新回调 */
     protected _update() { }
+
+    /**
+     * 自动更新任务
+     */
+    public autoUpdateTask(): boolean {
+        //判断版本
+        if (this.m_onTaskModifyV == this.m_modifyV) return false;
+        //
+        this.updateTask();
+        this._autoUpdateTask();
+        //
+        return true;
+    }
+
+    /** 自动更新任务回调 */
+    protected _autoUpdateTask() { }
 
     /** 
      * 更新任务

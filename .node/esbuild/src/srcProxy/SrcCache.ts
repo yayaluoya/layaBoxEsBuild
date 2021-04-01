@@ -1,4 +1,5 @@
 import SrcModule from "./SrcModule";
+var chalk = require('chalk');
 
 /**
  * Src目录缓存
@@ -6,6 +7,24 @@ import SrcModule from "./SrcModule";
 export default class SrcCache {
     /** 文件模块缓存列表 */
     private static m_moduleCache: SrcModule[] = [];
+
+    /**
+     * 初始化
+     */
+    public static init() {
+        //添加计时器，每过一段时间自动更新所有版本变化的模块
+        setInterval(() => {
+            if (this.m_moduleCache.length == 0) { return; }
+            let _i: number = 0;
+            this.m_moduleCache.forEach((item) => {
+                item.autoUpdateTask() ? _i++ : false;
+            });
+            if (_i > 0) {
+                console.log(chalk.gray('>'));
+                console.log(chalk.gray('预构建所有已修改模块->', _i));
+            }
+        }, 1000 * 60 * 3);
+    }
 
     /**
      * 根据模块路径获取模块
@@ -37,7 +56,6 @@ export default class SrcCache {
 
     /**
      * 通过url获取模块
-     * ! 不区分大小写
      * @param _url url
      */
     private static byUrlGetModule(_url: string): SrcModule {

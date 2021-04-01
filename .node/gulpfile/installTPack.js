@@ -11,11 +11,8 @@ task('installTPack', function (f) {
     //
     _pArray.push(new Promise((r) => {
         let _url = path.resolve(__dirname, '../esbuild');
-        let _esbuild = exec(`cd ${_url} && npm install`);//打包工具
-        _esbuild.stdout.on("data", (data) => {
-            console.log(data);
-        });
-        _esbuild.stdout.on("end", (data) => {
+        exec(`cd ${_url} && npm install`, (error, stdout, stderr) => {
+            console.log(error, stdout, stderr);
             r();
         });
     }));

@@ -5,7 +5,7 @@
         ".laya/chrome/**": true, //谷歌插件代码
         "laya/**": true, //laya自带
         ".laya/**": true, //laya自带
-        ".node/**": true,
+        // ".node/**": true, //
         "node_modules/**": true, //npm 包文件夹
     },
     "editor.formatOnSave": true,
