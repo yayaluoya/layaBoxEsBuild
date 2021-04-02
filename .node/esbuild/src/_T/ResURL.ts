@@ -13,4 +13,9 @@ export default class ResURL {
     public static get rootURL(): string {
         return URLT.resolve(__dirname, '../../');
     }
+
+    /** public路径 */
+    public static get publicURL(): string {
+        return URLT.join(this.rootURL, '/public/');
+    }
 }

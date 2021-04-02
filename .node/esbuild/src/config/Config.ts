@@ -30,4 +30,6 @@ export interface IConfig {
     homePage: string,
     /** 主页脚本， 相对于bin目录 */
     homeJs: string,
+    /** 是否打印日志 */
+    ifLog: boolean,
 }

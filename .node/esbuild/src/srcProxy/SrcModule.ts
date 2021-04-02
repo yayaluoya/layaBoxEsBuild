@@ -1,4 +1,5 @@
 import FileModule from "src/com/FileModule";
+import Config from "src/config/Config";
 import TsBuild from "./TsBuild";
 var moment = require('moment');
 var chalk = require('chalk');
@@ -13,8 +14,10 @@ export default class SrcModule extends FileModule {
     /** 初始化回调 */
     protected _init() {
         //
-        console.log(chalk.gray('-> 创建模块'));
-        console.log(chalk.gray(this.absolutePath));
+        if (Config.ifLog) {
+            console.log(chalk.gray('-> 创建模块'));
+            console.log(chalk.gray(this.absolutePath));
+        }
     }
 
     /**
@@ -23,9 +26,11 @@ export default class SrcModule extends FileModule {
     public _update() {
         SrcModule.m_updateSum++;
         //
-        console.log(chalk.gray('>'));
-        console.log(chalk.gray('--> 模块更新'), chalk.yellow(this.absolutePath));
-        console.log(chalk.gray('x', this.updateNumber), chalk.magenta('X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
+        if (Config.ifLog) {
+            console.log(chalk.gray('>'));
+            console.log(chalk.gray('--> 模块更新'), chalk.yellow(this.absolutePath));
+            console.log(chalk.gray('x', this.updateNumber), chalk.magenta('X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
+        }
     }
 
     /** 更新内容 */

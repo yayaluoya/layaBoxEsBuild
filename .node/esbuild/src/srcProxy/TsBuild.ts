@@ -23,7 +23,7 @@ export default class TsBuild {
                 //读取目标文件
                 fs.readFile(_url, (err, rootCode) => {
                     if (err) {
-                        console.log(err);
+                        console.error(err);
                         e('');
                     } else {
                         rootCode = rootCode.toString();

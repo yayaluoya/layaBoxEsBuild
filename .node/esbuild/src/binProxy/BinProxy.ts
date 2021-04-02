@@ -1,5 +1,7 @@
 import ContentType from "src/com/ContentType";
 import Config from "src/config/Config";
+import MyConfig from "src/config/MyConfig";
+import ResURL from "src/_T/ResURL";
 import URLT from "src/_T/URLT";
 const http = require('http');
 const fs = require('fs');
@@ -33,6 +35,15 @@ export default class BinProxy {
                     });
                     this.getHomePage().then((_html) => {
                         res.end(_html);
+                    });
+                }
+                else if (new RegExp(MyConfig.webSocketToolJsName).test(req.url)) {
+                    res.writeHead(200, {
+                        ..._head,
+                        'Content-Type': ContentType.get('.js'),
+                    });
+                    this.getWebSocketToolJs().then((_js) => {
+                        res.end(_js);
                     });
                 }
                 else {
@@ -89,7 +100,7 @@ export default class BinProxy {
                 let _jsUrl: string = URLT.join(Config.bin, Config.homeJs);
                 fs.readFile(_jsUrl, (err, data) => {
                     if (err) {
-                        r('没有找到主页js脚本' + _jsUrl);
+                        r(`alert('没有找到主页js脚本',${_jsUrl}')`);
                         return;
                     }
                     _js = data.toString();
@@ -107,6 +118,8 @@ export default class BinProxy {
     }
     //替换主脚本地址
     ${_js.replace(/loadLib\([\"\']js\/bundle\.js[\"\']\)/, `loadLib("http://localhost:${Config.port.src}/Main", 'module')`)}
+    //webSocket工具脚本
+    loadLib("${MyConfig.webSocketToolJsName}");
 </script>
                     </body>
                     `);
@@ -114,5 +127,30 @@ export default class BinProxy {
                 });
             });
         });
+    }
+
+    /** webSocket工具脚本内容缓存 */
+    private static m_webSocketToolJs: string;
+    /**
+     * 获取工具脚本
+     */
+    private static getWebSocketToolJs(): Promise<string> {
+        return new Promise<string>((r) => {
+            if (this.m_webSocketToolJs) {
+                r(this.m_webSocketToolJs);
+                return;
+            }
+            //读取webSocketjs脚本文件
+            let _jsUrl: string = URLT.join(ResURL.publicURL, MyConfig.webSocketToolJsName);
+            fs.readFile(_jsUrl, (err, data) => {
+                if (err) {
+                    r(`alert('没有找到webSocket工具脚本,${_jsUrl}');`);
+                    return;
+                }
+                //存入缓存
+                this.m_webSocketToolJs = data.toString();
+                r(this.m_webSocketToolJs);
+            });
+        })
     }
 }

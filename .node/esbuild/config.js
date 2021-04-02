@@ -22,4 +22,6 @@ module.exports = {
     homePage: 'index.html',
     /** 主页脚本， 相对于bin目录 */
     homeJs: 'index.js',
+    /** 是否打印日志 */
+    ifLog: false,
 };
