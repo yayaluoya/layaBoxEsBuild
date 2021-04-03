@@ -8,7 +8,7 @@
 - <a href="https://github.com/evanw/esbuild/">gitHub</a>
 - esbuild 是一个用 Go 语言编写的用于打包，压缩 Javascript 代码的工具库。它最突出的特点就是打包速度极快 （extremely fast），下图是 esbuild 跟 webpack, rollup, Parcel 等打包工具打包效率的一个 benchmark:
 
-  <img src="./public/2172142517-e6cf0caf23a0a851_fix732.png">
+  <img src="./res/2172142517-e6cf0caf23a0a851_fix732.png">
 
   图片取自 esbuild Github 仓库。
   
@@ -30,34 +30,97 @@
 
 3. <font style="color: #00adb5;font-size:18px;font-weight: bold;">webpack</font>：webpack构建比layaAir的rollup快上不少，而且是自动的，非常全面，但是虽然快上不少，但是它的构建和layaAir使用的rollup都有一个共同点，都是把所有代码打包到一个文件中，所以随着项目变大，也会变卡的，支持断点调试。
 
-4. <font style="color: #00adb5;font-size:18px;font-weight: bold;">esBuild工具</font>：改完代码立即就能看到效果，因为是被动编译的所以不需要等，而且编译的内容都缓存到内存中的，所以访问非常快，另外还支持断点调试。
+4. <font style="color: #00adb5;font-size:18px;font-weight: bold;">本工具</font>：改完代码立即就能看到效果，因为是被动编译的所以不需要等，而且编译的内容都缓存到内存中的，所以访问非常快，另外还支持断点调试。
 
 ## 使用方法
 
-1. 项目刚拉下来的时候要先 安装包<font style="color:red;"> !注意这个操作执行了之后打开项目就从第2步开始执行就ok了</font>，全局包可装可不装，那是layaair2-cmd的构建工具，这里不推荐使用所以就不推荐装了。
+1. 安装npm包
 
-   <img src="./public/1.JPG">
+    `npm i layabox-esbuild`
 
-2. 安装包之后就可以跑起来了。
+2. 执行命令
 
-   <img src="./public/2.JPG">
+    `layabox-esbuild -s`
 
-3. 当看到下面的输出时就说明跑起来了。
+    如果报错，比如说找不到这个命令的话就把下面的命令写到package.json文件中
+
+    <img src="./res/7.JPG">
+
+    然后把鼠标放到 'EsBuild-增量-构建-超快' [名字随便取但是不能有空格] 这个字符串上面就会提示运行脚本，然后点一下就ok了，如果没有提示就在 终端执行 `npm run EsBuild-增量-构建-超快`也行。
+
+3. 当看到下面的输出时就说明跑起来了
     
-    <img src="./public/3.JPG">
+    <img src="./res/3.JPG">
 
-4. 然后在浏览器中打开这个地址就能看到项目了，因为是个空项目所以是黑屏的。
+4. 添加配置文件
+    - 现在是能跑起来了，但是这时是用的默认配置文件跑的，所以这里需要手动指定一个配置文件来运行。
+    - 在项目根目录下创建一个 layaboxEsbuild.js 的文件，然后写入以下内容
 
-    <img src="./public/6.JPG">
+        ```
+            const path = require('path');
+            //
+            /** 配置数据 */
+            module.exports = {
+                //代理目录
+                src: path.resolve(__dirname, './src/'),
+                /** bin目录 */
+                bin: path.resolve(__dirname, './bin/'),
+            };
+        ```
+    - 然后指定配置文件执行 `layabox-esbuild -c ./layaboxEsbuild.js` 以后就都用这个命令开始项目
 
-5. 当你修改了代码之后就可以直接去刷新浏览器看效果了，不能等什么编译。并且浏览器那边也会提示你你改动的东西。包括bin目录下的资源，并且可以通过按Enter键直接刷新浏览器或者取消不刷新。
+5. 然后在浏览器中打开这个地址就能看到项目了，因为是个空项目所以是黑屏的。
+
+    <img src="./res/6.JPG">
+
+6. 当你修改了代码之后就可以直接去刷新浏览器看效果了，不能等什么编译。并且浏览器那边也会提示你你改动的东西。包括bin目录下的资源，并且可以通过按Enter键直接刷新浏览器或者取消不刷新。
    
-   <img src="./public/4.JPG">
+   <img src="./res/4.JPG">
 
-6. 如果要调试代码的话也是支持断点调试的。
+7. 如果要调试代码的话也是支持断点调试的。
 
-    <img src="./public/5.JPG">
+    <img src="./res/5.JPG">
 
+## 全部配置
+```
+{
+    /** 代理文件夹目录 */
+    src: string,
+
+    /** bin目录 */
+    bin: string,
+
+    /** 文件路径修改 */
+    filePathModify: {
+        a: RegExp,
+        b: string,
+    }[];
+
+    /** 代理端口 */
+    port: {
+        src: number,
+        bin: number,
+    },
+
+    /** 入口文件名，地址相对于src目录 */
+    mainTs: string,
+
+    /** 主页地址， 相对于bin目录 */
+    homePage: string,
+
+    /** 主页脚本， 相对于bin目录 */
+    homeJs: string,
+
+    /** 入口js文件，相对于bin目录 */
+    mainJs: string,
+
+    /** 是否打印日志 */
+    ifLog: boolean,
+
+    /** 是否启用webSocket工具 */
+    ifOpenWebSocketTool: boolean,
+}
+```
 
 ## 其他
 

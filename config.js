@@ -1,0 +1,33 @@
+const path = require('path');
+//
+/** 配置数据 */
+module.exports = {
+    //代理目录
+    src: path.resolve(__dirname, './test/src/'),
+    /** bin目录 */
+    bin: path.resolve(__dirname, './test/bin/'),
+    //路径替换
+    filePathModify: [
+        {
+            a: /(["'])src\//,
+            b: '$1/'
+        }
+    ],
+    /** 代理端口 */
+    port: {
+        src: 3061,
+        bin: 3062,
+    },
+    /** 入口文件名，地址相对于src目录 */
+    mainTs: 'Main.ts',
+    /** 主页， 相对于bin目录 */
+    homePage: 'index.html',
+    /** 主页脚本， 相对于bin目录 */
+    homeJs: 'index.js',
+    /** 入口js文件，相对于bin目录 */
+    mainJs: 'js/bundle.js',
+    /** 是否打印日志 */
+    ifLog: false,
+    /** 是否启用webSocket工具 */
+    ifOpenWebSocketTool: true,
+};
