@@ -24,4 +24,6 @@ module.exports = {
     homeJs: 'index.js',
     /** 是否打印日志 */
     ifLog: false,
+    /** 是否启用webSocket工具 */
+    ifOpenWebSocketTool: true,
 };

@@ -118,8 +118,11 @@ export default class BinProxy {
     }
     //替换主脚本地址
     ${_js.replace(/loadLib\([\"\']js\/bundle\.js[\"\']\)/, `loadLib("http://localhost:${Config.port.src}/Main", 'module')`)}
+    ${Config.ifOpenWebSocketTool ? `
     //webSocket工具脚本
     loadLib("${MyConfig.webSocketToolJsName}");
+    ` : ``
+                        }
 </script>
                     </body>
                     `);

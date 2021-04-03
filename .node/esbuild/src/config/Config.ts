@@ -32,4 +32,6 @@ export interface IConfig {
     homeJs: string,
     /** 是否打印日志 */
     ifLog: boolean,
+    /** 是否启用webSocket工具 */
+    ifOpenWebSocketTool: boolean,
 }
