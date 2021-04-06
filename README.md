@@ -1,5 +1,8 @@
 # LayaBoxEsBuild
+[![NPM version][npm-image]][npm-url]
 
+[npm-image]: https://img.shields.io/npm/v/layabox-esbuild
+[npm-url]: https://npmjs.org/package/layabox-esbuild
 ##  介绍
 
 - #### 使用 esbuild 来增量构建 layabox 项目 修改代码后立即就能看到效果 提高开发速度，优化开发体验。
