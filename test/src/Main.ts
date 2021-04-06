@@ -1,1 +1,3 @@
-console.log('现在以默认配置运行的，请自行添加配置文件后再指定配置文件运行');
+import _module from './module.txt';
+
+console.log(_module);

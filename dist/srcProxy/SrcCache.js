@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const main_1 = require("../main");
+const MainConfig_1 = require("../config/MainConfig");
 const SrcModule_1 = require("./SrcModule");
 var chalk = require('chalk');
 /**
@@ -20,7 +20,7 @@ class SrcCache {
             this.m_moduleCache.forEach((item) => {
                 item.autoUpdateTask() ? _i++ : false;
             });
-            if (_i > 0 && main_1.default.config.ifLog) {
+            if (_i > 0 && MainConfig_1.default.config.ifLog) {
                 console.log(chalk.gray('>'));
                 console.log(chalk.gray('预构建所有已修改模块->', _i));
             }

@@ -1,6 +1,6 @@
 import ContentType from "../com/ContentType";
+import MainConfig from "../config/MainConfig";
 import MyConfig from "../config/MyConfig";
-import layaboxEsbuild from "../main";
 import ResURL from "../_T/ResURL";
 import URLT from "../_T/URLT";
 
@@ -27,7 +27,7 @@ export default class BinProxy {
             //get请求
             if (req.method === 'GET') {
                 //获取地址
-                let _url: string = URLT.join(layaboxEsbuild.config.bin, req.url);
+                let _url: string = URLT.join(MainConfig.config.bin, req.url);
                 //
                 if (req.url == '' || req.url == '/') {
                     res.writeHead(200, {
@@ -80,7 +80,7 @@ export default class BinProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }).listen(layaboxEsbuild.config.port.bin);
+        }).listen(MainConfig.config.port.bin);
     }
 
     /**
@@ -90,7 +90,7 @@ export default class BinProxy {
         return new Promise<string>((r) => {
             //读取主页html
             let _html: string;
-            let _htmlUrl: string = URLT.join(layaboxEsbuild.config.bin, layaboxEsbuild.config.homePage);
+            let _htmlUrl: string = URLT.join(MainConfig.config.bin, MainConfig.config.homePage);
             fs.readFile(_htmlUrl, (err, data) => {
                 if (err) {
                     r('没有找到主页html' + _htmlUrl);
@@ -98,7 +98,7 @@ export default class BinProxy {
                 }
                 _html = data.toString();
                 let _js: string;
-                let _jsUrl: string = URLT.join(layaboxEsbuild.config.bin, layaboxEsbuild.config.homeJs);
+                let _jsUrl: string = URLT.join(MainConfig.config.bin, MainConfig.config.homeJs);
                 fs.readFile(_jsUrl, (err, data) => {
                     if (err) {
                         r(`alert('没有找到主页js脚本',${_jsUrl}')`);
@@ -118,8 +118,8 @@ export default class BinProxy {
         document.body.appendChild(script);
     }
     //替换主脚本地址
-    ${_js.replace(new RegExp(`\\(["']${layaboxEsbuild.config.mainJs}["']\\)`), `("http://localhost:${layaboxEsbuild.config.port.src}/${layaboxEsbuild.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
-    ${layaboxEsbuild.config.ifOpenWebSocketTool ? `
+    ${_js.replace(new RegExp(`\\(["']${MainConfig.config.mainJs}["']\\)`), `("http://localhost:${MainConfig.config.port.src}/${MainConfig.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
+    ${MainConfig.config.ifOpenWebSocketTool ? `
     //webSocket工具脚本
     loadLib("${MyConfig.webSocketToolJsName}");
     ` : ``

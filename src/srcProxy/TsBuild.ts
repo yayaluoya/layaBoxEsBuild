@@ -1,4 +1,4 @@
-import layaboxEsbuild from "../main";
+import MainConfig from "../config/MainConfig";
 import URLT from "../_T/URLT";
 import SrcTransition from "./SrcTransition";
 var fs = require("fs");
@@ -19,7 +19,7 @@ export default class TsBuild {
             try {
                 //源url
                 let _rootUrl: string = _url;
-                _url = URLT.join(layaboxEsbuild.config.src, _rootUrl + '.' + _suffix);
+                _url = URLT.join(MainConfig.config.src, _rootUrl + '.' + _suffix);
                 //读取目标文件
                 fs.readFile(_url, (err, rootCode) => {
                     if (err) {
@@ -40,7 +40,7 @@ export default class TsBuild {
                                 //字符集
                                 charset: 'utf8',
                                 //
-                            }).then(({ code, map, warnings }) => {
+                            }).then(({ code, _, warnings }) => {
                                 //文件过渡
                                 code = SrcTransition.tsBuildBack(code);//打包后
                                 // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));

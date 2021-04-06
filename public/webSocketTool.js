@@ -186,7 +186,7 @@ const webSocketMesType = (() => {
 //
 (() => {
     //
-    let webSocket = new WebSocket('ws://localhost:3063/');
+    let webSocket = new WebSocket('ws://localhost:3600/');
 
     /** 项目更新次数 */
     let _updateNumber = 0;

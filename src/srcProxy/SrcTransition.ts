@@ -1,4 +1,4 @@
-import layaboxEsbuild from "../main";
+import MainConfig from "../config/MainConfig";
 
 const reRegExpChar = /[\\"'()[\]{}|]/g;
 const reHasRegExpChar = RegExp(reRegExpChar.source);
@@ -28,8 +28,8 @@ export default class SrcTransition {
     public static tsBuildBack(_content: string): string {
         //处理路径
         _content = _content.replace(/import.*?["'](.*?)["'];/g, (text) => {
-            if (layaboxEsbuild.config.filePathModify && layaboxEsbuild.config.filePathModify.length > 0) {
-                for (let _o of layaboxEsbuild.config.filePathModify) {
+            if (MainConfig.config.filePathModify && MainConfig.config.filePathModify.length > 0) {
+                for (let _o of MainConfig.config.filePathModify) {
                     text = text.replace(/["'].*?["']/, (_text) => {
                         return _text.replace(_o.a, _o.b);
                     });

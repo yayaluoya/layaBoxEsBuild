@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const main_1 = require("../main");
+const MainConfig_1 = require("../config/MainConfig");
 const SrcOperation_1 = require("./SrcOperation");
 const http = require('http');
 /**
@@ -35,7 +35,7 @@ class SrcProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }).listen(main_1.default.config.port.src);
+        }).listen(MainConfig_1.default.config.port.src);
     }
 }
 exports.default = SrcProxy;

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const ContentType_1 = require("../com/ContentType");
+const MainConfig_1 = require("../config/MainConfig");
 const MyConfig_1 = require("../config/MyConfig");
-const main_1 = require("../main");
 const ResURL_1 = require("../_T/ResURL");
 const URLT_1 = require("../_T/URLT");
 const http = require('http');
@@ -27,7 +27,7 @@ class BinProxy {
             //get请求
             if (req.method === 'GET') {
                 //获取地址
-                let _url = URLT_1.default.join(main_1.default.config.bin, req.url);
+                let _url = URLT_1.default.join(MainConfig_1.default.config.bin, req.url);
                 //
                 if (req.url == '' || req.url == '/') {
                     res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.html') }));
@@ -71,7 +71,7 @@ class BinProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }).listen(main_1.default.config.port.bin);
+        }).listen(MainConfig_1.default.config.port.bin);
     }
     /**
      * 获取主页代码
@@ -80,7 +80,7 @@ class BinProxy {
         return new Promise((r) => {
             //读取主页html
             let _html;
-            let _htmlUrl = URLT_1.default.join(main_1.default.config.bin, main_1.default.config.homePage);
+            let _htmlUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homePage);
             fs.readFile(_htmlUrl, (err, data) => {
                 if (err) {
                     r('没有找到主页html' + _htmlUrl);
@@ -88,7 +88,7 @@ class BinProxy {
                 }
                 _html = data.toString();
                 let _js;
-                let _jsUrl = URLT_1.default.join(main_1.default.config.bin, main_1.default.config.homeJs);
+                let _jsUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homeJs);
                 fs.readFile(_jsUrl, (err, data) => {
                     if (err) {
                         r(`alert('没有找到主页js脚本',${_jsUrl}')`);
@@ -108,8 +108,8 @@ class BinProxy {
         document.body.appendChild(script);
     }
     //替换主脚本地址
-    ${_js.replace(new RegExp(`\\(["']${main_1.default.config.mainJs}["']\\)`), `("http://localhost:${main_1.default.config.port.src}/${main_1.default.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
-    ${main_1.default.config.ifOpenWebSocketTool ? `
+    ${_js.replace(new RegExp(`\\(["']${MainConfig_1.default.config.mainJs}["']\\)`), `("http://localhost:${MainConfig_1.default.config.port.src}/${MainConfig_1.default.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
+    ${MainConfig_1.default.config.ifOpenWebSocketTool ? `
     //webSocket工具脚本
     loadLib("${MyConfig_1.default.webSocketToolJsName}");
     ` : ``}

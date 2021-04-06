@@ -1,4 +1,4 @@
-import layaboxEsbuild from "../main";
+import MainConfig from "../config/MainConfig";
 import URLT from "../_T/URLT";
 
 const crypto = require('crypto');
@@ -77,7 +77,7 @@ export default class FileModule {
         let _suffix = _url.match(/\.(.*?)$/);
         _suffix && (this.m_suffix = _suffix[1]);
         //
-        this.m_absolutePath = URLT.join(layaboxEsbuild.config.src, this.m_url) + '.' + this.m_suffix;
+        this.m_absolutePath = URLT.join(MainConfig.config.src, this.m_url) + '.' + this.m_suffix;
         //通过url生成唯一标识符
         this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
         //更新修改版本

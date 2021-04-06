@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const main_1 = require("../main");
+const MainConfig_1 = require("../config/MainConfig");
 const URLT_1 = require("../_T/URLT");
 const SrcTransition_1 = require("./SrcTransition");
 var fs = require("fs");
@@ -20,7 +20,7 @@ class TsBuild {
             try {
                 //源url
                 let _rootUrl = _url;
-                _url = URLT_1.default.join(main_1.default.config.src, _rootUrl + '.' + _suffix);
+                _url = URLT_1.default.join(MainConfig_1.default.config.src, _rootUrl + '.' + _suffix);
                 //读取目标文件
                 fs.readFile(_url, (err, rootCode) => {
                     if (err) {
@@ -42,7 +42,7 @@ class TsBuild {
                                 //字符集
                                 charset: 'utf8',
                                 //
-                            }).then(({ code, map, warnings }) => {
+                            }).then(({ code, _, warnings }) => {
                                 //文件过渡
                                 code = SrcTransition_1.default.tsBuildBack(code); //打包后
                                 // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));

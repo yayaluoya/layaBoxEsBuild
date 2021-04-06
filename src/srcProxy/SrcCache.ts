@@ -1,4 +1,4 @@
-import layaboxEsbuild from "../main";
+import MainConfig from "../config/MainConfig";
 import SrcModule from "./SrcModule";
 var chalk = require('chalk');
 
@@ -20,7 +20,7 @@ export default class SrcCache {
             this.m_moduleCache.forEach((item) => {
                 item.autoUpdateTask() ? _i++ : false;
             });
-            if (_i > 0 && layaboxEsbuild.config.ifLog) {
+            if (_i > 0 && MainConfig.config.ifLog) {
                 console.log(chalk.gray('>'));
                 console.log(chalk.gray('预构建所有已修改模块->', _i));
             }

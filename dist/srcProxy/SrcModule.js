@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const FileModule_1 = require("../com/FileModule");
-const main_1 = require("../main");
+const MainConfig_1 = require("../config/MainConfig");
 const TsBuild_1 = require("./TsBuild");
 var moment = require('moment');
 var chalk = require('chalk');
@@ -12,7 +12,7 @@ class SrcModule extends FileModule_1.default {
     /** 初始化回调 */
     _init() {
         //
-        if (main_1.default.config.ifLog) {
+        if (MainConfig_1.default.config.ifLog) {
             console.log(chalk.gray('-> 创建模块'));
             console.log(chalk.gray(this.absolutePath));
         }
@@ -23,7 +23,7 @@ class SrcModule extends FileModule_1.default {
     _update() {
         SrcModule.m_updateSum++;
         //
-        if (main_1.default.config.ifLog) {
+        if (MainConfig_1.default.config.ifLog) {
             console.log(chalk.gray('>'));
             console.log(chalk.gray('--> 模块更新'), chalk.yellow(this.absolutePath));
             console.log(chalk.gray('x', this.updateNumber), chalk.magenta('X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));

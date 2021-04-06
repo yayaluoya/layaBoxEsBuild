@@ -1,4 +1,4 @@
-import layaboxEsbuild from "../main";
+import MainConfig from "../config/MainConfig";
 import { EWebSocketMesType } from "../webSocket/EWebSocketMesType";
 import WebSocket from "../webSocket/WebSocket";
 import URLT from "../_T/URLT";
@@ -12,9 +12,9 @@ export default class SrcWatch {
      * 开始监视
      */
     public static start() {
-        chokidar.watch(layaboxEsbuild.config.src).on('change', (_url: string) => {
+        chokidar.watch(MainConfig.config.src).on('change', (_url: string) => {
             //获取相对路径
-            _url = _url.replace(layaboxEsbuild.config.src, '');
+            _url = _url.replace(MainConfig.config.src, '');
             //发送webSocket消息
             WebSocket.send('src代码有更新-> ' + _url, EWebSocketMesType.contentUpdate);
             //转成浏览器的路径

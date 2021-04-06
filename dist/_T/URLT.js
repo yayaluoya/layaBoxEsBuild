@@ -17,7 +17,7 @@ class URLT {
         return _url;
     }
     /**
-     * 通过一个路径获取另一个路径
+     * 获取绝对路径
      * @param pathSegments
      */
     static resolve(...pathSegments) {

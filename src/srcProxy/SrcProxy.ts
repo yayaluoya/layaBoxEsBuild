@@ -1,4 +1,4 @@
-import layaboxEsbuild from "../main";
+import MainConfig from "../config/MainConfig";
 import SrcOperation from "./SrcOperation";
 const http = require('http');
 
@@ -37,6 +37,6 @@ export default class SrcProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }).listen(layaboxEsbuild.config.port.src);
+        }).listen(MainConfig.config.port.src);
     }
 }

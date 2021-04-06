@@ -1,4 +1,4 @@
-import layaboxEsbuild from "../main";
+import MainConfig from "../config/MainConfig";
 import { EWebSocketMesType } from "../webSocket/EWebSocketMesType";
 import WebSocket from "../webSocket/WebSocket";
 
@@ -11,9 +11,9 @@ export default class BinWatch {
      * 开始监视
      */
     public static start() {
-        chokidar.watch(layaboxEsbuild.config.bin).on('change', (_url: string) => {
+        chokidar.watch(MainConfig.config.bin).on('change', (_url: string) => {
             //取相对路径
-            _url = _url.replace(layaboxEsbuild.config.bin, '');
+            _url = _url.replace(MainConfig.config.bin, '');
             //发送webSocket消息
             WebSocket.send('bin目录有更新-> ' + _url, EWebSocketMesType.contentUpdate);
         });

@@ -1,5 +1,5 @@
 import FileModule from "../com/FileModule";
-import layaboxEsbuild from "../main";
+import MainConfig from "../config/MainConfig";
 import TsBuild from "./TsBuild";
 var moment = require('moment');
 var chalk = require('chalk');
@@ -14,7 +14,7 @@ export default class SrcModule extends FileModule {
     /** 初始化回调 */
     protected _init() {
         //
-        if (layaboxEsbuild.config.ifLog) {
+        if (MainConfig.config.ifLog) {
             console.log(chalk.gray('-> 创建模块'));
             console.log(chalk.gray(this.absolutePath));
         }
@@ -26,7 +26,7 @@ export default class SrcModule extends FileModule {
     public _update() {
         SrcModule.m_updateSum++;
         //
-        if (layaboxEsbuild.config.ifLog) {
+        if (MainConfig.config.ifLog) {
             console.log(chalk.gray('>'));
             console.log(chalk.gray('--> 模块更新'), chalk.yellow(this.absolutePath));
             console.log(chalk.gray('x', this.updateNumber), chalk.magenta('X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));

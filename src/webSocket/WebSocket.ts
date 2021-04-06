@@ -1,5 +1,4 @@
 import MyConfig from "../config/MyConfig";
-
 const webSocket = require('ws');
 
 /**

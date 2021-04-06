@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const main_1 = require("../main");
+const MainConfig_1 = require("../config/MainConfig");
 const reRegExpChar = /[\\"'()[\]{}|]/g;
 const reHasRegExpChar = RegExp(reRegExpChar.source);
 /**
@@ -28,8 +28,8 @@ class SrcTransition {
     static tsBuildBack(_content) {
         //处理路径
         _content = _content.replace(/import.*?["'](.*?)["'];/g, (text) => {
-            if (main_1.default.config.filePathModify && main_1.default.config.filePathModify.length > 0) {
-                for (let _o of main_1.default.config.filePathModify) {
+            if (MainConfig_1.default.config.filePathModify && MainConfig_1.default.config.filePathModify.length > 0) {
+                for (let _o of MainConfig_1.default.config.filePathModify) {
                     text = text.replace(/["'].*?["']/, (_text) => {
                         return _text.replace(_o.a, _o.b);
                     });

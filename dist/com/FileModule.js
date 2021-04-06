@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const main_1 = require("../main");
+const MainConfig_1 = require("../config/MainConfig");
 const URLT_1 = require("../_T/URLT");
 const crypto = require('crypto');
 /**
@@ -27,7 +27,7 @@ class FileModule {
         let _suffix = _url.match(/\.(.*?)$/);
         _suffix && (this.m_suffix = _suffix[1]);
         //
-        this.m_absolutePath = URLT_1.default.join(main_1.default.config.src, this.m_url) + '.' + this.m_suffix;
+        this.m_absolutePath = URLT_1.default.join(MainConfig_1.default.config.src, this.m_url) + '.' + this.m_suffix;
         //通过url生成唯一标识符
         this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
         //更新修改版本

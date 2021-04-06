@@ -17,7 +17,7 @@ export default class URLT {
     }
 
     /**
-     * 通过一个路径获取另一个路径
+     * 获取绝对路径
      * @param pathSegments 
      */
     public static resolve(...pathSegments: string[]): string {
