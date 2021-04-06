@@ -64,11 +64,11 @@
 
         <img src="./res/config.png">
 
-## 配置
+## 全部配置选项
 
 ``` javascript
 /**
- * 配置表接口
+ * 配置接口
  */
 export default interface IConfig {
     /** 代理src目录，可以是绝对路径或者相对路径 */
@@ -104,4 +104,4 @@ export default interface IConfig {
 
 - esbuild只是构建项目，不会把src的代码打包到bin/js/bundle.js文件里面而是缓存在内存中的，所以只能在开发环境中使用，最后再用laya的编译和打包，把代码都打包到bin/js/bundle.js文件中，它的作用只能体现再开发时，能更快的响应代码改动，不会影响最终laya编译的结果。
 
-- 最好的方案时把webpack的增量编译一起打开，因为esbuild只是构建不编译，所以在补个webpack的增量编译就完美了，如果电脑卡的话就算了，最后上传代码时别忘了用laya或者webpack编译一下就行，不然bin/js/bundle.js是不会被更改的。
+- 最好的方案是把webpack的增量编译一起打开，因为esbuild只是构建不编译，所以在补个webpack的增量编译就完美了，如果电脑卡的话就算了，最后上传代码时别忘了用laya或者webpack编译一下就行，不然bin/js/bundle.js是不会被更改的。
