@@ -1,9 +1,9 @@
 /** 配置数据 */
 module.exports = {
     /** 代理src目录，可以是绝对路径或者相对路径 */
-    src: './test/src/',
+    src: './src/',
     /** 代理bin目录，可以是绝对路径或者相对路径 */
-    bin: './test/bin/',
+    bin: './bin/',
     /** 文件路径修改，会把 a 匹配的替换成 b */
     filePathModify: [
         {

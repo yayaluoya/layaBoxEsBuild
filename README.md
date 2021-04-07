@@ -41,15 +41,15 @@
 
   <img src="./res/order.png">
 
-- `layabox-esbuild -s` 不用
+- `layabox-esbuild -s`
 
-    - 直接开始构建项目，当看到如下输出时就说明跑起来了，但是这个时候打开它会发现运行的并不是我们想要运行的项目。
+    - 直接开始构建项目，当看到如下输出时就说明跑起来了。
 
         <img src="./res/home.png">
 
-- `layabox-esbuild -c <url>` 常用
+- `layabox-esbuild -c <url>`
     - 指定配置文件来构建项目。
-    - 在项目根目录下创建一个 layaboxEsbuild.js 的文件，然后写入以下内容。[其它本地的任何地方都行，前提是地址要正确。]
+    - 在项目根目录下创建 layaboxEsbuildConfig.js [位置，名字都可以随便，执行命令时参数填对就行了] 文件，然后导出一个满足IConfig接口的对象就行了，默认配置示例如下：
 
         ``` javascript
         /** 配置数据 */
@@ -60,7 +60,7 @@
             bin: './bin/',
         };
         ```
-    - 然后执行 `layabox-esbuild -c ./layaboxEsbuild.js` 就可以以指定配置文件来构建项目了。
+    - 然后执行 `layabox-esbuild -c ./layaboxEsbuildConfig.js` 就可以以指定配置文件来构建项目了。
   
 - `layabox-esbuild --log-config [url]`
     - 查看配置文件，如果不带后面的url参数则会打印默认的配置数据。示例：
@@ -75,31 +75,31 @@
  */
 export default interface IConfig {
     /** 代理src目录，可以是绝对路径或者相对路径 */
-    src: string,
+    src?: string,
     /** 代理bin目录，可以是绝对路径或者相对路径 */
-    bin: string,
+    bin?: string,
     /** 文件路径修改，会把 a 匹配的替换成 b */
-    filePathModify: {
+    filePathModify?: {
         a: RegExp,
         b: string,
     }[];
     /** 代理端口，可以随便指定，只要不冲突就行 */
-    port: {
+    port?: {
         src: number,
         bin: number,
     },
     /** 入口文件名，地址相对于src目录 */
-    mainTs: string,
+    mainTs?: string,
     /** 主页地址， 相对于bin目录 */
-    homePage: string,
+    homePage?: string,
     /** 主页脚本， 相对于bin目录 */
-    homeJs: string,
+    homeJs?: string,
     /** 入口js文件，相对于bin目录 */
-    mainJs: string,
+    mainJs?: string,
     /** 是否打印日志 */
-    ifLog: boolean,
+    ifLog?: boolean,
     /** 是否启用webSocket工具 */
-    ifOpenWebSocketTool: boolean,
+    ifOpenWebSocketTool?: boolean,
 }
 ```
 

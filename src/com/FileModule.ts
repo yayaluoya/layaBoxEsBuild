@@ -72,10 +72,12 @@ export default class FileModule {
      */
     public constructor(_url: string) {
         //剔除后缀
-        this.m_url = _url.replace(/\..*?$/, '');
+        this.m_url = _url.replace(/\.[^\.]*?$/, '');
         //提取后缀
-        let _suffix = _url.match(/\.(.*?)$/);
+        let _suffix = _url.match(/\.([^\.]*?)$/);
         _suffix && (this.m_suffix = _suffix[1]);
+        //
+        // console.log('后缀', this.m_url, this.m_suffix);
         //
         this.m_absolutePath = URLT.join(MainConfig.config.src, this.m_url) + '.' + this.m_suffix;
         //通过url生成唯一标识符

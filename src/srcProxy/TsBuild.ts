@@ -28,7 +28,7 @@ export default class TsBuild {
                     } else {
                         rootCode = rootCode.toString();
                         //判断后缀
-                        if (_suffix == 'ts' || _url == 'js') {
+                        if (/^(ts)|(js)$/.test(_suffix)) {
                             //使用esbuild打包
                             esbuild.transform(rootCode, {
                                 //装载器
