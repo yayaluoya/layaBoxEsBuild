@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ContentType_1 = require("../com/ContentType");
 const MainConfig_1 = require("../config/MainConfig");
 const MyConfig_1 = require("../config/MyConfig");
-const ResURL_1 = require("../_T/ResURL");
 const URLT_1 = require("../_T/URLT");
+const BinTool_1 = require("./BinTool");
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -28,19 +28,28 @@ class BinProxy {
             if (req.method === 'GET') {
                 //获取地址
                 let _url = URLT_1.default.join(MainConfig_1.default.config.bin, req.url);
-                //
-                if (req.url == '' || req.url == '/') {
+                //主页
+                if (new RegExp(`^((/?)|(/?${MainConfig_1.default.config.homePage.replace(/^\//, '')}))$`).test(req.url)) {
                     res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.html') }));
-                    this.getHomePage().then((_html) => {
+                    BinTool_1.default.getHomePage().then((_html) => {
                         res.end(_html);
                     });
                 }
-                else if (new RegExp(MyConfig_1.default.webSocketToolJsName).test(req.url)) {
+                //主页脚本文件
+                else if (new RegExp(`^/?${MainConfig_1.default.config.homeJs.replace(/^\//, '')}$`).test(req.url)) {
                     res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.js') }));
-                    this.getWebSocketToolJs().then((_js) => {
+                    BinTool_1.default.getHomeJs().then((_js) => {
                         res.end(_js);
                     });
                 }
+                //webSocked工具脚本
+                else if (new RegExp(`^/?${MyConfig_1.default.webSocketToolJsName.replace(/^\//, '')}$`).test(req.url)) {
+                    res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.js') }));
+                    BinTool_1.default.getWebSocketToolJs().then((_js) => {
+                        res.end(_js);
+                    });
+                }
+                //其他文件
                 else {
                     //处理特殊字符
                     // _url = _url.replace(/%2B/g, '+');
@@ -72,76 +81,6 @@ class BinProxy {
                 res.end('不支持post请求。');
             }
         }).listen(MainConfig_1.default.config.port.bin);
-    }
-    /**
-     * 获取主页代码
-     */
-    static getHomePage() {
-        return new Promise((r) => {
-            //读取主页html
-            let _html;
-            let _htmlUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homePage);
-            fs.readFile(_htmlUrl, (err, data) => {
-                if (err) {
-                    r('没有找到主页html' + _htmlUrl);
-                    return;
-                }
-                _html = data.toString();
-                let _js;
-                let _jsUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homeJs);
-                fs.readFile(_jsUrl, (err, data) => {
-                    if (err) {
-                        r(`alert('没有找到主页js脚本',${_jsUrl}')`);
-                        return;
-                    }
-                    _js = data.toString();
-                    //合并html和js
-                    _html = _html.replace(/<body>[\s\S]*?<\/body>/, `
-                    <body>
-<script type="text/javascript">
-    //
-    function loadLib(url, type = 'text/javascript') {
-        var script = document.createElement("script");
-        script.async = false;
-        script.src = url;
-        script.type = type;
-        document.body.appendChild(script);
-    }
-    //替换主脚本地址
-    ${_js.replace(new RegExp(`\\(["']${MainConfig_1.default.config.mainJs}["']\\)`), `("http://localhost:${MainConfig_1.default.config.port.src}/${MainConfig_1.default.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
-    ${MainConfig_1.default.config.ifOpenWebSocketTool ? `
-    //webSocket工具脚本
-    loadLib("${MyConfig_1.default.webSocketToolJsName}");
-    ` : ``}
-</script>
-                    </body>
-                    `);
-                    r(_html);
-                });
-            });
-        });
-    }
-    /**
-     * 获取工具脚本
-     */
-    static getWebSocketToolJs() {
-        return new Promise((r) => {
-            if (this.m_webSocketToolJs) {
-                r(this.m_webSocketToolJs);
-                return;
-            }
-            //读取webSocketjs脚本文件
-            let _jsUrl = URLT_1.default.join(ResURL_1.default.publicURL, MyConfig_1.default.webSocketToolJsName);
-            fs.readFile(_jsUrl, (err, data) => {
-                if (err) {
-                    r(`alert('没有找到webSocket工具脚本,${_jsUrl}');`);
-                    return;
-                }
-                //存入缓存
-                this.m_webSocketToolJs = data.toString();
-                r(this.m_webSocketToolJs);
-            });
-        });
     }
 }
 exports.default = BinProxy;
