@@ -18,7 +18,7 @@ const confirmEx = (() => {
             position: fixed;
             top: 0px;
             left: 0px;
-            background-color: rgb(0 0 0 / 60%);
+            background-color: rgb(0 0 0 / 75%);
             display: none;
         }
         .confirmEx.show{
@@ -37,7 +37,7 @@ const confirmEx = (() => {
             width: 250px;
             border-radius: 5px;
             padding: 10px;
-            border: 3px solid #eeeeee;
+            border: 3px solid #1daaca;
         }
         .confirmEx>.content>.mes{
             font-size: 25px;
