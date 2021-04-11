@@ -1,4 +1,5 @@
 import MyConfig from "../config/MyConfig";
+import HttpTool from "../http/HttpTool";
 const webSocket = require('ws');
 
 /**
@@ -19,6 +20,9 @@ export default class WebSocket {
     public static start() {
         // 实例化:
         let _wss = new webSocket.Server({
+            //主机
+            host: HttpTool.getHostname,
+            //端口
             port: MyConfig.webSocketPort,
         });
         _wss.on('connection', (ws) => {

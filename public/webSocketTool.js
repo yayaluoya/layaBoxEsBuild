@@ -186,7 +186,7 @@ const webSocketMesType = (() => {
 //
 (() => {
     //
-    let webSocket = new WebSocket('ws://localhost:3600/');
+    let webSocket = new WebSocket('ws://${{hostname}}:${{webSocketPort}}/');
 
     /** 项目更新次数 */
     let _updateNumber = 0;
@@ -203,16 +203,7 @@ const webSocketMesType = (() => {
             _updateNumber++;
             // 处理数据
             console.log(...ConsoleEx.pack(ConsoleEx.getStyle('#eeeeee', '#08d9d6'), _mes));
-        }
-    });
-
-    //监听页面焦点事件
-    window.addEventListener('visibilitychange', function () {
-        //
-        if (document['visible']) {
-            // 失去焦点
-        } else {
-            // 获取焦点
+            //弹出提示框
             if (!_ifConfirm && _updateNumber > 0) {
                 _ifConfirm = true;
                 //
@@ -231,4 +222,30 @@ const webSocketMesType = (() => {
             }
         }
     });
+
+    //监听页面焦点事件
+    // window.addEventListener('visibilitychange', function () {
+    //     //
+    //     if (document['visible']) {
+    //         // 失去焦点
+    //     } else {
+    //         // 获取焦点
+    //         if (!_ifConfirm && _updateNumber > 0) {
+    //             _ifConfirm = true;
+    //             //
+    //             confirmEx('项目内容有更新,点击确认或按Enter键刷新页面', (flag) => {
+    //                 _updateNumber = 0;
+    //                 _ifConfirm = false;
+    //                 //判断状态
+    //                 if (flag) {
+    //                     //刷新页面
+    //                     location.reload();
+    //                 } else {
+    //                     //
+    //                     // console.log('取消');
+    //                 }
+    //             });
+    //         }
+    //     }
+    // });
 })();

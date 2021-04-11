@@ -1,5 +1,6 @@
 import MainConfig from "../config/MainConfig";
 import MyConfig from "../config/MyConfig";
+import HttpTool from "../http/HttpTool";
 import ResURL from "../_T/ResURL";
 import URLT from "../_T/URLT";
 const fs = require('fs');
@@ -59,7 +60,7 @@ ${_html}
                 //替换主脚本地址
                 _js = `
 //! 此文件被包装过，和源文件内容有差异。
-${_js.replace(new RegExp(`\\(["']/?${MainConfig.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://localhost:${MainConfig.config.port.src}/${MainConfig.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
+${_js.replace(new RegExp(`\\(["']/?${MainConfig.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://${HttpTool.getHostname}:${MainConfig.config.port.src}/${MainConfig.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
 //加入webSocket工具
 loadLib("${MyConfig.webSocketToolJsName}");
                 `;
@@ -87,8 +88,8 @@ loadLib("${MyConfig.webSocketToolJsName}");
                     r(`alert('没有找到webSocket工具脚本,${_jsUrl}');`);
                     return;
                 }
-                //存入缓存
-                this.m_webSocketToolJs = data.toString();
+                //替换主机地址和端口并存入缓存
+                this.m_webSocketToolJs = (data.toString() as string).replace('${{hostname}}', HttpTool.getHostname).replace('${{webSocketPort}}', MyConfig.webSocketPort + '');
                 //
                 r(this.m_webSocketToolJs);
             });

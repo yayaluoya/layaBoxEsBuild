@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const MyConfig_1 = require("../config/MyConfig");
+const HttpTool_1 = require("../http/HttpTool");
 const webSocket = require('ws');
 /**
  * webSocket模块
@@ -16,6 +17,9 @@ class WebSocket {
     static start() {
         // 实例化:
         let _wss = new webSocket.Server({
+            //主机
+            host: HttpTool_1.default.getHostname,
+            //端口
             port: MyConfig_1.default.webSocketPort,
         });
         _wss.on('connection', (ws) => {

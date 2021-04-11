@@ -1,6 +1,7 @@
 import ContentType from "../com/ContentType";
 import MainConfig from "../config/MainConfig";
 import MyConfig from "../config/MyConfig";
+import HttpTool from "../http/HttpTool";
 import URLT from "../_T/URLT";
 import BinTool from "./BinTool";
 
@@ -17,7 +18,7 @@ export default class BinProxy {
      */
     public static start() {
         // req 请求， res 响应 
-        http.createServer((req, res) => {
+        HttpTool.createServer((req, res) => {
             //head
             let _head = {
                 'Content-Type': 'application/javascript;charset=UTF-8',
@@ -92,6 +93,13 @@ export default class BinProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }).listen(MainConfig.config.port.bin);
+        }, MainConfig.config.port.bin);
+    }
+
+    /**
+     * 获取主页地址
+     */
+    public static getHomePage(): string {
+        return `http://${HttpTool.getHostname}:${MainConfig.config.port.bin}`;
     }
 }

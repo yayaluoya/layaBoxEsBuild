@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const MainConfig_1 = require("../config/MainConfig");
 const MyConfig_1 = require("../config/MyConfig");
+const HttpTool_1 = require("../http/HttpTool");
 const ResURL_1 = require("../_T/ResURL");
 const URLT_1 = require("../_T/URLT");
 const fs = require('fs');
@@ -59,7 +60,7 @@ ${_html}
                 //替换主脚本地址
                 _js = `
 //! 此文件被包装过，和源文件内容有差异。
-${_js.replace(new RegExp(`\\(["']/?${MainConfig_1.default.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://localhost:${MainConfig_1.default.config.port.src}/${MainConfig_1.default.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
+${_js.replace(new RegExp(`\\(["']/?${MainConfig_1.default.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://${HttpTool_1.default.getHostname}:${MainConfig_1.default.config.port.src}/${MainConfig_1.default.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
 //加入webSocket工具
 loadLib("${MyConfig_1.default.webSocketToolJsName}");
                 `;
@@ -84,8 +85,8 @@ loadLib("${MyConfig_1.default.webSocketToolJsName}");
                     r(`alert('没有找到webSocket工具脚本,${_jsUrl}');`);
                     return;
                 }
-                //存入缓存
-                this.m_webSocketToolJs = data.toString();
+                //替换主机地址和端口并存入缓存
+                this.m_webSocketToolJs = data.toString().replace('${{hostname}}', HttpTool_1.default.getHostname).replace('${{webSocketPort}}', MyConfig_1.default.webSocketPort + '');
                 //
                 r(this.m_webSocketToolJs);
             });

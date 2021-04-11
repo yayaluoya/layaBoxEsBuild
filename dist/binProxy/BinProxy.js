@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ContentType_1 = require("../com/ContentType");
 const MainConfig_1 = require("../config/MainConfig");
 const MyConfig_1 = require("../config/MyConfig");
+const HttpTool_1 = require("../http/HttpTool");
 const URLT_1 = require("../_T/URLT");
 const BinTool_1 = require("./BinTool");
 const http = require('http');
@@ -17,7 +18,7 @@ class BinProxy {
      */
     static start() {
         // req 请求， res 响应 
-        http.createServer((req, res) => {
+        HttpTool_1.default.createServer((req, res) => {
             //head
             let _head = {
                 'Content-Type': 'application/javascript;charset=UTF-8',
@@ -80,7 +81,13 @@ class BinProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }).listen(MainConfig_1.default.config.port.bin);
+        }, MainConfig_1.default.config.port.bin);
+    }
+    /**
+     * 获取主页地址
+     */
+    static getHomePage() {
+        return `http://${HttpTool_1.default.getHostname}:${MainConfig_1.default.config.port.bin}`;
     }
 }
 exports.default = BinProxy;

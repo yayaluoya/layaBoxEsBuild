@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const MainConfig_1 = require("../config/MainConfig");
+const HttpTool_1 = require("../http/HttpTool");
 const SrcOperation_1 = require("./SrcOperation");
-const http = require('http');
 /**
  * src代理
  */
@@ -12,7 +12,7 @@ class SrcProxy {
      */
     static start() {
         // req 请求， res 响应 
-        http.createServer((req, res) => {
+        HttpTool_1.default.createServer((req, res) => {
             //head
             let _head = {
                 'Content-Type': 'application/javascript;charset=UTF-8',
@@ -35,7 +35,13 @@ class SrcProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }).listen(MainConfig_1.default.config.port.src);
+        }, MainConfig_1.default.config.port.src);
+    }
+    /**
+     * 获取主页地址
+     */
+    static getHomePage() {
+        return '';
     }
 }
 exports.default = SrcProxy;

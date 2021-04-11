@@ -1,6 +1,6 @@
 import MainConfig from "../config/MainConfig";
+import HttpTool from "../http/HttpTool";
 import SrcOperation from "./SrcOperation";
-const http = require('http');
 
 /**
  * src代理
@@ -11,7 +11,7 @@ export default class SrcProxy {
      */
     public static start() {
         // req 请求， res 响应 
-        http.createServer((req, res) => {
+        HttpTool.createServer((req, res) => {
             //head
             let _head = {
                 'Content-Type': 'application/javascript;charset=UTF-8',
@@ -37,6 +37,13 @@ export default class SrcProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }).listen(MainConfig.config.port.src);
+        }, MainConfig.config.port.src);
+    }
+
+    /**
+     * 获取主页地址
+     */
+    public static getHomePage(): string {
+        return '';
     }
 }
