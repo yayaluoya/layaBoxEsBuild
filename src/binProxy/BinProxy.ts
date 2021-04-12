@@ -1,11 +1,9 @@
 import ContentType from "../com/ContentType";
 import MainConfig from "../config/MainConfig";
-import MyConfig from "../config/MyConfig";
 import HttpTool from "../http/HttpTool";
+import ResURL from "../_T/ResURL";
 import URLT from "../_T/URLT";
 import BinTool from "./BinTool";
-
-const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
@@ -22,70 +20,76 @@ export default class BinProxy {
             //head
             let _head = {
                 'Content-Type': 'application/javascript;charset=UTF-8',
-                'Access-Control-Allow-Origin': '*',//跨域
-                'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE',//跨域
+                'Access-Control-Allow-Origin': '*',//允许跨域
+                'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE',//允许跨域
             };
+            //
+            let url: string = req.url;
             //get请求
             if (req.method === 'GET') {
-                //获取地址
-                let _url: string = URLT.join(MainConfig.config.bin, req.url);
-                //主页
-                if (new RegExp(`^((/?)|(/?${MainConfig.config.homePage.replace(/^\//, '')}))$`).test(req.url)) {
+                //web工具脚本
+                if (new RegExp(`^/${ResURL.publicDirName}`).test(url)) {
                     res.writeHead(200, {
                         ..._head,
-                        'Content-Type': ContentType.get('.html'),
+                        'Content-Type': ContentType.get(path.extname(url)) || '',
                     });
-                    BinTool.getHomePage().then((_html) => {
-                        res.end(_html);
-                    });
-                }
-                //主页脚本文件
-                else if (new RegExp(`^/?${MainConfig.config.homeJs.replace(/^\//, '')}$`).test(req.url)) {
-                    res.writeHead(200, {
-                        ..._head,
-                        'Content-Type': ContentType.get('.js'),
-                    });
-                    BinTool.getHomeJs().then((_js) => {
+                    //提取出相对目录并取出内容
+                    BinTool.getWebTool((url as string).replace(new RegExp(`^/${ResURL.publicDirName}`), '')).then((_js) => {
                         res.end(_js);
                     });
                 }
-                //webSocked工具脚本
-                else if (new RegExp(`^/?${MyConfig.webSocketToolJsName.replace(/^\//, '')}$`).test(req.url)) {
-                    res.writeHead(200, {
-                        ..._head,
-                        'Content-Type': ContentType.get('.js'),
-                    });
-                    BinTool.getWebSocketToolJs().then((_js) => {
-                        res.end(_js);
-                    });
-                }
-                //其他文件
+                //其他内容
                 else {
-                    //处理特殊字符
-                    // _url = _url.replace(/%2B/g, '+');
-                    // _url = _url.replace(/%20/g, ' ');
-                    // _url = _url.replace(/%2F/g, '/');
-                    // _url = _url.replace(/%3F/g, '?');
-                    // _url = _url.replace(/%25/g, '%');
-                    // _url = _url.replace(/%23/g, '#');
-                    // _url = _url.replace(/%26/g, '&');
-                    // _url = _url.replace(/%3D/g, '=');
-                    //url解码
-                    _url = decodeURI(_url);
-                    //判断是否有这个文件
-                    fs.stat(_url, (err, stats) => {
-                        if (err || !stats.isFile()) {
-                            res.writeHead(404, _head);
-                            res.end();
-                            return;
-                        }
-                        res.writeHead(200, {
-                            ..._head,
-                            'Content-Type': ContentType.get(path.extname(_url)) || '',
-                        });
-                        //
-                        fs.createReadStream(_url).pipe(res);
-                    });
+                    switch (true) {
+                        //主页html文件
+                        case new RegExp(`^((/?)|(/?${MainConfig.config.homePage.replace(/^\//, '')}))$`).test(url):
+                            res.writeHead(200, {
+                                ..._head,
+                                'Content-Type': ContentType.get('.html'),
+                            });
+                            BinTool.getHomePage().then((_html) => {
+                                res.end(_html);
+                            });
+                            break;
+                        //主页js文件
+                        case new RegExp(`^/?${MainConfig.config.homeJs.replace(/^\//, '')}$`).test(url):
+                            res.writeHead(200, {
+                                ..._head,
+                                'Content-Type': ContentType.get('.js'),
+                            });
+                            BinTool.getHomeJs().then((_js) => {
+                                res.end(_js);
+                            });
+                            break;
+                        //其他文件
+                        case true:
+                            //处理特殊字符
+                            // _url = _url.replace(/%2B/g, '+');
+                            // _url = _url.replace(/%20/g, ' ');
+                            // _url = _url.replace(/%2F/g, '/');
+                            // _url = _url.replace(/%3F/g, '?');
+                            // _url = _url.replace(/%25/g, '%');
+                            // _url = _url.replace(/%23/g, '#');
+                            // _url = _url.replace(/%26/g, '&');
+                            // _url = _url.replace(/%3D/g, '=');
+                            //url解码
+                            let _url: string = decodeURI(URLT.join(MainConfig.config.bin, url));
+                            //判断是否有这个文件
+                            fs.stat(_url, (err, stats) => {
+                                if (err || !stats.isFile()) {
+                                    res.writeHead(404, _head);
+                                    res.end();
+                                    return;
+                                }
+                                res.writeHead(200, {
+                                    ..._head,
+                                    'Content-Type': ContentType.get(path.extname(url)) || '',
+                                });
+                                //
+                                fs.createReadStream(_url).pipe(res);
+                            });
+                            break;
+                    }
                 }
             }
             //post请求

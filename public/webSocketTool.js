@@ -1,5 +1,5 @@
 /** 提示框扩展 */
-const confirmEx = (() => {
+const confirmEx = (function () {
     let _div = `
         <div class="confirmEx">
             <div class="content">
@@ -11,82 +11,11 @@ const confirmEx = (() => {
             </div>
         </div>
     `;
-    let _style = `
-        .confirmEx{
-            width: 100vw;
-            height: 100vh;
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            background-color: rgb(0 0 0 / 75%);
-            display: none;
-        }
-        .confirmEx.show{
-            display: flex;
-            flex-wrap: nowrap;
-            align-content: center;
-            justify-content: center;
-            align-items: center;
-            animation: 1s show;
-        }
-
-        .confirmEx>.content{
-            background-color: #222831;
-            display: flex;
-            flex-direction: column;
-            width: 250px;
-            border-radius: 5px;
-            padding: 10px;
-            border: 3px solid #1daaca;
-        }
-        .confirmEx>.content>.mes{
-            font-size: 25px;
-            color: #eeeeee;
-            padding-bottom: 5px;
-            border-bottom: 1px dashed #393e46;
-        }
-        .confirmEx>.content>.but{
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: center;
-            justify-content: space-around;
-            flex-direction: row;
-            align-content: center;
-            padding-top: 5px;
-        }
-        .confirmEx>.content>.but>button{
-            cursor: pointer;
-            width: 110px;
-            border: 0px;
-            border-radius: 3px;
-            height: 35px;
-            font-size: 20px;
-            font-weight: bold;
-            background-color: #393e46;
-            color: #eeeeee;
-            letter-spacing: 3px;
-            transition: all .15s;
-        }
-        .confirmEx>.content>.but>button:hover{
-            background-color: #eeeeee;
-            color: #222831;
-        }
-        .confirmEx>.content>.but>button:active{
-            font-size: 18px;
-            letter-spacing: 2px;
-            background-color: white;
-            color: #222831;
-        }
-    `;
     //添加元素
     let _divDom = document.createElement("div");
     _divDom.innerHTML = _div;
-    var _styleDom = document.createElement("style");
-    _styleDom.type = "text/css";
-    _styleDom.innerHTML = _style;
     //
-    document.getElementsByTagName('body')[0].appendChild(_divDom);
-    document.getElementsByTagName('body')[0].appendChild(_styleDom);
+    _divDom = document.body.appendChild(_divDom.firstElementChild);
     //获取各个元素
     let _confirmExDom = document.getElementsByClassName('confirmEx')[0];
     let _contentDom = _confirmExDom.getElementsByClassName('content')[0];
@@ -141,7 +70,7 @@ const confirmEx = (() => {
 })();
 
 //
-const ConsoleEx = (() => {
+const ConsoleEx = (function () {
     /**
      * 输出包装类
      */
@@ -177,14 +106,14 @@ const ConsoleEx = (() => {
 /**
  * webSocket消息类型
  */
-const webSocketMesType = (() => {
+const webSocketMesType = (function () {
     return {
         contentUpdate: 'contentUpdate',
     };
 })();
 
 //
-(() => {
+(function () {
     //
     let webSocket = new WebSocket('ws://${{hostname}}:${{webSocketPort}}/');
 

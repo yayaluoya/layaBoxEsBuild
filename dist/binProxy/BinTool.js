@@ -11,6 +11,40 @@ const fs = require('fs');
  */
 class BinTool {
     /**
+     * 获取web工具内容
+     * @param _url 地址
+     */
+    static getWebTool(_url) {
+        return new Promise((r) => {
+            if (this.m_webToolJs[_url]) {
+                r(this.m_webToolJs[_url]);
+                return;
+            }
+            //获取地址
+            let _jsUrl = URLT_1.default.join(ResURL_1.default.publicURL, _url);
+            //读取文件
+            fs.readFile(_jsUrl, (err, data) => {
+                if (err) {
+                    r(`没有找到web工具脚本,${_jsUrl}')`);
+                    return;
+                }
+                let _content = data.toString();
+                //根据不同文件做不同操作
+                switch (true) {
+                    //webSocket工具脚本需要替换主机名和端口号
+                    case new RegExp(`^/?${MyConfig_1.default.webToolJsName.webSocket}$`).test(_url):
+                        //替换主机地址和端口并存入缓存
+                        _content = _content.replace('${{hostname}}', HttpTool_1.default.getHostname).replace('${{webSocketPort}}', MyConfig_1.default.webSocketPort + '');
+                        break;
+                }
+                //存入缓存
+                this.m_webToolJs[_url] = _content;
+                //
+                r(_content);
+            });
+        });
+    }
+    /**
      * 获取主页代码
      */
     static getHomePage() {
@@ -24,7 +58,16 @@ class BinTool {
                     return;
                 }
                 _html = data.toString();
-                //先包装loadLib函数内容，加一个模块的参数
+                //在头部结束时加上css样式表
+                _html = _html.replace(/\<\/head\>/, `
+<link rel="stylesheet" type="text/css" href="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.css}">
+</head>
+                `);
+                //在所有脚本前加上webload脚本
+                _html = _html.replace(/\<body\>/, `<body>
+<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.load}"></script>
+                `);
+                //包装loadLib函数内容，加一个模块的参数
                 _html = _html.replace(/function loadLib\([\s\S]*?\)[\s]\{[\s\S]*?\}/, `
     function loadLib(url, type = 'text/javascript') {
         var script = document.createElement("script");
@@ -45,7 +88,7 @@ ${_html}
         });
     }
     /**
-     * 获取欧主页脚本文件内容
+     * 获取主页脚本文件内容
      */
     static getHomeJs() {
         return new Promise((r) => {
@@ -62,36 +105,15 @@ ${_html}
 //! 此文件被包装过，和源文件内容有差异。
 ${_js.replace(new RegExp(`\\(["']/?${MainConfig_1.default.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://${HttpTool_1.default.getHostname}:${MainConfig_1.default.config.port.src}/${MainConfig_1.default.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
 //加入webSocket工具
-loadLib("${MyConfig_1.default.webSocketToolJsName}");
+loadLib("${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.webSocket}");
                 `;
                 //
                 r(_js);
             });
         });
     }
-    /**
-     * 获取工具脚本
-     */
-    static getWebSocketToolJs() {
-        return new Promise((r) => {
-            if (this.m_webSocketToolJs) {
-                r(this.m_webSocketToolJs);
-                return;
-            }
-            //读取webSocketjs脚本文件
-            let _jsUrl = URLT_1.default.join(ResURL_1.default.publicURL, MyConfig_1.default.webSocketToolJsName);
-            fs.readFile(_jsUrl, (err, data) => {
-                if (err) {
-                    r(`alert('没有找到webSocket工具脚本,${_jsUrl}');`);
-                    return;
-                }
-                //替换主机地址和端口并存入缓存
-                this.m_webSocketToolJs = data.toString().replace('${{hostname}}', HttpTool_1.default.getHostname).replace('${{webSocketPort}}', MyConfig_1.default.webSocketPort + '');
-                //
-                r(this.m_webSocketToolJs);
-            });
-        });
-    }
 }
 exports.default = BinTool;
+/** web工具脚本内容缓存 */
+BinTool.m_webToolJs = {};
 //# sourceMappingURL=BinTool.js.map
