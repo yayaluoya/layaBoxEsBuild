@@ -11,7 +11,8 @@ MyConfig.webSocketPort = 3600;
 /** web工具脚本 */
 MyConfig.webToolJsName = {
     webSocket: 'webSocketTool.js',
-    load: 'webLoadTool.js',
     css: 'webTool.css',
+    load: 'loadTool.js',
+    alert: 'alertTool.js',
 };
 //# sourceMappingURL=MyConfig.js.map

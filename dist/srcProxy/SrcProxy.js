@@ -18,6 +18,7 @@ class SrcProxy {
                 'Content-Type': 'application/javascript;charset=UTF-8',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE',
+                'Access-Control-Expose-Headers': 'Content-Type,*',
                 'cache-control': 'no-cache', //协商缓存
             };
             //get请求

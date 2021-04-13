@@ -10,8 +10,11 @@ export default class HttpTool {
      * @param _f 请求响应执行方法
      * @param _port 端口
      */
-    public static createServer(_f: (req, res) => void, _port: number): any {
-        return http.createServer(_f).listen(_port, this.getHostname);
+    public static createServer(_f: (req, res) => void, _port: number) {
+        //开启一个本地服务
+        http.createServer(_f).listen(_port);
+        //开启一个局域网服务
+        http.createServer(_f).listen(_port, this.getHostname);
     }
 
     /** 主机名字 */

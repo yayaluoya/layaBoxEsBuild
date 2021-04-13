@@ -25,9 +25,10 @@ export default class layaboxEsbuild {
 			//代理bin
 			BinProxy.start();
 			//提示bin目录的主页地址
-			console.log(chalk.green('主页地址:'), chalk.magenta(BinProxy.getHomePage()));
+			console.log(chalk.green('本地主页:'), chalk.magenta(BinProxy.getLocalHomePage()));
+			console.log(chalk.green('局域网主页:'), chalk.magenta(BinProxy.getHomePage()));
 			console.log(chalk.gray('>'));
-			console.log(chalk.gray('局域网也能通过这个地址访问主页，如果不能访问的话可能是防火墙的原因。'));
+			console.log(chalk.gray('局域网主页如果不能访问的话可能是防火墙的原因。'));
 		});
 	}
 }

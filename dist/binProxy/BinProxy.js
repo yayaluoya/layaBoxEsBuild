@@ -89,6 +89,12 @@ class BinProxy {
         }, MainConfig_1.default.config.port.bin);
     }
     /**
+     * 获取本地主页
+     */
+    static getLocalHomePage() {
+        return `http://localhost:${MainConfig_1.default.config.port.bin}`;
+    }
+    /**
      * 获取主页地址
      */
     static getHomePage() {

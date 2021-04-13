@@ -12,7 +12,10 @@ class HttpTool {
      * @param _port 端口
      */
     static createServer(_f, _port) {
-        return http.createServer(_f).listen(_port, this.getHostname);
+        //开启一个本地服务
+        http.createServer(_f).listen(_port);
+        //开启一个局域网服务
+        http.createServer(_f).listen(_port, this.getHostname);
     }
     /**
      * 获取主机地址

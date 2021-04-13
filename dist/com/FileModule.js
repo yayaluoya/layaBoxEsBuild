@@ -39,6 +39,10 @@ class FileModule {
         //
         this._init();
     }
+    /** 获取唯一标识符 */
+    get key() {
+        return this.m_key;
+    }
     /** 获取修改标识符 */
     get modifyKey() {
         return this.m_key + '_' + this.m_modifyV;

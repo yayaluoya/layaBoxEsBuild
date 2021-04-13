@@ -1,5 +1,7 @@
 import FileModule from "../com/FileModule";
 import MainConfig from "../config/MainConfig";
+import { EWebSocketMesType } from "../webSocket/EWebSocketMesType";
+import WebSocket from "../webSocket/WebSocket";
 import TsBuild from "./TsBuild";
 var moment = require('moment');
 var chalk = require('chalk');

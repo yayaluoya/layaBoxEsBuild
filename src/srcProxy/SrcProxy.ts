@@ -17,6 +17,7 @@ export default class SrcProxy {
                 'Content-Type': 'application/javascript;charset=UTF-8',
                 'Access-Control-Allow-Origin': '*',//跨域
                 'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE',//跨域
+                'Access-Control-Expose-Headers': 'Content-Type,*',//暴露出全部请求头参数
                 'cache-control': 'no-cache',//协商缓存
             };
             //get请求

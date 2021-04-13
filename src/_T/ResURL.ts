@@ -22,7 +22,6 @@ export default class ResURL {
 
     /** 公共目录名称，一个随机值，不固定 */
     private static m_publicDirName: string;
-
     /** 公共目录名称 */
     public static get publicDirName(): string {
         if (!this.m_publicDirName) {

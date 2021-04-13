@@ -29,6 +29,11 @@ export default class FileModule {
     /** 更新次数 */
     private m_updateNumber: number = 0;
 
+    /** 获取唯一标识符 */
+    public get key(): string {
+        return this.m_key;
+    }
+
     /** 获取修改标识符 */
     public get modifyKey(): string {
         return this.m_key + '_' + this.m_modifyV;

@@ -3,4 +3,6 @@ import './js.test.js';
 
 console.log(_module);
 
+console.log('测试', 20);
+
 alert('运行成功');

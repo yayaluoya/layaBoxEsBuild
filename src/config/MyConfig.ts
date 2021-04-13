@@ -6,15 +6,18 @@ export default class MyConfig {
     public static webSocketPort: number = 3600;
     /** web工具脚本 */
     public static webToolJsName: {
-        /** css内容 */
-        css: string,
         /** webSocket工具脚本 */
         webSocket: string,
+        /** css内容 */
+        css: string,
         /** web加载工具脚本 */
         load: string,
+        /** alert工具 */
+        alert: string,
     } = {
             webSocket: 'webSocketTool.js',
-            load: 'webLoadTool.js',
             css: 'webTool.css',
+            load: 'loadTool.js',
+            alert: 'alertTool.js',
         };
 }

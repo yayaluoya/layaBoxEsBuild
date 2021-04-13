@@ -31,6 +31,8 @@ export default class SrcOperation {
                     _fileData.resHead = {
                         //协商缓存标识
                         'etag': module.modifyKey,
+                        //添加文件唯一标识符
+                        'file-only-key': module.key,
                     };
                     _fileData.content = module.content;
                 }

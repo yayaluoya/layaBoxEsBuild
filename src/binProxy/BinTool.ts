@@ -37,7 +37,6 @@ export default class BinTool {
                 switch (true) {
                     //webSocket工具脚本需要替换主机名和端口号
                     case new RegExp(`^/?${MyConfig.webToolJsName.webSocket}$`).test(_url):
-                        //替换主机地址和端口并存入缓存
                         _content = _content.replace('${{hostname}}', HttpTool.getHostname).replace('${{webSocketPort}}', MyConfig.webSocketPort + '');
                         break;
                 }
@@ -63,9 +62,10 @@ export default class BinTool {
                     return;
                 }
                 _html = data.toString();
-                //在头部结束时加上css样式表
+                //在头部结束时加上css样式表和serviceWorkers工具脚本
                 _html = _html.replace(/\<\/head\>/, `
 <link rel="stylesheet" type="text/css" href="${ResURL.publicDirName}/${MyConfig.webToolJsName.css}">
+<script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.webSocket}"></script>
 </head>
                 `);
                 //在所有脚本前加上webload脚本
@@ -110,8 +110,8 @@ ${_html}
                 _js = `
 //! 此文件被包装过，和源文件内容有差异。
 ${_js.replace(new RegExp(`\\(["']/?${MainConfig.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://${HttpTool.getHostname}:${MainConfig.config.port.src}/${MainConfig.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
-//加入webSocket工具
-loadLib("${ResURL.publicDirName}/${MyConfig.webToolJsName.webSocket}");
+//加入提示工具
+loadLib("${ResURL.publicDirName}/${MyConfig.webToolJsName.alert}");
                 `;
                 //
                 r(_js);

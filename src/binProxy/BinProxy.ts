@@ -101,6 +101,13 @@ export default class BinProxy {
     }
 
     /**
+     * 获取本地主页
+     */
+    public static getLocalHomePage(): string {
+        return `http://localhost:${MainConfig.config.port.bin}`;
+    }
+
+    /**
      * 获取主页地址
      */
     public static getHomePage(): string {
