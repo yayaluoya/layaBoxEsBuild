@@ -1,6 +1,6 @@
-import MainConfig from "../config/MainConfig";
-import { EWebSocketMesType } from "../webSocket/EWebSocketMesType";
-import WebSocket from "../webSocket/WebSocket";
+import MainConfig from "../../config/MainConfig";
+import { EWebSocketMesType } from "../../webSocket/EWebSocketMesType";
+import WebSocket from "../../webSocket/WebSocket";
 
 const chokidar = require('chokidar');
 /**

@@ -1,4 +1,4 @@
-import MainConfig from "../config/MainConfig";
+import MainConfig from "../../config/MainConfig";
 
 const reRegExpChar = /[\\"'()[\]{}|]/g;
 const reHasRegExpChar = RegExp(reRegExpChar.source);

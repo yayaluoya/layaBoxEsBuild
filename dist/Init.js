@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const BinWatch_1 = require("./binProxy/BinWatch");
-const SrcCache_1 = require("./srcProxy/SrcCache");
-const SrcWatch_1 = require("./srcProxy/SrcWatch");
+const BinWatch_1 = require("./dirProxy/bin/BinWatch");
+const SrcCache_1 = require("./dirProxy/src/SrcCache");
+const SrcWatch_1 = require("./dirProxy/src/SrcWatch");
 const WebSocket_1 = require("./webSocket/WebSocket");
 /**
  * 初始化

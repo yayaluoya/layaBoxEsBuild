@@ -1,8 +1,9 @@
-import ContentType from "../com/ContentType";
-import MainConfig from "../config/MainConfig";
-import HttpTool from "../http/HttpTool";
-import ResURL from "../_T/ResURL";
-import URLT from "../_T/URLT";
+import ContentType from "../../com/ContentType";
+import MainConfig from "../../config/MainConfig";
+import MyConfig from "../../config/MyConfig";
+import HttpTool from "../../http/HttpTool";
+import ResURL from "../../_T/ResURL";
+import URLT from "../../_T/URLT";
 import BinTool from "./BinTool";
 const fs = require('fs');
 const path = require('path');
@@ -27,8 +28,19 @@ export default class BinProxy {
             let url: string = req.url;
             //get请求
             if (req.method === 'GET') {
+                //sw文件
+                if (new RegExp(`^/${MyConfig.webToolJsName.sw}$`).test(url)) {
+                    res.writeHead(200, {
+                        ..._head,
+                        'Content-Type': ContentType.get('.js'),
+                    });
+                    //提取出相对目录并取出内容
+                    BinTool.getWebTool(MyConfig.webToolJsName.sw).then((_js) => {
+                        res.end(_js);
+                    });
+                }
                 //web工具脚本
-                if (new RegExp(`^/${ResURL.publicDirName}`).test(url)) {
+                else if (new RegExp(`^/${ResURL.publicDirName}`).test(url)) {
                     res.writeHead(200, {
                         ..._head,
                         'Content-Type': ContentType.get(path.extname(url)) || '',

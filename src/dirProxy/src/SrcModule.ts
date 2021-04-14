@@ -1,7 +1,7 @@
-import FileModule from "../com/FileModule";
-import MainConfig from "../config/MainConfig";
-import { EWebSocketMesType } from "../webSocket/EWebSocketMesType";
-import WebSocket from "../webSocket/WebSocket";
+import FileModule from "../../com/FileModule";
+import MainConfig from "../../config/MainConfig";
+import { EWebSocketMesType } from "../../webSocket/EWebSocketMesType";
+import WebSocket from "../../webSocket/WebSocket";
 import TsBuild from "./TsBuild";
 var moment = require('moment');
 var chalk = require('chalk');
@@ -33,6 +33,8 @@ export default class SrcModule extends FileModule {
             console.log(chalk.gray('--> 模块更新'), chalk.yellow(this.absolutePath));
             console.log(chalk.gray('x', this.updateNumber), chalk.magenta('X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
         }
+        //发出脚本更新事件
+        WebSocket.send(this.key, EWebSocketMesType.scriptUpdate);
     }
 
     /** 更新内容 */

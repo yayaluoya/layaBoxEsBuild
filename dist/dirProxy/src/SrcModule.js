@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const FileModule_1 = require("../com/FileModule");
-const MainConfig_1 = require("../config/MainConfig");
-const EWebSocketMesType_1 = require("../webSocket/EWebSocketMesType");
-const WebSocket_1 = require("../webSocket/WebSocket");
+const FileModule_1 = require("../../com/FileModule");
+const MainConfig_1 = require("../../config/MainConfig");
+const EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
+const WebSocket_1 = require("../../webSocket/WebSocket");
 const TsBuild_1 = require("./TsBuild");
 var moment = require('moment');
 var chalk = require('chalk');
@@ -31,7 +31,7 @@ class SrcModule extends FileModule_1.default {
             console.log(chalk.gray('x', this.updateNumber), chalk.magenta('X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
         }
         //发出脚本更新事件
-        WebSocket_1.default.send(EWebSocketMesType_1.EWebSocketMesType.scriptUpdate, this.key);
+        WebSocket_1.default.send(this.key, EWebSocketMesType_1.EWebSocketMesType.scriptUpdate);
     }
     /** 更新内容 */
     _updateContent() {

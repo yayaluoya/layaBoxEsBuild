@@ -1,5 +1,5 @@
-import MainConfig from "../config/MainConfig";
-import HttpTool from "../http/HttpTool";
+import MainConfig from "../../config/MainConfig";
+import HttpTool from "../../http/HttpTool";
 import SrcOperation from "./SrcOperation";
 
 /**

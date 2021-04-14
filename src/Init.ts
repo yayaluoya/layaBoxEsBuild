@@ -1,6 +1,6 @@
-import BinWatch from "./binProxy/BinWatch";
-import SrcCache from "./srcProxy/SrcCache";
-import SrcWatch from "./srcProxy/SrcWatch";
+import BinWatch from "./dirProxy/bin/BinWatch";
+import SrcCache from "./dirProxy/src/SrcCache";
+import SrcWatch from "./dirProxy/src/SrcWatch";
 import WebSocket from "./webSocket/WebSocket";
 
 /**

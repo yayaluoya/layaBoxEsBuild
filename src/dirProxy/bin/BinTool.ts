@@ -1,8 +1,10 @@
-import MainConfig from "../config/MainConfig";
-import MyConfig from "../config/MyConfig";
-import HttpTool from "../http/HttpTool";
-import ResURL from "../_T/ResURL";
-import URLT from "../_T/URLT";
+import MainConfig from "../../config/MainConfig";
+import MyConfig from "../../config/MyConfig";
+import HttpTool from "../../http/HttpTool";
+import ResURL from "../../_T/ResURL";
+import URLT from "../../_T/URLT";
+import VersionsT from "../../_T/VersionsT";
+
 const fs = require('fs');
 
 /**
@@ -35,6 +37,10 @@ export default class BinTool {
                 let _content: string = data.toString();
                 //根据不同文件做不同操作
                 switch (true) {
+                    //主脚本要替换版本
+                    case new RegExp(`^/?${MyConfig.webToolJsName.main}$`).test(_url):
+                        _content = _content.replace('${{v}}', VersionsT.getV());
+                        break;
                     //webSocket工具脚本需要替换主机名和端口号
                     case new RegExp(`^/?${MyConfig.webToolJsName.webSocket}$`).test(_url):
                         _content = _content.replace('${{hostname}}', HttpTool.getHostname).replace('${{webSocketPort}}', MyConfig.webSocketPort + '');
@@ -65,7 +71,10 @@ export default class BinTool {
                 //在头部结束时加上css样式表和serviceWorkers工具脚本
                 _html = _html.replace(/\<\/head\>/, `
 <link rel="stylesheet" type="text/css" href="${ResURL.publicDirName}/${MyConfig.webToolJsName.css}">
+<script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.main}"></script>
+<script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.swTool}"></script>
 <script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.webSocket}"></script>
+<script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.alert}"></script>
 </head>
                 `);
                 //在所有脚本前加上webload脚本
@@ -110,8 +119,6 @@ ${_html}
                 _js = `
 //! 此文件被包装过，和源文件内容有差异。
 ${_js.replace(new RegExp(`\\(["']/?${MainConfig.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://${HttpTool.getHostname}:${MainConfig.config.port.src}/${MainConfig.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
-//加入提示工具
-loadLib("${ResURL.publicDirName}/${MyConfig.webToolJsName.alert}");
                 `;
                 //
                 r(_js);

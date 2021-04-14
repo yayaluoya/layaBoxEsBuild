@@ -1,22 +1,22 @@
-import IFileData from "../com/IFileData";
-import SrcCache from "./SrcCache";
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const SrcCache_1 = require("./SrcCache");
 /**
  * 文件操作
  */
-export default class SrcOperation {
+class SrcOperation {
     /**
      * 获取文件
      * @param req 请求头
      */
-    public static getFile(req): Promise<IFileData> {
-        return new Promise<IFileData>((r) => {
-            SrcCache.getModule(req.url).task.then((module) => {
+    static getFile(req) {
+        return new Promise((r) => {
+            SrcCache_1.default.getModule(req.url).task.then((module) => {
                 //读取请求头中带有的协商缓存信息
-                let _etag: string = req.headers['if-none-match'];
+                let _etag = req.headers['if-none-match'];
                 // console.log(req.headers);
                 //
-                let _fileData: IFileData = {
+                let _fileData = {
                     content: '',
                     stateCode: 404,
                     resHead: {},
@@ -26,7 +26,8 @@ export default class SrcOperation {
                     _fileData.stateCode = 304;
                     //
                     // console.log('协商缓存');
-                } else {
+                }
+                else {
                     _fileData.stateCode = 200;
                     _fileData.resHead = {
                         //协商缓存标识
@@ -42,3 +43,5 @@ export default class SrcOperation {
         });
     }
 }
+exports.default = SrcOperation;
+//# sourceMappingURL=SrcOperation.js.map

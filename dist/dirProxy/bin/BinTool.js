@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const VersionsT_1 = require("../_T/VersionsT");
-const MainConfig_1 = require("../config/MainConfig");
-const MyConfig_1 = require("../config/MyConfig");
-const HttpTool_1 = require("../http/HttpTool");
-const ResURL_1 = require("../_T/ResURL");
-const URLT_1 = require("../_T/URLT");
+const MainConfig_1 = require("../../config/MainConfig");
+const MyConfig_1 = require("../../config/MyConfig");
+const HttpTool_1 = require("../../http/HttpTool");
+const ResURL_1 = require("../../_T/ResURL");
+const URLT_1 = require("../../_T/URLT");
+const VersionsT_1 = require("../../_T/VersionsT");
 const fs = require('fs');
 /**
  * bin目录工具
@@ -66,7 +66,9 @@ class BinTool {
                 _html = _html.replace(/\<\/head\>/, `
 <link rel="stylesheet" type="text/css" href="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.css}">
 <script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.main}"></script>
+<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.swTool}"></script>
 <script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.webSocket}"></script>
+<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.alert}"></script>
 </head>
                 `);
                 //在所有脚本前加上webload脚本
@@ -110,8 +112,6 @@ ${_html}
                 _js = `
 //! 此文件被包装过，和源文件内容有差异。
 ${_js.replace(new RegExp(`\\(["']/?${MainConfig_1.default.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://${HttpTool_1.default.getHostname}:${MainConfig_1.default.config.port.src}/${MainConfig_1.default.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
-//加入提示工具
-loadLib("${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.alert}");
                 `;
                 //
                 r(_js);

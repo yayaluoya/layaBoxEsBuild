@@ -1,5 +1,5 @@
-import MainConfig from "../config/MainConfig";
-import URLT from "../_T/URLT";
+import MainConfig from "../../config/MainConfig";
+import URLT from "../../_T/URLT";
 import SrcTransition from "./SrcTransition";
 var fs = require("fs");
 const esbuild = require('esbuild');
