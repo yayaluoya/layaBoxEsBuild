@@ -14,10 +14,10 @@ export default class SrcWatch {
     public static start() {
         chokidar.watch(MainConfig.config.src).on('change', (_url: string) => {
             //获取相对路径
-            _url = _url.replace(MainConfig.config.src, '');
+            _url = _url.replace(URLT.join(MainConfig.config.src, '/'), '/');
             //发送webSocket消息
             WebSocket.send('src代码有更新-> ' + _url, EWebSocketMesType.contentUpdate);
-            //转成浏览器的路径
+            //把路径分隔符转成统一的 / 
             if (URLT.sep == '\\') {
                 _url = _url.replace(/\\/g, '/');
             }

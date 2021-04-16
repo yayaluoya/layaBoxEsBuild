@@ -33,7 +33,7 @@ class BinProxy {
                 if (new RegExp(`^/${MyConfig_1.default.webToolJsName.sw}$`).test(url)) {
                     res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.js') }));
                     //提取出相对目录并取出内容
-                    BinTool_1.default.getWebTool(MyConfig_1.default.webToolJsName.sw).then((_js) => {
+                    BinTool_1.default.getWebTool(url).then((_js) => {
                         res.end(_js);
                     });
                 }

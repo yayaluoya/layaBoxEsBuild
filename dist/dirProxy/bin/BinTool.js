@@ -40,6 +40,10 @@ class BinTool {
                     case new RegExp(`^/?${MyConfig_1.default.webToolJsName.webSocket}$`).test(_url):
                         _content = _content.replace('${{hostname}}', HttpTool_1.default.getHostname).replace('${{webSocketPort}}', MyConfig_1.default.webSocketPort + '');
                         break;
+                    //sw工具脚本需要替换主机名和端口号
+                    case new RegExp(`^/?${MyConfig_1.default.webToolJsName.sw}$`).test(_url):
+                        _content = _content.replace('${{hostname}}', HttpTool_1.default.getHostname).replace('${{webSocketPort}}', MyConfig_1.default.webSocketPort + '');
+                        break;
                 }
                 //存入缓存
                 this.m_webToolJs[_url] = _content;

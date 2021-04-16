@@ -17,16 +17,26 @@ this.addEventListener('message', function (event) {
     switch (type) {
         //设置版本
         case 'v':
-            //查看外部版本和当前进程版本是否一致，不一致的话清空缓存
+            //查看外部版本和当前进程版本是否一致，不一致的话清空缓存，更新webSocket
             if (_v != mes) {
+                //
                 cacheT.removeAll();
+                //先更新
+                webSocketT.update();
+                //在添加事件
+                webSocketT.addMessageEventListener((event) => {
+                    let data = JSON.parse(event.data);
+                    let _mes = data.mes;
+                    let _type = data.type;
+                    //
+                    // console.log('更新消息', _type);
+                    //更新脚本
+                    if (_type == 'scriptUpdate') {
+                        cacheT.remove(_mes);
+                    }
+                });
             }
             _v = mes;
-            //
-            break;
-        //监听脚本更新消息，更新缓存
-        case 'scriptUpdate':
-            cacheT.remove(mes);
             //
             break;
     }
@@ -57,6 +67,32 @@ this.addEventListener('fetch', function (event) {
         _response,
     );
 });
+
+/**
+ * webSocket工具
+ */
+class webSocketT {
+    /** 实例 */
+    static instance;
+
+    /**
+     * 更新
+     */
+    static update() {
+        //先关闭之前的连接
+        this.instance && this.instance.close();
+        /** 开启新的连接 */
+        this.instance = new WebSocket('ws://${{hostname}}:${{webSocketPort}}/');
+    }
+
+    /**
+     * 添加消息事件
+     * @param {} _f 回调
+     */
+    static addMessageEventListener(_f) {
+        this.instance && this.instance.addEventListener("message", _f);
+    }
+}
 
 /**
  * 缓存工具

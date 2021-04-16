@@ -3,4 +3,4 @@ import './js.test.js';
 
 console.log(_module);
 
-console.log('测试', 30);
+console.log('测试', 90);

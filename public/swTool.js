@@ -8,16 +8,6 @@ if ('serviceWorker' in navigator) {
             // registration failed :(
             console.log('ServiceWorker registration failed: ', err);
         });
-        //监听消息
-        esbuildTool.webSocketT.instance.addEventListener("message", function (event) {
-            let data = JSON.parse(event.data);
-            let _mes = data.mes;
-            let _type = data.type;
-            //
-            if (_type == esbuildTool.webSocketT.mesType.scriptUpdate) {
-                swPostMes('scriptUpdate', _mes);
-            }
-        });
     });
 
     //立刻发送一个版本设置事件，设置sw进程的版本

@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
   "bin": {
@@ -19,7 +19,7 @@
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^7.2.0",
-    "esbuild": "^0.9.5",
+    "esbuild": "^0.9.7",
     "internal-ip": "^6.2.0",
     "moment": "^2.29.1",
     "typescript": "^4.2.3",

@@ -35,7 +35,7 @@ export default class BinProxy {
                         'Content-Type': ContentType.get('.js'),
                     });
                     //提取出相对目录并取出内容
-                    BinTool.getWebTool(MyConfig.webToolJsName.sw).then((_js) => {
+                    BinTool.getWebTool(url).then((_js) => {
                         res.end(_js);
                     });
                 }
