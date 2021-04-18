@@ -7,8 +7,8 @@ module.exports = {
     /** 文件路径修改，会把 a 匹配的替换成 b */
     filePathModify: [
         {
-            a: /(["'])src\//,
-            b: '$1/'
+            a: /^src\//,
+            b: '/'
         }
     ],
     /** 代理端口，可以随便指定，只要不冲突就行 */
@@ -16,6 +16,8 @@ module.exports = {
         src: 3601,
         bin: 3602,
     },
+    /** src目录文件默认后缀  */
+    srcFileDefaultSuffix: 'ts',
     /** 入口文件名，地址相对于src目录 */
     mainTs: 'Main.ts',
     /** 主页， 相对于bin目录 */
@@ -28,4 +30,6 @@ module.exports = {
     ifLog: false,
     /** 是否启用webSocket工具 */
     ifOpenWebSocketTool: true,
+    /** 是否立即刷新浏览器 */
+    ifUpdateNow: true,
 };

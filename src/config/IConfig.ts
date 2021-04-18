@@ -16,6 +16,8 @@ export default interface IConfig {
         src: number,
         bin: number,
     },
+    /** src目录文件默认后缀  */
+    srcFileDefaultSuffix: string,
     /** 入口文件名，地址相对于src目录 */
     mainTs?: string,
     /** 主页地址， 相对于bin目录 */
@@ -28,4 +30,6 @@ export default interface IConfig {
     ifLog?: boolean,
     /** 是否启用webSocket工具 */
     ifOpenWebSocketTool?: boolean,
+    /** 是否立即刷新浏览器 */
+    ifUpdateNow: boolean,
 }

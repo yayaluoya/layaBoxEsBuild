@@ -1,5 +1,6 @@
 import _module from './module.txt';
 import './js.test.js';
+import './com/test';
 
 console.log(_module);
 

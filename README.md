@@ -71,9 +71,9 @@
 
 ``` javascript
 /**
- * 配置接口
+ * 配置表接口
  */
-export default interface IConfig {
+interface IConfig {
     /** 代理src目录，可以是绝对路径或者相对路径 */
     src?: string,
     /** 代理bin目录，可以是绝对路径或者相对路径 */
@@ -88,6 +88,8 @@ export default interface IConfig {
         src: number,
         bin: number,
     },
+    /** src目录文件默认后缀  */
+    srcFileDefaultSuffix: string,
     /** 入口文件名，地址相对于src目录 */
     mainTs?: string,
     /** 主页地址， 相对于bin目录 */
@@ -100,6 +102,8 @@ export default interface IConfig {
     ifLog?: boolean,
     /** 是否启用webSocket工具 */
     ifOpenWebSocketTool?: boolean,
+    /** 是否立即刷新浏览器 */
+    ifUpdateNow: boolean,
 }
 ```
 
@@ -108,3 +112,5 @@ export default interface IConfig {
 - esbuild只是构建项目，不会把src的代码打包到bin/js/bundle.js文件里面而是缓存在内存中的，所以只能在开发环境中使用，最后再用laya的编译和打包，把代码都打包到bin/js/bundle.js文件中，它的作用只能体现再开发时，能更快的响应代码改动，不会影响最终laya编译的结果。
 
 - 最好的方案是把webpack的增量编译一起打开，因为esbuild只是构建不编译，所以在补个webpack的增量编译就完美了，如果电脑卡的话就算了，最后上传代码时别忘了用laya或者webpack编译一下就行，不然bin/js/bundle.js是不会被更改的。
+
+- 本工具由于加入了多方面的缓存所以访问会很快，但这也是容易产生bug的地方，所以当出现代码没及时更新的情况，请重启工具和浏览器【目前在测试中还没有发现这方面的问题】。

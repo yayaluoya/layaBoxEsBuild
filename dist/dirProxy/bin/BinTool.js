@@ -44,6 +44,10 @@ class BinTool {
                     case new RegExp(`^/?${MyConfig_1.default.webToolJsName.sw}$`).test(_url):
                         _content = _content.replace('${{hostname}}', HttpTool_1.default.getHostname).replace('${{webSocketPort}}', MyConfig_1.default.webSocketPort + '');
                         break;
+                    //alert工具脚本需要替换是否时刻刷新浏览器的变量
+                    case new RegExp(`^/?${MyConfig_1.default.webToolJsName.alert}$`).test(_url):
+                        _content = _content.replace('$ifUpdateNow', Boolean(MainConfig_1.default.config.ifUpdateNow).toString());
+                        break;
                 }
                 //存入缓存
                 this.m_webToolJs[_url] = _content;
@@ -72,7 +76,7 @@ class BinTool {
 <script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.main}"></script>
 <script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.swTool}"></script>
 <script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.webSocket}"></script>
-<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.alert}"></script>
+${MainConfig_1.default.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.alert}"></script>` : ''}
 </head>
                 `);
                 //在所有脚本前加上webload脚本

@@ -13,8 +13,6 @@ class FileModule {
      * @param _url 模块路径
      */
     constructor(_url) {
-        /** 后缀 */
-        this.m_suffix = 'ts';
         /** 任务 */
         this.m_task = new Promise((r) => { r(this); });
         /** 内容 */
@@ -24,6 +22,7 @@ class FileModule {
         //剔除后缀
         this.m_url = _url.replace(/\.[^\.]*?$/, '');
         //提取后缀
+        this.m_suffix = MainConfig_1.default.config.srcFileDefaultSuffix;
         let _suffix = _url.match(/\.([^\.]*?)$/);
         _suffix && (this.m_suffix = _suffix[1]);
         //

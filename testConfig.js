@@ -4,4 +4,7 @@ module.exports = {
     src: './test/src/',
     /** 代理bin目录，可以是绝对路径或者相对路径 */
     bin: './test/bin/',
+    //
+    // src: 'F:/word/shotgame/src',
+    // bin: 'F:/word/shotgame/bin',
 }

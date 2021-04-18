@@ -108,30 +108,20 @@ window.addEventListener('load', function () {
             }
         });
 
-        //监听页面焦点事件
-        // window.addEventListener('visibilitychange', function () {
-        //     //
-        //     if (document['visible']) {
-        //         // 失去焦点
-        //     } else {
-        //         // 获取焦点
-        //         if (!_ifConfirm && _updateNumber > 0) {
-        //             _ifConfirm = true;
-        //             //
-        //             confirmEx('项目内容有更新,点击确认或按Enter键刷新页面', (flag) => {
-        //                 _updateNumber = 0;
-        //                 _ifConfirm = false;
-        //                 //判断状态
-        //                 if (flag) {
-        //                     //刷新页面
-        //                     location.reload();
-        //                 } else {
-        //                     //
-        //                     // console.log('取消');
-        //                 }
-        //             });
-        //         }
-        //     }
-        // });
+        // 监听页面焦点事件
+        if ($ifUpdateNow) {
+            window.addEventListener('visibilitychange', function () {
+                //
+                if (document['visible']) {
+                    // 失去焦点
+                } else {
+                    // 获取焦点
+                    if (_updateNumber > 0) {
+                        //刷新页面
+                        location.reload();
+                    }
+                }
+            });
+        }
     })();
 });

@@ -27,15 +27,15 @@ class SrcTransition {
      */
     static tsBuildBack(_content) {
         //处理路径
-        _content = _content.replace(/import.*?["'](.*?)["'];/g, (text) => {
+        _content = _content.replace(/import.*?["'](.*?)["'];/g, (text, $1) => {
+            let _$1 = $1;
             if (MainConfig_1.default.config.filePathModify && MainConfig_1.default.config.filePathModify.length > 0) {
                 for (let _o of MainConfig_1.default.config.filePathModify) {
-                    text = text.replace(/["'].*?["']/, (_text) => {
-                        return _text.replace(_o.a, _o.b);
-                    });
+                    _$1 = _$1.replace(_o.a, _o.b);
                 }
             }
-            return text;
+            //
+            return text.replace($1, _$1);
         });
         //
         return _content;

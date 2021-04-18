@@ -20,7 +20,7 @@ export default class FileModule {
     /** 绝对路径 */
     private m_absolutePath: string;
     /** 后缀 */
-    private m_suffix: string = 'ts';
+    private m_suffix: string;
 
     /** 任务 */
     private m_task: Promise<FileModule> = new Promise((r) => { r(this); });
@@ -78,6 +78,7 @@ export default class FileModule {
         //剔除后缀
         this.m_url = _url.replace(/\.[^\.]*?$/, '');
         //提取后缀
+        this.m_suffix = MainConfig.config.srcFileDefaultSuffix;
         let _suffix = _url.match(/\.([^\.]*?)$/);
         _suffix && (this.m_suffix = _suffix[1]);
         //
