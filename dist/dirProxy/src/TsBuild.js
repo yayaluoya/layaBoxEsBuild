@@ -54,10 +54,7 @@ class TsBuild {
                                 }
                                 //返回内容
                                 r({
-                                    code: `
-${code}
-//# sourceMappingURL=${path.basename(_url)}.map
-                                    `,
+                                    code: code + `//# sourceMappingURL=${path.basename(_url)}.map`,
                                     map: map,
                                 });
                             }).catch((E) => {

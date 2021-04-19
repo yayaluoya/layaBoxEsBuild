@@ -1,5 +1,6 @@
 import { IFileModuleContent } from "../../com/FileModule";
 import MainConfig from "../../config/MainConfig";
+import HttpTool from "../../http/HttpTool";
 import URLT from "../../_T/URLT";
 import SrcTransition from "./SrcTransition";
 var fs = require("fs");
@@ -53,10 +54,7 @@ export default class TsBuild {
                                 }
                                 //返回内容
                                 r({
-                                    code: `
-${code}
-//# sourceMappingURL=${path.basename(_url)}.map
-                                    `,
+                                    code: code + `//# sourceMappingURL=${path.basename(_url)}.map`,
                                     map: map,
                                 });
                             }).catch((E) => {
