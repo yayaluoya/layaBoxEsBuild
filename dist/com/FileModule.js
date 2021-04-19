@@ -15,8 +15,6 @@ class FileModule {
     constructor(_url) {
         /** 任务 */
         this.m_task = new Promise((r) => { r(this); });
-        /** 内容 */
-        this.m_content = '';
         /** 更新次数 */
         this.m_updateNumber = 0;
         //剔除后缀
@@ -138,14 +136,22 @@ class FileModule {
         }
         else {
             this.m_task = new Promise((r, e) => {
-                this.m_content = '';
+                this.m_content = {
+                    code: '',
+                    map: '',
+                };
                 r(this);
             });
         }
     }
     /** 更新内容 */
     _updateContent() {
-        return new Promise((r) => { r(''); });
+        return new Promise((r) => {
+            r({
+                code: '',
+                map: '',
+            });
+        });
     }
 }
 exports.default = FileModule;

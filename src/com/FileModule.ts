@@ -24,8 +24,8 @@ export default class FileModule {
 
     /** 任务 */
     private m_task: Promise<FileModule> = new Promise((r) => { r(this); });
-    /** 内容 */
-    private m_content: string = '';
+    /** 内容，有代码和map文件 */
+    private m_content: IFileModuleContent;
     /** 更新次数 */
     private m_updateNumber: number = 0;
 
@@ -66,7 +66,7 @@ export default class FileModule {
         return this.m_task;
     }
     /** 获取 内容 */
-    public get content(): string {
+    public get content(): IFileModuleContent {
         return this.m_content;
     }
 
@@ -162,14 +162,32 @@ export default class FileModule {
             //
         } else {
             this.m_task = new Promise<FileModule>((r, e) => {
-                this.m_content = '';
+                this.m_content = {
+                    code: '',
+                    map: '',
+                };
                 r(this);
             });
         }
     }
 
     /** 更新内容 */
-    protected _updateContent(): Promise<string> {
-        return new Promise<string>((r) => { r(''); });
+    protected _updateContent(): Promise<IFileModuleContent> {
+        return new Promise<IFileModuleContent>((r) => {
+            r({
+                code: '',
+                map: '',
+            });
+        });
     }
+}
+
+/**
+ * 文件模块内容
+ */
+export interface IFileModuleContent {
+    /** 代码 */
+    code: string,
+    /** map */
+    map: string,
 }

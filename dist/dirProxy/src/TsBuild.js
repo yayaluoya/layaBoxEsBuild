@@ -4,6 +4,7 @@ const MainConfig_1 = require("../../config/MainConfig");
 const URLT_1 = require("../../_T/URLT");
 const SrcTransition_1 = require("./SrcTransition");
 var fs = require("fs");
+var path = require("path");
 const esbuild = require('esbuild');
 /**
  * ts文件打包
@@ -36,13 +37,13 @@ class TsBuild {
                                 //装载器
                                 loader: _suffix,
                                 //内联映射
-                                sourcemap: 'inline',
+                                sourcemap: true,
                                 //资源文件
                                 sourcefile: _url,
                                 //字符集
                                 charset: 'utf8',
                                 //
-                            }).then(({ code, _, warnings }) => {
+                            }).then(({ code, map, warnings }) => {
                                 //文件过渡
                                 code = SrcTransition_1.default.tsBuildBack(code); //打包后
                                 // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));
@@ -52,7 +53,13 @@ class TsBuild {
                                     });
                                 }
                                 //返回内容
-                                r(code);
+                                r({
+                                    code: `
+${code}
+//# sourceMappingURL=${path.basename(_url)}.map
+                                    `,
+                                    map: map,
+                                });
                             }).catch((E) => {
                                 console.error(E);
                                 e('');
@@ -61,7 +68,10 @@ class TsBuild {
                         //打包成普通文本
                         else {
                             let _code = SrcTransition_1.default.textBuildBack(rootCode);
-                            r(_code);
+                            r({
+                                code: _code,
+                                map: '',
+                            });
                         }
                     }
                 });

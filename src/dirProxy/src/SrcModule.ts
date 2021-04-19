@@ -1,4 +1,4 @@
-import FileModule from "../../com/FileModule";
+import FileModule, { IFileModuleContent } from "../../com/FileModule";
 import MainConfig from "../../config/MainConfig";
 import { EWebSocketMesType } from "../../webSocket/EWebSocketMesType";
 import WebSocket from "../../webSocket/WebSocket";
@@ -38,8 +38,8 @@ export default class SrcModule extends FileModule {
     }
 
     /** 更新内容 */
-    protected _updateContent(): Promise<string> {
-        //打包ts文件
+    protected _updateContent(): Promise<IFileModuleContent> {
+        //返回一个esbuild的任务
         return TsBuild.build(this.url, this.suffix);
     }
 }

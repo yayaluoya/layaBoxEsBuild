@@ -1,7 +1,9 @@
+import { IFileModuleContent } from "../../com/FileModule";
 import MainConfig from "../../config/MainConfig";
 import URLT from "../../_T/URLT";
 import SrcTransition from "./SrcTransition";
 var fs = require("fs");
+var path = require("path");
 const esbuild = require('esbuild');
 
 /**
@@ -13,8 +15,8 @@ export default class TsBuild {
      * @param _url 模块相对路径，不包含路径
      * @param _suffix 模块后缀
      */
-    public static build(_url: string, _suffix: string): Promise<string> {
-        return new Promise<string>((r, e) => {
+    public static build(_url: string, _suffix: string): Promise<IFileModuleContent> {
+        return new Promise<IFileModuleContent>((r, e) => {
             //
             try {
                 //源url
@@ -34,13 +36,13 @@ export default class TsBuild {
                                 //装载器
                                 loader: _suffix,
                                 //内联映射
-                                sourcemap: 'inline',
+                                sourcemap: true,
                                 //资源文件
                                 sourcefile: _url,
                                 //字符集
                                 charset: 'utf8',
                                 //
-                            }).then(({ code, _, warnings }) => {
+                            }).then(({ code, map, warnings }) => {
                                 //文件过渡
                                 code = SrcTransition.tsBuildBack(code);//打包后
                                 // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));
@@ -50,7 +52,13 @@ export default class TsBuild {
                                     });
                                 }
                                 //返回内容
-                                r(code);
+                                r({
+                                    code: `
+${code}
+//# sourceMappingURL=${path.basename(_url)}.map
+                                    `,
+                                    map: map,
+                                });
                             }).catch((E) => {
                                 console.error(E);
                                 e('');
@@ -59,7 +67,10 @@ export default class TsBuild {
                         //打包成普通文本
                         else {
                             let _code: string = SrcTransition.textBuildBack(rootCode);
-                            r(_code);
+                            r({
+                                code: _code,
+                                map: '',
+                            });
                         }
                     }
                 });
