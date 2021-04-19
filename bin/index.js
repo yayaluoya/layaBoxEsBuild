@@ -77,7 +77,7 @@ switch (true) {
             _config = getConfig(options.logConfig) || _config;
         } else {
             //默认在项目执行目录下找配置文件
-            _config = getConfig(path.join(_cwdUrl, configName)) || _config;
+            _config = getConfig(path.join(_cwdUrl, configName), false) || _config;
         }
         //组合配置内容
         _config = {
@@ -98,7 +98,7 @@ switch (true) {
         break;
     //开始构建
     case Boolean(options.start):
-        _config = getConfig(path.join(_cwdUrl, configName));
+        _config = getConfig(path.join(_cwdUrl, configName), false);
         build(_config);
         break;
     //直接执行
@@ -124,8 +124,9 @@ function build(_config = {}) {
 /**
  * 通过一个地址获取配置信息
  * @param {*} _url 地址 可以是相对地址也可以是绝对地址
+ * @param {*} _ifAlert 当获取失败时是否发出提示信息
  */
-function getConfig(_url) {
+function getConfig(_url, _ifAlert = true) {
     //执行目录
     let _cwdUrl = process.cwd();
     let _config;
@@ -137,7 +138,7 @@ function getConfig(_url) {
             _config = require(_url);
         } catch (e) {
             //
-            console.log(chalk.red('获取配置文件失败，将使用默认配置！错误地址为: ', _url));
+            _ifAlert && console.log(chalk.red('获取配置文件失败，将使用默认配置！错误地址为: ', _url));
         }
     }
     //
