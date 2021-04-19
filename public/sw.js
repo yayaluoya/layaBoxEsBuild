@@ -55,8 +55,10 @@ this.addEventListener('fetch', function (event) {
             //判断response的响应头，是否应该添加到缓存中。
             if (response.headers.has('file-only-key')) {
                 // console.log('添加进缓存', response);
-                //添加到缓存中，注意，必须添加克隆板，不然只能用一次
-                cacheT.add(event.request.url, response.headers.get('file-only-key'), response.clone());
+                //添加到缓存中，注意，必须添加克隆板，不然只能用一次，要判断当前webSocket有没有用，不然添加上去没法更新也没有意义
+                if (webSocketT.usable) {
+                    cacheT.add(event.request.url, response.headers.get('file-only-key'), response.clone());
+                }
             }
             //返回响应
             return response;
@@ -74,6 +76,8 @@ this.addEventListener('fetch', function (event) {
 class webSocketT {
     /** 实例 */
     static instance;
+    /** 是否可用 */
+    static usable;
 
     /**
      * 更新
@@ -83,6 +87,15 @@ class webSocketT {
         this.instance && this.instance.close();
         /** 开启新的连接 */
         this.instance = new WebSocket('ws://${{hostname}}:${{webSocketPort}}/');
+        this.usable = true;
+        //webSocket错误的回调
+        this.instance.addEventListener('error', () => {
+            console.error('webSocket出错啦！');
+            //清空所有缓存
+            cacheT.removeAll();
+            //
+            this.usable = false;
+        });
     }
 
     /**

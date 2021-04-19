@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
   "bin": {
@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc -w",
     "test": "node ./dist/test.js",
-    "dev": "node ./bin/index.js -c ./testConfig.js"
+    "dev": "node ./bin/index.js -s"
   },
   "author": "",
   "license": "ISC",
