@@ -1,21 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const MainConfig_1 = require("../../config/MainConfig");
-const reRegExpChar = /[\\"'()[\]{}|]/g;
-const reHasRegExpChar = RegExp(reRegExpChar.source);
-/**
- * Escapes the `RegExp` special characters "\", """, "'",
- * "(", ")", "[", "]", "{", "}", and "|" in `string`.
- *
- * @param {string} [string=''] The string to escape.
- * @returns {string} Returns the escaped string.
- *
- */
-function escapeRegExp(string) {
-    return (string && reHasRegExpChar.test(string))
-        ? string.replace(reRegExpChar, '\\$&')
-        : (string || '');
-}
 /**
  * Src文件过渡操作
  * 当从本地读取文件的是否会经过这个流程
@@ -45,10 +30,9 @@ class SrcTransition {
      * @param _content 文件内容
      */
     static textBuildBack(_content) {
-        //转义
-        _content = escapeRegExp(_content);
+        //
         return `
-export default "${_content}";
+export default \`${_content}\`;
         `;
     }
 }
