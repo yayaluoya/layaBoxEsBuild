@@ -1,12 +1,23 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.20",
+  "version": "1.0.22",
+  "version-log": [
+    {
+      "v": "1.0.20",
+      "log": "把sourcemap从内联转移到外部文件的形式，修复谷歌浏览器断点调试的不稳定的bug。"
+    },
+    {
+      "v": "1.0.22",
+      "log": "新增一个查看对比版本的命令 -vl"
+    }
+  ],
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
   "bin": {
     "layabox-esbuild": "./bin/index.js"
   },
   "repository": "https://github.com/yayaluoya/layaBoxEsBuild.git",
+  "remotePackgeFileUrl": "https://ghproxy.com/https://raw.githubusercontent.com/yayaluoya/layaBoxEsBuild/master/package.json",
   "scripts": {
     "build": "tsc -w",
     "test": "node ./dist/test.js",

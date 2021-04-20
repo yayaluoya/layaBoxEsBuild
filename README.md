@@ -71,6 +71,9 @@
 
         <img src="./res/config.png">
 
+- `layabox-esbuild -vl`
+    - 查看所以历史版本。
+
 ## 全部配置选项
 
 ``` javascript

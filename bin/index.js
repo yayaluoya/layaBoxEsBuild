@@ -4,6 +4,7 @@ const { Command } = require('commander');
 const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
 const layaboxEsbuild = require('../dist/main.js');
 /** 默认配置 */
 const defaultConfig = require('../config.js');
@@ -24,6 +25,7 @@ program
     .option('-s, --start')
     .option('-c, --config <url>')
     .option('--log-config [url]')
+    .option('-vl, --v-log')
     ;
 
 //定义命令行类型
@@ -65,6 +67,7 @@ switch (true) {
         console.log(chalk.blue('-s'), chalk.gray('开始构建项目'));
         console.log(chalk.blue('-c'), chalk.yellow('<url>'), chalk.gray('指定配置文件来构建项目，参数为配置文件url，可以是绝对路径或者相对路径'));
         console.log(chalk.blue('--log-config'), chalk.yellow('[url]'), chalk.gray('查看配置，不填的话则打印默认配置信息'));
+        console.log(chalk.blue('-vl'), chalk.gray('查看版本信息'));
         console.log(chalk.gray('-'));
         console.log(chalk.gray('注意：参数是不用带\'或者\"符号的。'));
         break;
@@ -100,6 +103,37 @@ switch (true) {
     case Boolean(options.start):
         _config = getConfig(path.join(_cwdUrl, configName), false);
         build(_config);
+        break;
+    //打印版本日志
+    case Boolean(options.vLog):
+        //发送请求，获取远程包文件
+        https.get(package.remotePackgeFileUrl, (res) => {
+            res.on('data', (d) => {
+                let data = JSON.parse(d.toString());
+                if (package.version != data.version) {
+                    console.log(chalk.green(`远程最新版本为 ${data.version} , 当前版本为 ${package.version}\n可以执行 npm i layabox-esbuild -g 命令来安装最新版本`));
+                }
+                let _vl = package['version-log'];
+                let _r_vl = data['version-log'];
+                if (_r_vl) {
+                    console.log(chalk.gray('所有版本信息：'));
+                    for (let i = 0, length = _r_vl.length; i < length; i++) {
+                        console.log(chalk.gray('->'));
+                        if (_r_vl[i].v == package.version) {
+                            console.log(chalk.yellow('当前版本'));
+                        }
+                        //先判断版本
+                        if (_vl[i]) {
+                            console.log(_vl[i].v, _vl[i].log);
+                        } else {
+                            console.log(chalk.blue('new', _r_vl[i].v, _r_vl[i].log));
+                        }
+                    }
+                }
+            });
+        }).on('error', (e) => {
+            console.log(chalk.red('获取远程版本失败！'));
+        });
         break;
     //直接执行
     default:
