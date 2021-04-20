@@ -111,14 +111,14 @@ switch (true) {
             res.on('data', (d) => {
                 let data = JSON.parse(d.toString());
                 if (package.version != data.version) {
-                    console.log(chalk.green(`远程最新版本为 ${data.version} , 当前版本为 ${package.version}\n可以执行 npm i layabox-esbuild -g 命令来安装最新版本`));
+                    console.log(chalk.yellow(`远程最新版本为 ${data.version} , 当前版本为 ${package.version}\n可以执行 npm i layabox-esbuild -g 命令来安装最新版本`));
                 }
                 let _vl = package['version-log'];
                 let _r_vl = data['version-log'];
                 if (_r_vl) {
                     console.log(chalk.gray('所有版本信息：'));
                     for (let i = 0, length = _r_vl.length; i < length; i++) {
-                        console.log(chalk.gray('->'));
+                        console.log(chalk.gray('\n->'));
                         if (_r_vl[i].v == package.version) {
                             console.log(chalk.yellow('当前版本'));
                         }
