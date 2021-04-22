@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const chalk = require("chalk");
 const MainConfig_1 = require("../../config/MainConfig");
 const URLT_1 = require("../../_T/URLT");
 const SrcTransition_1 = require("./SrcTransition");
@@ -17,66 +18,57 @@ class TsBuild {
      */
     static build(_url, _suffix) {
         return new Promise((r, e) => {
-            //
-            try {
-                //源url
-                let _rootUrl = _url;
-                _url = URLT_1.default.join(MainConfig_1.default.config.src, _rootUrl + '.' + _suffix);
-                //读取目标文件
-                fs.readFile(_url, (err, rootCode) => {
-                    if (err) {
-                        console.error(err);
-                        e('');
-                    }
-                    else {
-                        rootCode = rootCode.toString();
-                        //判断后缀
-                        if (/^(ts)|(js)$/.test(_suffix)) {
-                            //使用esbuild打包
-                            esbuild.transform(rootCode, {
-                                //装载器
-                                loader: _suffix,
-                                //内联映射
-                                sourcemap: true,
-                                //资源文件
-                                sourcefile: _url,
-                                //字符集
-                                charset: 'utf8',
-                                //
-                            }).then(({ code, map, warnings }) => {
-                                //文件过渡
-                                code = SrcTransition_1.default.tsBuildBack(code); //打包后
-                                // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));
-                                if (warnings.length > 0) {
-                                    warnings.forEach((item) => {
-                                        console.log(item);
-                                    });
-                                }
-                                //返回内容
-                                r({
-                                    code: code + `//# sourceMappingURL=${path.basename(_url)}.map`,
-                                    map: map,
+            //源url
+            let _rootUrl = _url;
+            _url = URLT_1.default.join(MainConfig_1.default.config.src, _rootUrl + '.' + _suffix);
+            //读取目标文件
+            fs.readFile(_url, (err, rootCode) => {
+                if (err) {
+                    e('读取文件失败！' + _url);
+                }
+                else {
+                    rootCode = rootCode.toString();
+                    //判断后缀
+                    if (/^(ts)|(js)$/.test(_suffix)) {
+                        //使用esbuild打包
+                        esbuild.transform(rootCode, {
+                            //装载器
+                            loader: _suffix,
+                            //内联映射
+                            sourcemap: true,
+                            //资源文件
+                            sourcefile: _url,
+                            //字符集
+                            charset: 'utf8',
+                            //
+                        }).then(({ code, map, warnings }) => {
+                            //文件过渡
+                            code = SrcTransition_1.default.tsBuildBack(code); //打包后
+                            // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));
+                            if (warnings.length > 0) {
+                                warnings.forEach((item) => {
+                                    console.log(chalk.gray(item));
                                 });
-                            }).catch((E) => {
-                                console.error(E);
-                                e('');
-                            });
-                        }
-                        //打包成普通文本
-                        else {
-                            let _code = SrcTransition_1.default.textBuildBack(rootCode);
+                            }
+                            //返回内容
                             r({
-                                code: _code,
-                                map: '',
+                                code: code + `//# sourceMappingURL=${path.basename(_url)}.map`,
+                                map: map,
                             });
-                        }
+                        }).catch((E) => {
+                            e('esBuild打包文件时出错->' + E);
+                        });
                     }
-                });
-            }
-            catch (E) {
-                console.error(E);
-                e('');
-            }
+                    //打包成普通文本
+                    else {
+                        let _code = SrcTransition_1.default.textBuildBack(rootCode);
+                        r({
+                            code: _code,
+                            map: '',
+                        });
+                    }
+                }
+            });
         });
     }
 }

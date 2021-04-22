@@ -29,10 +29,10 @@ export default class SrcTransition {
      * 普通文件打包后
      * @param _content 文件内容
      */
-    public static textBuildBack(_content): string {
-        //
+    public static textBuildBack(_content: string): string {
+        //需要转义反引号 `
         return `
-export default \`${_content}\`;
+export default \`${_content.replace(/`/, '\\`')}\`;
         `;
     }
 }

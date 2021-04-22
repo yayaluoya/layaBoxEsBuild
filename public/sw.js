@@ -15,14 +15,15 @@ this.addEventListener('message', function (event) {
     let { type, mes } = JSON.parse(event.data);
     //
     switch (type) {
-        //设置版本
-        case 'v':
+        //更新
+        case 'update':
+            let { v, webSocketUrl } = mes;
             //查看外部版本和当前进程版本是否一致，不一致的话清空缓存，更新webSocket
-            if (_v != mes) {
+            if (_v != v) {
                 //
                 cacheT.removeAll();
                 //先更新
-                webSocketT.update();
+                webSocketT.update(webSocketUrl);
                 //在添加事件
                 webSocketT.addMessageEventListener((event) => {
                     let data = JSON.parse(event.data);
@@ -36,7 +37,7 @@ this.addEventListener('message', function (event) {
                     }
                 });
             }
-            _v = mes;
+            _v = v;
             //
             break;
     }
@@ -82,11 +83,11 @@ class webSocketT {
     /**
      * 更新
      */
-    static update() {
+    static update(_url) {
         //先关闭之前的连接
         this.instance && this.instance.close();
         /** 开启新的连接 */
-        this.instance = new WebSocket('ws://${{hostname}}:${{webSocketPort}}/');
+        this.instance = new WebSocket(_url);
         this.usable = true;
         //webSocket错误的回调
         this.instance.addEventListener('error', () => {

@@ -1,3 +1,5 @@
+import chalk = require("chalk");
+import moment = require("moment");
 import MainConfig from "../config/MainConfig";
 import URLT from "../_T/URLT";
 const crypto = require('crypto');
@@ -75,6 +77,11 @@ export default class FileModule {
      * @param _url 模块路径
      */
     public constructor(_url: string) {
+        //设置一个默认值
+        this.m_content = {
+            code: '',
+            map: '',
+        };
         //剔除后缀
         this.m_url = _url.replace(/\.[^\.]*?$/, '');
         //提取后缀
@@ -152,22 +159,19 @@ export default class FileModule {
                     //获取内容
                     this._updateContent().then((_content) => {
                         this.m_content = _content;
-                        r(this);
                     }).catch((E) => {
-                        console.error('错误', E);
+                        let _mes: string = '错误: ' + E;
+                        this.m_content.code = `console.error(\`${_mes}\`);`;
+                        console.error(chalk.gray(_mes));
+                        console.error(chalk.gray(moment().format('LTS')));
+                    }).finally(() => {
                         r(this);
                     });
                 });
             });
             //
         } else {
-            this.m_task = new Promise<FileModule>((r, e) => {
-                this.m_content = {
-                    code: '',
-                    map: '',
-                };
-                r(this);
-            });
+            this.m_task = Promise.resolve(this);
         }
     }
 

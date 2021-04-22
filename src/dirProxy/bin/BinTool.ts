@@ -45,10 +45,6 @@ export default class BinTool {
                     case new RegExp(`^/?${MyConfig.webToolJsName.webSocket}$`).test(_url):
                         _content = _content.replace('${{hostname}}', HttpTool.getHostname).replace('${{webSocketPort}}', MyConfig.webSocketPort + '');
                         break;
-                    //sw工具脚本需要替换主机名和端口号
-                    case new RegExp(`^/?${MyConfig.webToolJsName.sw}$`).test(_url):
-                        _content = _content.replace('${{hostname}}', HttpTool.getHostname).replace('${{webSocketPort}}', MyConfig.webSocketPort + '');
-                        break;
                     //alert工具脚本需要替换是否时刻刷新浏览器的变量
                     case new RegExp(`^/?${MyConfig.webToolJsName.alert}$`).test(_url):
                         _content = _content.replace('$ifUpdateNow', Boolean(MainConfig.config.ifUpdateNow).toString());
@@ -80,8 +76,8 @@ export default class BinTool {
                 _html = _html.replace(/\<\/head\>/, `
 <link rel="stylesheet" type="text/css" href="${ResURL.publicDirName}/${MyConfig.webToolJsName.css}">
 <script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.main}"></script>
-<script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.swTool}"></script>
 <script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.webSocket}"></script>
+<script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.swTool}"></script>
 ${MainConfig.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL.publicDirName}/${MyConfig.webToolJsName.alert}"></script>` : ''}
 </head>
                 `);

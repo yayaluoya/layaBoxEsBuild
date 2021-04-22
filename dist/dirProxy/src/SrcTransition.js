@@ -30,9 +30,9 @@ class SrcTransition {
      * @param _content 文件内容
      */
     static textBuildBack(_content) {
-        //
+        //需要转义反引号 `
         return `
-export default \`${_content}\`;
+export default \`${_content.replace(/`/, '\\`')}\`;
         `;
     }
 }

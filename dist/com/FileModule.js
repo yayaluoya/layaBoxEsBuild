@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const chalk = require("chalk");
+const moment = require("moment");
 const MainConfig_1 = require("../config/MainConfig");
 const URLT_1 = require("../_T/URLT");
 const crypto = require('crypto');
@@ -17,6 +19,11 @@ class FileModule {
         this.m_task = new Promise((r) => { r(this); });
         /** 更新次数 */
         this.m_updateNumber = 0;
+        //设置一个默认值
+        this.m_content = {
+            code: '',
+            map: '',
+        };
         //剔除后缀
         this.m_url = _url.replace(/\.[^\.]*?$/, '');
         //提取后缀
@@ -125,9 +132,12 @@ class FileModule {
                     //获取内容
                     this._updateContent().then((_content) => {
                         this.m_content = _content;
-                        r(this);
                     }).catch((E) => {
-                        console.error('错误', E);
+                        let _mes = '错误: ' + E;
+                        this.m_content.code = `console.error(\`${_mes}\`);`;
+                        console.error(chalk.gray(_mes));
+                        console.error(chalk.gray(moment().format('LTS')));
+                    }).finally(() => {
                         r(this);
                     });
                 });
@@ -135,13 +145,7 @@ class FileModule {
             //
         }
         else {
-            this.m_task = new Promise((r, e) => {
-                this.m_content = {
-                    code: '',
-                    map: '',
-                };
-                r(this);
-            });
+            this.m_task = Promise.resolve(this);
         }
     }
     /** 更新内容 */
