@@ -137,7 +137,8 @@ switch (true) {
         break;
     //直接执行
     default:
-        console.log(chalk.yellow('没有执行任何操作，可能是执行时没有加参数，查看所有命令 -h'));
+        _config = getConfig(path.join(_cwdUrl, configName), false);
+        build(_config);
         break;
 }
 

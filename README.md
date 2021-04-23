@@ -45,7 +45,7 @@
 
   - 在执行目录下初始化配置文件，内容是默认的配置内容。
 
-- `layabox-esbuild -s`
+- `layabox-esbuild -s` || `layabox-esbuild`
 
     - 直接开始构建项目，当看到如下输出时就说明跑起来了，局域网主页不固定，这里只是实例，本地主页更快的原因是使用 service worker 在浏览器和服务器之间加了一层缓存，所以建议开发时用这个地址。
 
@@ -73,6 +73,8 @@
 
 - `layabox-esbuild -vl`
     - 查看所以历史版本。
+
+- layabox-esbuild 还有一个快捷指令为 `laya-eb` 把上面的命令中的 `layabox-esbuid` 替换掉即可。
 
 ## 全部配置选项
 

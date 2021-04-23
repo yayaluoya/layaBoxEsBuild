@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "version-log": [
     {
       "v": "1.0.20",
@@ -13,19 +13,25 @@
     {
       "v": "1.0.24",
       "log": "优化命令行提示，删除多余的提示，优化sw，修复导入其他文件时的反引号没转义的漏洞"
+    },
+    {
+      "v": "1.0.25",
+      "log": "完善package.json文件的配置，简化操作，直接执行 layabox-esbuild 就可以运行项目了，新加一个快捷命令，laya-eb"
     }
   ],
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
   "bin": {
-    "layabox-esbuild": "./bin/index.js"
+    "layabox-esbuild": "./bin/index.js",
+    "laya-eb": "./bin/index.js"
   },
   "repository": "https://github.com/yayaluoya/layaBoxEsBuild.git",
   "remotePackgeFileUrl": "https://ghproxy.com/https://raw.githubusercontent.com/yayaluoya/layaBoxEsBuild/master/package.json",
   "scripts": {
-    "build": "tsc -w",
-    "test": "node ./dist/test.js",
-    "dev": "node ./bin/index.js -s"
+    "install": "node ./pack/i.js",
+    "uninstall": "node ./pack/uni.js",
+    "ts-build": "tsc -w",
+    "test": "node ./bin/index.js"
   },
   "author": "",
   "license": "ISC",
