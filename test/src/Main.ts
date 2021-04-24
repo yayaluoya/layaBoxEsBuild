@@ -4,4 +4,4 @@ import './com/test';
 
 console.log(_module);
 
-console.log('测试', 106);
+console.log('测试', 108);

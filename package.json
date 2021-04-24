@@ -1,8 +1,7 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.25",
-  "version-log": [
-    {
+  "version": "1.0.26",
+  "version-log": [{
       "v": "1.0.20",
       "log": "把sourcemap从内联转移到外部文件的形式，修复谷歌浏览器断点调试的不稳定的bug。"
     },
@@ -17,6 +16,10 @@
     {
       "v": "1.0.25",
       "log": "完善package.json文件的配置，简化操作，直接执行 layabox-esbuild 就可以运行项目了，新加一个快捷命令，laya-eb"
+    },
+    {
+      "v": "1.0.26",
+      "log": "修复部分文件监听不到的bug"
     }
   ],
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",

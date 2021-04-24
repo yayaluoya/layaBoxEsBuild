@@ -13,14 +13,11 @@ const esbuild = require('esbuild');
 export default class TsBuild {
     /**
      * 打包
-     * @param _url 模块相对路径，不包含路径
+     * @param _url 模块路径，绝对路径
      * @param _suffix 模块后缀
      */
     public static build(_url: string, _suffix: string): Promise<IFileModuleContent> {
         return new Promise<IFileModuleContent>((r, e) => {
-            //源url
-            let _rootUrl: string = _url;
-            _url = URLT.join(MainConfig.config.src, _rootUrl + '.' + _suffix);
             //读取目标文件
             fs.readFile(_url, (err, rootCode) => {
                 if (err) {

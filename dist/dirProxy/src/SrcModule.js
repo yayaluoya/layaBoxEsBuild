@@ -36,7 +36,7 @@ class SrcModule extends FileModule_1.default {
     /** 更新内容 */
     _updateContent() {
         //返回一个esbuild的任务
-        return TsBuild_1.default.build(this.url, this.suffix);
+        return TsBuild_1.default.build(this.absolutePath, this.suffix);
     }
 }
 exports.default = SrcModule;

@@ -17,7 +17,7 @@ export default class FileModule {
     /** 当前异步任务的修改版本 */
     private m_onTaskModifyV: string;
 
-    /** 路径 */
+    /** 路径，浏览器请求时的相对路径 */
     private m_url: string;
     /** 绝对路径 */
     private m_absolutePath: string;
@@ -82,16 +82,18 @@ export default class FileModule {
             code: '',
             map: '',
         };
+        //匹配用的reg
+        let _reg: RegExp = /\.([^\.]*?)$/;
         //剔除后缀
-        this.m_url = _url.replace(/\.[^\.]*?$/, '');
+        this.m_url = _url;
         //提取后缀
         this.m_suffix = MainConfig.config.srcFileDefaultSuffix;
-        let _suffix = _url.match(/\.([^\.]*?)$/);
+        let _suffix = _url.match(_reg);
         _suffix && (this.m_suffix = _suffix[1]);
         //
         // console.log('后缀', this.m_url, this.m_suffix);
         //
-        this.m_absolutePath = URLT.join(MainConfig.config.src, this.m_url) + '.' + this.m_suffix;
+        this.m_absolutePath = URLT.join(MainConfig.config.src, this.m_url.replace(_reg, '')) + '.' + this.m_suffix;
         //通过url生成唯一标识符
         this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
         //更新修改版本

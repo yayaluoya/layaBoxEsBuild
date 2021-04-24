@@ -1,4 +1,5 @@
 import MainConfig from "../../config/MainConfig";
+import URLT from "../../_T/URLT";
 import SrcModule from "./SrcModule";
 var chalk = require('chalk');
 
@@ -34,7 +35,7 @@ export default class SrcCache {
     public static getModule(_url: string): SrcModule {
         //是否从缓存里面拿
         let _ifCache: boolean = true;
-        let _module: SrcModule = this.byUrlGetModule(_url);
+        let _module: SrcModule = this.byUrlGetModule(URLT.join(MainConfig.config.src, _url));
         if (!_module) {
             _ifCache = false;
             _module = new SrcModule(_url);
@@ -56,15 +57,19 @@ export default class SrcCache {
     }
 
     /**
-     * 通过url获取模块
+     * 通过url获取模块，绝对路径
      * @param _url url
      */
     private static byUrlGetModule(_url: string): SrcModule {
-        //是否包含后缀
-        let _ifSuffix: boolean = /\..*?$/.test(_url);
+        //判断是否包含后缀
+        if (!/\.([^\.]*?)$/.test(_url)) {
+            //加上默认后缀
+            _url = `${_url}.${MainConfig.config.srcFileDefaultSuffix}`;
+        }
         //查找
         let _SrcModule: SrcModule = this.m_moduleCache.find((item) => {
-            return (_ifSuffix ? new RegExp(`^${item.url + '.' + item.suffix}$`, 'i') : new RegExp(`^${item.url}$`, 'i')).test(_url);
+            //* 不区分大小写匹配
+            return new RegExp(`^${item.absolutePath}$`, 'i').test(_url);
         });
         //
         // console.log('更新模块', _url, _SrcModule && _SrcModule.url);

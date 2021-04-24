@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk = require("chalk");
-const MainConfig_1 = require("../../config/MainConfig");
-const URLT_1 = require("../../_T/URLT");
 const SrcTransition_1 = require("./SrcTransition");
 var fs = require("fs");
 var path = require("path");
@@ -13,14 +11,11 @@ const esbuild = require('esbuild');
 class TsBuild {
     /**
      * 打包
-     * @param _url 模块相对路径，不包含路径
+     * @param _url 模块路径，绝对路径
      * @param _suffix 模块后缀
      */
     static build(_url, _suffix) {
         return new Promise((r, e) => {
-            //源url
-            let _rootUrl = _url;
-            _url = URLT_1.default.join(MainConfig_1.default.config.src, _rootUrl + '.' + _suffix);
             //读取目标文件
             fs.readFile(_url, (err, rootCode) => {
                 if (err) {
