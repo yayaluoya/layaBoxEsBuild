@@ -15,9 +15,9 @@ export default class BinProxy {
     /**
      * 开始
      */
-    public static start() {
+    public static start(): Promise<void> {
         // req 请求， res 响应 
-        HttpTool.createServer((req, res) => {
+        return HttpTool.createServer((req, res) => {
             //head
             let _head = {
                 'Content-Type': 'application/javascript;charset=UTF-8',
@@ -109,7 +109,11 @@ export default class BinProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }, MainConfig.config.port.bin);
+        }, MainConfig.config.port.bin)
+            .then((server) => {
+                //重置bin目录服务代理端口
+                MainConfig.config.port.bin = server.address().port;
+            });
     }
 
     /**

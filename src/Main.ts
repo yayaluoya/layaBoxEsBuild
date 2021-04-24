@@ -19,11 +19,11 @@ export default class layaboxEsbuild {
 		//设置配置数据
 		MainConfig.config = _config;
 		//先初始化项目
-		Init.init().then(() => {
+		Init.init().then(async () => {
 			//代理src
-			SrcProxy.start();
+			await SrcProxy.start();
 			//代理bin
-			BinProxy.start();
+			await BinProxy.start();
 			//提示bin目录的主页地址
 			console.log(chalk.gray('---->'));
 			console.log(chalk.green('本地主页:'), chalk.magenta(BinProxy.getLocalHomePage()), chalk.gray('更快'));

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const MyConfig_1 = require("../config/MyConfig");
 const HttpTool_1 = require("../http/HttpTool");
 const webSocket = require('ws');
+const portfinder = require('portfinder');
 /**
  * webSocket模块
  */
@@ -15,18 +16,23 @@ class WebSocket {
      * 开始
      */
     static start() {
-        // 实例化:
-        let _wss = new webSocket.Server({
-            //主机
-            host: HttpTool_1.default.getHostname,
-            //端口
-            port: MyConfig_1.default.webSocketPort,
-        });
-        _wss.on('connection', (ws) => {
-            this.m_wss.add(ws);
-            //
-            ws.on('close', () => {
-                this.m_wss.delete(ws);
+        //自动分配端口
+        return portfinder.getPortPromise()
+            .then((port) => {
+            MyConfig_1.default.webSocketPort = port;
+            // 实例化:
+            let _wss = new webSocket.Server({
+                //主机
+                host: HttpTool_1.default.getHostname,
+                //端口
+                port: MyConfig_1.default.webSocketPort,
+            });
+            _wss.on('connection', (ws) => {
+                this.m_wss.add(ws);
+                //
+                ws.on('close', () => {
+                    this.m_wss.delete(ws);
+                });
             });
         });
     }

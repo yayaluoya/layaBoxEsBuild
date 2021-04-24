@@ -11,10 +11,10 @@ module.exports = {
             b: '/'
         }
     ],
-    /** 代理端口，可以随便指定，只要不冲突就行 */
+    /** 代理端口，可以随便指定，为0则自动分配，只要不冲突就行 */
     port: {
-        src: 3601,
-        bin: 3602,
+        src: 0,
+        bin: 0,
     },
     /** src目录文件默认后缀  */
     srcFileDefaultSuffix: 'ts',

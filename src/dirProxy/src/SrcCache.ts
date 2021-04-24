@@ -66,13 +66,13 @@ export default class SrcCache {
             //加上默认后缀
             _url = `${_url}.${MainConfig.config.srcFileDefaultSuffix}`;
         }
+        //
+        _url = _url.replace(/\\/g, '/');
         //查找
         let _SrcModule: SrcModule = this.m_moduleCache.find((item) => {
-            //* 不区分大小写匹配
-            return new RegExp(`^${item.absolutePath}$`, 'i').test(_url);
+            //* 不区分大小写匹配，并且要把路径中的\转意成/
+            return new RegExp('^' + item.normPath + '$', 'i').test(_url);
         });
-        //
-        // console.log('更新模块', _url, _SrcModule && _SrcModule.url);
         //
         return _SrcModule;
     }

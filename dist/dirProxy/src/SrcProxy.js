@@ -12,7 +12,7 @@ class SrcProxy {
      */
     static start() {
         // req 请求， res 响应 
-        HttpTool_1.default.createServer((req, res) => {
+        return HttpTool_1.default.createServer((req, res) => {
             //head
             let _head = {
                 'Content-Type': 'application/javascript;charset=UTF-8',
@@ -36,7 +36,12 @@ class SrcProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }, MainConfig_1.default.config.port.src);
+        }, MainConfig_1.default.config.port.src)
+            .then((server) => {
+            //重置scr目录服务代理端口
+            MainConfig_1.default.config.port.src = server.address().port;
+        });
+        ;
     }
     /**
      * 获取主页地址

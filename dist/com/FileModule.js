@@ -36,6 +36,7 @@ class FileModule {
         // console.log('后缀', this.m_url, this.m_suffix);
         //
         this.m_absolutePath = URLT_1.default.join(MainConfig_1.default.config.src, this.m_url.replace(_reg, '')) + '.' + this.m_suffix;
+        this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
         //通过url生成唯一标识符
         this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
         //更新修改版本
@@ -64,6 +65,10 @@ class FileModule {
     /** 获取绝对路径 */
     get absolutePath() {
         return this.m_absolutePath;
+    }
+    /** 获取标准路径 */
+    get normPath() {
+        return this.m_normPath;
     }
     /** 获取后缀 */
     get suffix() {

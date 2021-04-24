@@ -18,7 +18,7 @@ class BinProxy {
      */
     static start() {
         // req 请求， res 响应 
-        HttpTool_1.default.createServer((req, res) => {
+        return HttpTool_1.default.createServer((req, res) => {
             //head
             let _head = {
                 'Content-Type': 'application/javascript;charset=UTF-8',
@@ -95,7 +95,11 @@ class BinProxy {
                 //
                 res.end('不支持post请求。');
             }
-        }, MainConfig_1.default.config.port.bin);
+        }, MainConfig_1.default.config.port.bin)
+            .then((server) => {
+            //重置bin目录服务代理端口
+            MainConfig_1.default.config.port.bin = server.address().port;
+        });
     }
     /**
      * 获取本地主页

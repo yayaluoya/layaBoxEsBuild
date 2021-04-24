@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const http = require('http');
+const portfinder = require('portfinder');
 const internalIp = require('internal-ip');
 /**
  * http工具
@@ -12,10 +13,23 @@ class HttpTool {
      * @param _port 端口
      */
     static createServer(_f, _port) {
-        //开启一个本地服务
-        http.createServer(_f).listen(_port);
-        //开启一个局域网服务
-        http.createServer(_f).listen(_port, this.getHostname);
+        let _portP;
+        //端口为0则自动分配端口
+        if (_port == 0) {
+            _portP = portfinder.getPortPromise();
+        }
+        else {
+            _portP = Promise.resolve(_port);
+        }
+        //
+        return _portP.then((port) => {
+            //开启一个本地服务
+            let server = http.createServer(_f).listen(port);
+            //开启一个局域网服务
+            http.createServer(_f).listen(port, this.getHostname);
+            //
+            return server;
+        });
     }
     /**
      * 获取主机地址

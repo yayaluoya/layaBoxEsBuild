@@ -3,7 +3,7 @@
  */
 export default class MyConfig {
     /** webSocket 端口 */
-    public static webSocketPort: number = 3600;
+    public static webSocketPort: number;
     /** web工具脚本 */
     public static webToolJsName: {
         /** 主脚本 */

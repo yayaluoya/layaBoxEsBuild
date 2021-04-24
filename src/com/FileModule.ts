@@ -21,6 +21,8 @@ export default class FileModule {
     private m_url: string;
     /** 绝对路径 */
     private m_absolutePath: string;
+    /** 标准路径 */
+    private m_normPath: string;
     /** 后缀 */
     private m_suffix: string;
 
@@ -53,6 +55,10 @@ export default class FileModule {
     /** 获取绝对路径 */
     public get absolutePath(): string {
         return this.m_absolutePath;
+    }
+    /** 获取标准路径 */
+    public get normPath(): string {
+        return this.m_normPath;
     }
     /** 获取后缀 */
     public get suffix(): string {
@@ -94,6 +100,7 @@ export default class FileModule {
         // console.log('后缀', this.m_url, this.m_suffix);
         //
         this.m_absolutePath = URLT.join(MainConfig.config.src, this.m_url.replace(_reg, '')) + '.' + this.m_suffix;
+        this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
         //通过url生成唯一标识符
         this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
         //更新修改版本

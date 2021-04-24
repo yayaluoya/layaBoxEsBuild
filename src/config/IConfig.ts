@@ -11,7 +11,7 @@ export default interface IConfig {
         a: RegExp,
         b: string,
     }[];
-    /** 代理端口，可以随便指定，只要不冲突就行 */
+    /** 代理端口，可以随便指定，为0则自动分配，只要不冲突就行 */
     port?: {
         src: number,
         bin: number,

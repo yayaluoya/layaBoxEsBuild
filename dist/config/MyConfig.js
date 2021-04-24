@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class MyConfig {
 }
 exports.default = MyConfig;
-/** webSocket 端口 */
-MyConfig.webSocketPort = 3600;
 /** web工具脚本 */
 MyConfig.webToolJsName = {
     main: 'main.js',
