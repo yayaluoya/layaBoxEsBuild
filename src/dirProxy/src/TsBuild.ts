@@ -1,6 +1,7 @@
 import chalk = require("chalk");
 import { IFileModuleContent } from "../../com/FileModule";
 import MainConfig from "../../config/MainConfig";
+import BufferT from "../../_T/BufferT";
 import URLT from "../../_T/URLT";
 import SrcTransition from "./SrcTransition";
 var fs = require("fs");
@@ -46,10 +47,10 @@ export default class TsBuild {
                                     console.log(chalk.gray(item));
                                 });
                             }
-                            //返回内容
+                            //返回内容，全部转成buffer格式的数据
                             r({
-                                code: code + `//# sourceMappingURL=${path.basename(_url)}.map`,
-                                map: map,
+                                code: Buffer.from(code + `//# sourceMappingURL=${path.basename(_url)}.map`),
+                                map: Buffer.from(map),
                             });
                         }).catch((E) => {
                             e('esBuild打包文件时出错->' + E);
@@ -59,8 +60,8 @@ export default class TsBuild {
                     else {
                         let _code: string = SrcTransition.textBuildBack(rootCode);
                         r({
-                            code: _code,
-                            map: '',
+                            code: Buffer.from(_code),
+                            map: BufferT.nullBuffer,
                         });
                     }
                 }

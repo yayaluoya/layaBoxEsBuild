@@ -1,4 +1,5 @@
 import IFileData from "../../com/IFileData";
+import BufferT from "../../_T/BufferT";
 import SrcCache from "./SrcCache";
 import SrcModule from "./SrcModule";
 
@@ -27,7 +28,7 @@ export default class SrcOperation {
                 // console.log(req.headers);
                 //
                 let _fileData: IFileData = {
-                    content: '',
+                    content: BufferT.nullBuffer,
                     stateCode: 404,
                     resHead: {},
                 };

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const BufferT_1 = require("../../_T/BufferT");
 const SrcCache_1 = require("./SrcCache");
 /**
  * 文件操作
@@ -26,7 +27,7 @@ class SrcOperation {
                 // console.log(req.headers);
                 //
                 let _fileData = {
-                    content: '',
+                    content: BufferT_1.default.nullBuffer,
                     stateCode: 404,
                     resHead: {},
                 };

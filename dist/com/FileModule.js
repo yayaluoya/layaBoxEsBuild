@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chalk = require("chalk");
 const moment = require("moment");
 const MainConfig_1 = require("../config/MainConfig");
+const BufferT_1 = require("../_T/BufferT");
 const URLT_1 = require("../_T/URLT");
 const crypto = require('crypto');
 /**
@@ -21,8 +22,8 @@ class FileModule {
         this.m_updateNumber = 0;
         //设置一个默认值
         this.m_content = {
-            code: '',
-            map: '',
+            code: BufferT_1.default.nullBuffer,
+            map: BufferT_1.default.nullBuffer,
         };
         //匹配用的reg
         let _reg = /\.([^\.]*?)$/;
@@ -141,7 +142,7 @@ class FileModule {
                         this.m_content = _content;
                     }).catch((E) => {
                         let _mes = '错误: ' + E;
-                        this.m_content.code = `console.error(\`${_mes}\`);`;
+                        this.m_content.code = Buffer.from(`console.error(\`${_mes}\`);`);
                         console.error(chalk.gray(_mes));
                         console.error(chalk.gray(moment().format('LTS')));
                     }).finally(() => {
@@ -159,8 +160,8 @@ class FileModule {
     _updateContent() {
         return new Promise((r) => {
             r({
-                code: '',
-                map: '',
+                code: BufferT_1.default.nullBuffer,
+                map: BufferT_1.default.nullBuffer,
             });
         });
     }

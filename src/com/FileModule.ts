@@ -1,6 +1,7 @@
 import chalk = require("chalk");
 import moment = require("moment");
 import MainConfig from "../config/MainConfig";
+import BufferT from "../_T/BufferT";
 import URLT from "../_T/URLT";
 const crypto = require('crypto');
 
@@ -85,8 +86,8 @@ export default class FileModule {
     public constructor(_url: string) {
         //设置一个默认值
         this.m_content = {
-            code: '',
-            map: '',
+            code: BufferT.nullBuffer,
+            map: BufferT.nullBuffer,
         };
         //匹配用的reg
         let _reg: RegExp = /\.([^\.]*?)$/;
@@ -170,7 +171,7 @@ export default class FileModule {
                         this.m_content = _content;
                     }).catch((E) => {
                         let _mes: string = '错误: ' + E;
-                        this.m_content.code = `console.error(\`${_mes}\`);`;
+                        this.m_content.code = Buffer.from(`console.error(\`${_mes}\`);`);
                         console.error(chalk.gray(_mes));
                         console.error(chalk.gray(moment().format('LTS')));
                     }).finally(() => {
@@ -188,8 +189,8 @@ export default class FileModule {
     protected _updateContent(): Promise<IFileModuleContent> {
         return new Promise<IFileModuleContent>((r) => {
             r({
-                code: '',
-                map: '',
+                code: BufferT.nullBuffer,
+                map: BufferT.nullBuffer,
             });
         });
     }
@@ -200,7 +201,7 @@ export default class FileModule {
  */
 export interface IFileModuleContent {
     /** 代码 */
-    code: string,
+    code: Buffer,
     /** map */
-    map: string,
+    map: Buffer,
 }

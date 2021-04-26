@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk = require("chalk");
+const BufferT_1 = require("../../_T/BufferT");
 const SrcTransition_1 = require("./SrcTransition");
 var fs = require("fs");
 var path = require("path");
@@ -45,10 +46,10 @@ class TsBuild {
                                     console.log(chalk.gray(item));
                                 });
                             }
-                            //返回内容
+                            //返回内容，全部转成buffer格式的数据
                             r({
-                                code: code + `//# sourceMappingURL=${path.basename(_url)}.map`,
-                                map: map,
+                                code: Buffer.from(code + `//# sourceMappingURL=${path.basename(_url)}.map`),
+                                map: Buffer.from(map),
                             });
                         }).catch((E) => {
                             e('esBuild打包文件时出错->' + E);
@@ -58,8 +59,8 @@ class TsBuild {
                     else {
                         let _code = SrcTransition_1.default.textBuildBack(rootCode);
                         r({
-                            code: _code,
-                            map: '',
+                            code: Buffer.from(_code),
+                            map: BufferT_1.default.nullBuffer,
                         });
                     }
                 }

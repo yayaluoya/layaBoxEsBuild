@@ -1,7 +1,8 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.29",
-  "version-log": [{
+  "version": "1.0.30",
+  "version-log": [
+    {
       "v": "1.0.20",
       "log": "把sourcemap从内联转移到外部文件的形式，修复谷歌浏览器断点调试的不稳定的bug。"
     },
@@ -28,6 +29,10 @@
     {
       "v": "1.0.29",
       "log": "修复某个包找不到的bug"
+    },
+    {
+      "v": "1.0.30",
+      "log": "通过Buffer优化访问速度"
     }
   ],
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
