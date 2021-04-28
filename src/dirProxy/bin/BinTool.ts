@@ -40,7 +40,7 @@ export default class BinTool {
                 switch (true) {
                     //主脚本要替换版本，和包信息
                     case new RegExp(`^/?${MyConfig.webToolJsName.main}$`).test(_url):
-                        _content = _content.replace('${{v}}', VersionsT.getV()).replace('${{packageJson}}', JSON.stringify(PackageJson));
+                        _content = _content.replace('${{v}}', VersionsT.getV()).replace('{{packageJson}}', JSON.stringify(PackageJson));
                         break;
                     //webSocket工具脚本需要替换主机名和端口号
                     case new RegExp(`^/?${MyConfig.webToolJsName.webSocket}$`).test(_url):
