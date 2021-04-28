@@ -2,8 +2,14 @@
     let _div = `
         <div class="loading">
             <b>
-                加载中。。。
+                加载中...
             </b>
+            <p class="explain">
+                ${window.esbuildTool.packageJson.authorName}/${window.esbuildTool.packageJson.name}
+            </p>
+            <p class="v">
+                V: ${window.esbuildTool.packageJson.version}
+            </p>
         </div>
     `;
     //添加元素

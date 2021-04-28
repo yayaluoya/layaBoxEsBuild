@@ -1,6 +1,7 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.30",
+  "version": "1.0.31",
+  "authorName": "yayaluoya",
   "version-log": [
     {
       "v": "1.0.20",
@@ -33,6 +34,10 @@
     {
       "v": "1.0.30",
       "log": "通过Buffer优化访问速度"
+    },
+    {
+      "v": "1.0.31",
+      "log": "新添一些提示信息，修复bin目录文件修改监听部分监听不到的bug，影响不大，因为bin目录下的文件没有加任何缓存。"
     }
   ],
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",

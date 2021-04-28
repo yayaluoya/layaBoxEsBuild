@@ -1,5 +1,6 @@
 import MainConfig from "../../config/MainConfig";
 import MyConfig from "../../config/MyConfig";
+import PackageJson from "../../config/PackageJson";
 import HttpTool from "../../http/HttpTool";
 import ResURL from "../../_T/ResURL";
 import URLT from "../../_T/URLT";
@@ -37,9 +38,9 @@ export default class BinTool {
                 let _content: string = data.toString();
                 //根据不同文件做不同操作
                 switch (true) {
-                    //主脚本要替换版本
+                    //主脚本要替换版本，和包信息
                     case new RegExp(`^/?${MyConfig.webToolJsName.main}$`).test(_url):
-                        _content = _content.replace('${{v}}', VersionsT.getV());
+                        _content = _content.replace('${{v}}', VersionsT.getV()).replace('${{packageJson}}', JSON.stringify(PackageJson));
                         break;
                     //webSocket工具脚本需要替换主机名和端口号
                     case new RegExp(`^/?${MyConfig.webToolJsName.webSocket}$`).test(_url):

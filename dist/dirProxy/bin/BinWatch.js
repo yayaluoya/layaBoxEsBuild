@@ -13,7 +13,7 @@ class BinWatch {
      * 开始监视
      */
     static start() {
-        chokidar.watch(MainConfig_1.default.config.bin).on('change', (_url) => {
+        chokidar.watch(MainConfig_1.default.config.bin).on('all', (_url) => {
             //取相对路径
             _url = _url.replace(URLT_1.default.join(MainConfig_1.default.config.bin, '/'), '/');
             //发送webSocket消息

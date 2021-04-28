@@ -11,11 +11,28 @@
     top: 0px;
     left: 0px;
     background-color: #eeeeee;
+    flex-direction: column;
 }
 
 .loading>b {
     color: #393e46;
     font-size: 20px;
+}
+
+.loading>p {
+    position: absolute;
+    bottom: 0px;
+    color: #9BA4B4;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.loading>p.v {
+    right: 10px;
+}
+
+.loading>p.explain {
+    left: 0px;
 }
 
 .confirmEx {

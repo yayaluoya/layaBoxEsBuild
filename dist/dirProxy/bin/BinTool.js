@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const MainConfig_1 = require("../../config/MainConfig");
 const MyConfig_1 = require("../../config/MyConfig");
+const PackageJson_1 = require("../../config/PackageJson");
 const HttpTool_1 = require("../../http/HttpTool");
 const ResURL_1 = require("../../_T/ResURL");
 const URLT_1 = require("../../_T/URLT");
@@ -32,9 +33,9 @@ class BinTool {
                 let _content = data.toString();
                 //根据不同文件做不同操作
                 switch (true) {
-                    //主脚本要替换版本
+                    //主脚本要替换版本，和包信息
                     case new RegExp(`^/?${MyConfig_1.default.webToolJsName.main}$`).test(_url):
-                        _content = _content.replace('${{v}}', VersionsT_1.default.getV());
+                        _content = _content.replace('${{v}}', VersionsT_1.default.getV()).replace('${{packageJson}}', JSON.stringify(PackageJson_1.default));
                         break;
                     //webSocket工具脚本需要替换主机名和端口号
                     case new RegExp(`^/?${MyConfig_1.default.webToolJsName.webSocket}$`).test(_url):

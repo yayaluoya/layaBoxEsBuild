@@ -37,6 +37,7 @@ const consoleEx = (function () {
     const esbuildTool = {
         consoleEx: consoleEx,
         version: '${{v}}',
+        packageJson: JSON.parse(`\${{packageJson}}`),
     };
     //
     window.esbuildTool = esbuildTool;
