@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.32",
+  "version": "1.0.34",
   "authorName": "yayaluoya",
   "version-log": [
     {
@@ -41,6 +41,10 @@
     },
     {
       "v": "1.0.32",
+      "log": "修复一个细节上的bug。 -废弃"
+    },
+    {
+      "v": "1.0.34",
       "log": "修复一个细节上的bug。"
     }
   ],
