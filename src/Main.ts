@@ -29,7 +29,7 @@ export default class layaboxEsbuild {
 			console.log(chalk.green('本地主页:'), chalk.magenta(BinProxy.getLocalHomePage()), chalk.gray('更快'));
 			console.log(chalk.green('局域网主页:'), chalk.magenta(BinProxy.getHomePage()));
 			console.log(chalk.gray('>'));
-			console.log(chalk.gray('局域网主页如果不能访问的话可能是防火墙的原因。'));
+			console.log(chalk.gray('执行 layabox-esbuild -h 查看帮助或解决bug'));
 		});
 	}
 }

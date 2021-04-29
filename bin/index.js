@@ -5,6 +5,7 @@ const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
+const bugJson = require('./bug.json');
 const layaboxEsbuild = require('../dist/main.js');
 /** 默认配置 */
 const defaultConfig = require('../config.js');
@@ -26,6 +27,7 @@ program
     .option('-c, --config <url>')
     .option('--log-config [url]')
     .option('-vl, --v-log')
+    .option('-bug, --bug')
     ;
 
 //定义命令行类型
@@ -67,7 +69,8 @@ switch (true) {
         console.log(chalk.blue('-s'), chalk.gray('开始构建项目'));
         console.log(chalk.blue('-c'), chalk.yellow('<url>'), chalk.gray('指定配置文件来构建项目，参数为配置文件url，可以是绝对路径或者相对路径'));
         console.log(chalk.blue('--log-config'), chalk.yellow('[url]'), chalk.gray('查看配置，不填的话则打印默认配置信息'));
-        console.log(chalk.blue('-vl'), chalk.gray('查看版本信息'));
+        console.log(chalk.blue('-vl'), chalk.gray('查看所有记录版本信息，标注了废弃的版本请不要使用。'));
+        console.log(chalk.blue('-bug'), chalk.gray('查看可能的bug和对应的解决方案。'));
         console.log(chalk.gray('-'));
         console.log(chalk.gray('注意：参数是不用带\'或者\"符号的。'));
         break;
@@ -134,6 +137,13 @@ switch (true) {
         }).on('error', (e) => {
             console.log(chalk.red('获取远程版本失败！'));
         });
+        break;
+    //查看bug和解决方案
+    case Boolean(options.bug):
+        for (let { describe, resolve } of bugJson) {
+            console.log(chalk.red(describe));
+            console.log(chalk.blue(resolve));
+        }
         break;
     //直接执行
     default:
