@@ -110,18 +110,35 @@ window.addEventListener('load', function () {
 
         // 监听页面焦点事件
         if ($ifUpdateNow) {
-            window.addEventListener('visibilitychange', function () {
-                //
-                if (document['visible']) {
-                    // 失去焦点
-                } else {
-                    // 获取焦点
-                    if (_updateNumber > 0) {
-                        //刷新页面
-                        location.reload();
+            //根据不同浏览器获取属性名称
+            var hidden, visibilityChange;
+            if (typeof document.hidden !== "undefined") {
+                hidden = "hidden";
+                visibilityChange = "visibilitychange";
+            } else if (typeof document.msHidden !== "undefined") {
+                hidden = "msHidden";
+                visibilityChange = "msvisibilitychange";
+            } else if (typeof document.webkitHidden !== "undefined") {
+                hidden = "webkitHidden";
+                visibilityChange = "webkitvisibilitychange";
+            }
+            // 判断浏览器的支持情况 
+            if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
+                consol.warn("当前浏览器不能判断窗口是否获取或失去焦点");
+            } else {
+                // 监听visibilityChange事件    
+                document.addEventListener(visibilityChange, () => {
+                    if (document[hidden]) {
+                        //失去焦点
+                    } else {
+                        // 获取焦点
+                        if (_updateNumber > 0) {
+                            //刷新页面
+                            location.reload();
+                        }
                     }
-                }
-            });
+                }, false);
+            }
         }
     })();
 });
