@@ -56,7 +56,7 @@ window.addEventListener('load', function () {
             e.stopPropagation();
         }
         _confirmExDom.onclick = () => {
-            _backF && _backF(false);
+            _backF && _backF(true);
             _hide();
         };
         _yesButDom.onclick = (e) => {
@@ -92,7 +92,10 @@ window.addEventListener('load', function () {
                 if (!_ifConfirm && _updateNumber > 0) {
                     _ifConfirm = true;
                     //
-                    confirmEx('项目内容有更新,点击确认或按Enter键刷新页面', (flag) => {
+                    confirmEx(`
+                        <div class="title">项目内容有更新</div>
+                        <div class="content">点击空白处或点击确认按钮或按Enter键刷新页面</div>
+                    `, (flag) => {
                         _updateNumber = 0;
                         _ifConfirm = false;
                         //判断状态
