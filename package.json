@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "authorName": "yayaluoya",
   "version-log": [
     {
@@ -54,6 +54,10 @@
     {
       "v": "1.0.36",
       "log": "优化包体大小。"
+    },
+    {
+      "v": "1.0.37",
+      "log": "sw速度优化。"
     }
   ],
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",

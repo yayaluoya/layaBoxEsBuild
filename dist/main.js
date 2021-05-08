@@ -13,6 +13,7 @@ const BinProxy_1 = require("./dirProxy/bin/BinProxy");
 const MainConfig_1 = require("./config/MainConfig");
 const Init_1 = require("./Init");
 const SrcProxy_1 = require("./dirProxy/src/SrcProxy");
+const PackageJson_1 = require("./config/PackageJson");
 const chalk = require('chalk');
 /**
  * layaboxEsbuild构建实例
@@ -34,9 +35,9 @@ class layaboxEsbuild {
             yield BinProxy_1.default.start();
             //提示bin目录的主页地址
             console.log(chalk.gray('---->'));
-            console.log(chalk.green('本地主页:'), chalk.magenta(BinProxy_1.default.getLocalHomePage()), chalk.gray('更快'));
-            console.log(chalk.green('局域网主页:'), chalk.magenta(BinProxy_1.default.getHomePage()));
-            console.log(chalk.gray('>'));
+            console.log(chalk.magenta('本地主页:'), chalk.blue(BinProxy_1.default.getLocalHomePage()), chalk.green('推荐>更快'));
+            console.log(chalk.magenta('局域网主页:'), chalk.blue(BinProxy_1.default.getHomePage()));
+            console.log(chalk.gray(`> ${PackageJson_1.default.name}@${PackageJson_1.default.version}`));
             console.log(chalk.gray('执行 layabox-esbuild -h 查看帮助或解决bug'));
         }));
     }
