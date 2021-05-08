@@ -4,6 +4,7 @@ const MainConfig_1 = require("../../config/MainConfig");
 const EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
 const WebSocket_1 = require("../../webSocket/WebSocket");
 const SrcCache_1 = require("./SrcCache");
+const URLT_1 = require("../../_T/URLT");
 const chokidar = require('chokidar');
 /**
  * Src文件监视
@@ -14,10 +15,12 @@ class SrcWatch {
      */
     static start() {
         chokidar.watch(MainConfig_1.default.config.src).on('all', (_e, _url) => {
-            //发送webSocket消息
-            WebSocket_1.default.send('src代码有更新-> ' + _url, EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
             //更新缓存文件模块
             SrcCache_1.default.updateModule(_url);
+            //取相对路径
+            _url = _url.replace(URLT_1.default.join(MainConfig_1.default.config.src, '/'), '/');
+            //发送webSocket消息
+            WebSocket_1.default.send(`src代码${_e}@` + _url, EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
         });
     }
 }

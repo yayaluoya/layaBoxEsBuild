@@ -13,11 +13,11 @@ class BinWatch {
      * 开始监视
      */
     static start() {
-        chokidar.watch(MainConfig_1.default.config.bin).on('all', (_url) => {
+        chokidar.watch(MainConfig_1.default.config.bin).on('all', (_e, _url) => {
             //取相对路径
             _url = _url.replace(URLT_1.default.join(MainConfig_1.default.config.bin, '/'), '/');
             //发送webSocket消息
-            WebSocket_1.default.send('bin目录有更新-> ' + _url, EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
+            WebSocket_1.default.send(`bin目录${_e}@` + _url, EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
         });
     }
 }
