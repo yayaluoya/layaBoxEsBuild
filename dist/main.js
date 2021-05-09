@@ -39,6 +39,7 @@ class layaboxEsbuild {
             console.log(chalk.magenta('局域网主页:'), chalk.blue(BinProxy_1.default.getHomePage()));
             console.log(chalk.gray(`> ${PackageJson_1.default.name}@${PackageJson_1.default.version}`));
             console.log(chalk.gray('执行 layabox-esbuild -h 查看帮助或解决bug'));
+            console.log(chalk.gray('...'));
         }));
     }
 }

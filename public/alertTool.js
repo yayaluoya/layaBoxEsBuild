@@ -3,6 +3,7 @@ window.addEventListener('load', function () {
     const confirmEx = (function () {
         let _div = `
         <div class="confirmEx">
+            <div class="bg"></div>
             <div class="content">
                 <div class="mes">消息</div>
                 <div class="but">
@@ -19,6 +20,7 @@ window.addEventListener('load', function () {
         _divDom = document.body.appendChild(_divDom.firstElementChild);
         //获取各个元素
         let _confirmExDom = document.getElementsByClassName('confirmEx')[0];
+        let _bgDom = _confirmExDom.getElementsByClassName('bg')[0];
         let _contentDom = _confirmExDom.getElementsByClassName('content')[0];
         let _mesDom = _confirmExDom.getElementsByClassName('mes')[0];
         let _yesButDom = _confirmExDom.getElementsByClassName('yes')[0];
@@ -51,21 +53,28 @@ window.addEventListener('load', function () {
             _ifShow = false;
             _confirmExDom.classList.remove('show');
         };
-        //阻止背景板的点击事件冒泡
-        _contentDom.onclick = (e) => {
-            e.stopPropagation();
-        }
-        _confirmExDom.onclick = () => {
-            _backF && _backF(true);
+        //整个元素
+        _bgDom.onclick = () => {
+            _backF && _backF(false);
             _hide();
         };
+        //阻止背景板的点击事件冒泡
+        _contentDom.onclick = (e) => {
+            _backF && _backF(true);
+            _hide();
+            e.stopPropagation();
+        }
+        //确认按钮
         _yesButDom.onclick = (e) => {
             _backF && _backF(true);
             _hide();
+            e.stopPropagation();
         };
+        //取消按钮
         _noButDom.onclick = (e) => {
             _backF && _backF(false);
             _hide();
+            e.stopPropagation();
         };
         return _show;
     })();
@@ -94,7 +103,7 @@ window.addEventListener('load', function () {
                     //
                     confirmEx(`
                         <div class="title">项目内容有更新</div>
-                        <div class="content">点击空白处或点击确认按钮或按Enter键刷新页面</div>
+                        <div class="content">点击消息框或点击确认按钮或按Enter键刷新页面，点击背景或取消按钮取消</div>
                     `, (flag) => {
                         _updateNumber = 0;
                         _ifConfirm = false;
