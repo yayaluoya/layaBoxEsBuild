@@ -18,6 +18,18 @@ class ResURL {
     static get publicURL() {
         return URLT_1.default.join(this.rootURL, '/public/');
     }
+    /** 获取public目录下代码目录名字 */
+    static get publicSrcDirName() {
+        return 'dist';
+    }
+    /** 获取public路径下代码的路径 */
+    static get publicSrcURL() {
+        return URLT_1.default.join(this.publicDirName, `/${this.publicSrcDirName}/`);
+    }
+    /** 获取public路径下资源的路径 */
+    static get publicResURL() {
+        return URLT_1.default.join(this.publicDirName, '/res/');
+    }
     /** 公共目录名称 */
     static get publicDirName() {
         if (!this.m_publicDirName) {

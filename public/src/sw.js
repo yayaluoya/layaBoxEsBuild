@@ -1,8 +1,8 @@
-this.addEventListener('install', function (event) {
+self.addEventListener('install', function (event) {
     // 处理安装步骤
     // console.log('sw install');
 });
-this.addEventListener('activate', function (event) {
+self.addEventListener('activate', function (event) {
     // 处理安装步骤
     // console.log('sw activate');
 });
@@ -11,7 +11,7 @@ this.addEventListener('activate', function (event) {
 let _v;
 
 //监听消息
-this.addEventListener('message', function (event) {
+self.addEventListener('message', function (event) {
     let { type, mes } = JSON.parse(event.data);
     //
     switch (type) {
@@ -44,7 +44,7 @@ this.addEventListener('message', function (event) {
 });
 
 //监听请求
-this.addEventListener('fetch', function (event) {
+self.addEventListener('fetch', function (event) {
     let _response;
     //在有版本的情况下先在缓存中找响应
     if (_v) {

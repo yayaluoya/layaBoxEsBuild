@@ -20,6 +20,18 @@ export default class ResURL {
         return URLT.join(this.rootURL, '/public/');
     }
 
+    /** 获取public目录下代码目录名字 */
+    public static get publicSrcDirName(): string {
+        return 'dist';
+    }
+    /** 获取public路径下代码的路径 */
+    public static get publicSrcURL(): string {
+        return URLT.join(this.publicDirName, `/${this.publicSrcDirName}/`);
+    }
+    /** 获取public路径下资源的路径 */
+    public static get publicResURL(): string {
+        return URLT.join(this.publicDirName, '/res/');
+    }
     /** 公共目录名称，一个随机值，不固定 */
     private static m_publicDirName: string;
     /** 公共目录名称 */

@@ -33,7 +33,7 @@ class BinProxy {
                 if (new RegExp(`^/${MyConfig_1.default.webToolJsName.sw}$`).test(url)) {
                     res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.js') }));
                     //提取出相对目录并取出内容
-                    BinTool_1.default.getWebTool(url).then((_js) => {
+                    BinTool_1.default.getWebTool(URLT_1.default.join(ResURL_1.default.publicSrcDirName, url)).then((_js) => {
                         res.end(_js);
                     });
                 }
@@ -50,14 +50,14 @@ class BinProxy {
                     switch (true) {
                         //主页html文件
                         case new RegExp(`^((/?)|(/?${MainConfig_1.default.config.homePage.replace(/^\//, '')}))$`).test(url):
-                            res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.html') }));
+                            res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.html') + ';charset=UTF-8' }));
                             BinTool_1.default.getHomePage().then((_html) => {
                                 res.end(_html);
                             });
                             break;
                         //主页js文件
                         case new RegExp(`^/?${MainConfig_1.default.config.homeJs.replace(/^\//, '')}$`).test(url):
-                            res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.js') }));
+                            res.writeHead(200, Object.assign(Object.assign({}, _head), { 'Content-Type': ContentType_1.default.get('.js') + ';charset=UTF-8' }));
                             BinTool_1.default.getHomeJs().then((_js) => {
                                 res.end(_js);
                             });

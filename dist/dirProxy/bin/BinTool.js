@@ -34,15 +34,22 @@ class BinTool {
                 //根据不同文件做不同操作
                 switch (true) {
                     //主脚本要替换版本，和包信息
-                    case new RegExp(`^/?${MyConfig_1.default.webToolJsName.main}$`).test(_url):
-                        _content = _content.replace('${{v}}', VersionsT_1.default.getV()).replace('{{packageJson}}', JSON.stringify(PackageJson_1.default));
+                    case new RegExp(`${MyConfig_1.default.webToolJsName.main}$`).test(_url):
+                        _content = _content.replace('${{v}}', VersionsT_1.default.getV()).replace('{{packageJson}}', JSON.stringify({
+                            name: PackageJson_1.default['name'],
+                            version: PackageJson_1.default['version'],
+                            authorName: PackageJson_1.default['authorName'],
+                            description: PackageJson_1.default['description'],
+                            repository: PackageJson_1.default['repository'],
+                            remotePackgeFileUrl: PackageJson_1.default['remotePackgeFileUrl'],
+                        }).replace(/"/g, '\"'));
                         break;
                     //webSocket工具脚本需要替换主机名和端口号
-                    case new RegExp(`^/?${MyConfig_1.default.webToolJsName.webSocket}$`).test(_url):
+                    case new RegExp(`${MyConfig_1.default.webToolJsName.webSocket}$`).test(_url):
                         _content = _content.replace('${{hostname}}', HttpTool_1.default.getHostname).replace('${{webSocketPort}}', MyConfig_1.default.webSocketPort + '');
                         break;
                     //alert工具脚本需要替换是否时刻刷新浏览器的变量
-                    case new RegExp(`^/?${MyConfig_1.default.webToolJsName.alert}$`).test(_url):
+                    case new RegExp(`${MyConfig_1.default.webToolJsName.alert}$`).test(_url):
                         _content = _content.replace('$ifUpdateNow', Boolean(MainConfig_1.default.config.ifUpdateNow).toString());
                         break;
                 }
@@ -69,20 +76,21 @@ class BinTool {
                 _html = data.toString();
                 //在头部结束时加上css样式表和serviceWorkers工具脚本
                 _html = _html.replace(/\<\/head\>/, `
-<link rel="stylesheet" type="text/css" href="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.css}">
-<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.main}"></script>
-<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.webSocket}"></script>
-<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.swTool}"></script>
-${MainConfig_1.default.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.alert}"></script>` : ''}
+<link rel="stylesheet" type="text/css" href="${ResURL_1.default.publicResURL}${MyConfig_1.default.webToolJsName.css}">
+<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.main}"></script>
+<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.webSocket}"></script>
+<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.swTool}"></script>
+${MainConfig_1.default.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.alert}"></script>` : ''}
 </head>
                 `);
                 //在所有脚本前加上webload脚本
                 _html = _html.replace(/\<body\>/, `<body>
-<script type="text/javascript" src="${ResURL_1.default.publicDirName}/${MyConfig_1.default.webToolJsName.load}"></script>
+<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.load}"></script>
                 `);
                 //包装loadLib函数内容，加一个模块的参数
                 _html = _html.replace(/function loadLib\([\s\S]*?\)[\s]\{[\s\S]*?\}/, `
-    function loadLib(url, type = 'text/javascript') {
+    function loadLib(url) {
+        var type = arguments.length <= 1 || arguments[1] === undefined ? 'text/javascript' : arguments[1];
         var script = document.createElement("script");
         script.async = false;
         script.src = url;

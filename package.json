@@ -1,8 +1,9 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.42",
+  "version": "1.0.44",
   "authorName": "yayaluoya",
-  "version-log": [{
+  "version-log": [
+    {
       "v": "1.0.20",
       "log": "把sourcemap从内联转移到外部文件的形式，修复谷歌浏览器断点调试的不稳定的bug。"
     },
@@ -73,6 +74,10 @@
     {
       "v": "1.0.42",
       "log": "小优化。"
+    },
+    {
+      "v": "1.0.44",
+      "log": "工具脚本做浏览器兼容处理。"
     }
   ],
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",

@@ -38,7 +38,7 @@ const consoleEx = (function () {
         consoleEx: consoleEx,
         version: '${{v}}',
         //其中可能带有\所以需要转义一下
-        packageJson: JSON.parse(`{{packageJson}}`.replace(/\\/g, '/')),
+        packageJson: JSON.parse('{{packageJson}}'),
     };
     //
     window.esbuildTool = esbuildTool;

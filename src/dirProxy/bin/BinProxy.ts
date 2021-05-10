@@ -35,7 +35,7 @@ export default class BinProxy {
                         'Content-Type': ContentType.get('.js'),
                     });
                     //提取出相对目录并取出内容
-                    BinTool.getWebTool(url).then((_js) => {
+                    BinTool.getWebTool(URLT.join(ResURL.publicSrcDirName, url)).then((_js) => {
                         res.end(_js);
                     });
                 }
@@ -57,7 +57,7 @@ export default class BinProxy {
                         case new RegExp(`^((/?)|(/?${MainConfig.config.homePage.replace(/^\//, '')}))$`).test(url):
                             res.writeHead(200, {
                                 ..._head,
-                                'Content-Type': ContentType.get('.html'),
+                                'Content-Type': ContentType.get('.html') + ';charset=UTF-8',
                             });
                             BinTool.getHomePage().then((_html) => {
                                 res.end(_html);
@@ -67,7 +67,7 @@ export default class BinProxy {
                         case new RegExp(`^/?${MainConfig.config.homeJs.replace(/^\//, '')}$`).test(url):
                             res.writeHead(200, {
                                 ..._head,
-                                'Content-Type': ContentType.get('.js'),
+                                'Content-Type': ContentType.get('.js') + ';charset=UTF-8',
                             });
                             BinTool.getHomeJs().then((_js) => {
                                 res.end(_js);

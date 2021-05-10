@@ -1,3 +1,4 @@
+//加载完成事件
 window.addEventListener('load', function () {
     /** 提示框扩展 */
     const confirmEx = (function () {
