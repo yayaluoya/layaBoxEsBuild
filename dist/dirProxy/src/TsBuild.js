@@ -17,6 +17,8 @@ class TsBuild {
      */
     static build(_url, _suffix) {
         return new Promise((r, e) => {
+            //文件名字
+            let _fileName = path.basename(_url);
             //读取目标文件
             fs.readFile(_url, (err, rootCode) => {
                 if (err) {
@@ -33,7 +35,7 @@ class TsBuild {
                             //内联映射
                             sourcemap: true,
                             //资源文件
-                            sourcefile: _url,
+                            sourcefile: `./$${_fileName}`,
                             //字符集
                             charset: 'utf8',
                             //
@@ -48,7 +50,7 @@ class TsBuild {
                             }
                             //返回内容，全部转成buffer格式的数据
                             r({
-                                code: Buffer.from(code + `//# sourceMappingURL=${path.basename(_url)}.map`),
+                                code: Buffer.from(code + `//# sourceMappingURL=${_fileName}.map`),
                                 map: Buffer.from(map),
                             });
                         }).catch((E) => {
