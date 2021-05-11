@@ -53,7 +53,7 @@ export default class TsBuild {
                                 map: Buffer.from(map),
                             });
                         }).catch((E) => {
-                            e('esBuild打包文件时出错->' + E);
+                            e(`esBuild打包文件时出错@${_url}\n` + E);
                         });
                     }
                     //打包成普通文本

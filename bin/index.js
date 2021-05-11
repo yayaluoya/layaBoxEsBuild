@@ -116,9 +116,9 @@ switch (true) {
                 if (package.version != data.version) {
                     console.log(chalk.yellow(`远程最新版本为 ${data.version} , 当前版本为 ${package.version}\n可以执行 npm i layabox-esbuild -g 命令来安装最新版本`));
                 }
-                let _vl = package['version-log'];
-                let _r_vl = data['version-log'];
-                if (_r_vl) {
+                let _vl = package['version-log'] || [];
+                let _r_vl = data['version-log'] || [];
+                if (_r_vl.length > 0) {
                     console.log(chalk.gray('所有版本信息：'));
                     for (let i = 0, length = _r_vl.length; i < length; i++) {
                         console.log(chalk.gray('\n->'));
@@ -164,6 +164,8 @@ function build(_config = {}) {
         //新增配置
         ..._config,
     });
+    //提示一下可能存在的bug
+    alertBug();
 }
 
 /**
@@ -188,4 +190,34 @@ function getConfig(_url, _ifAlert = true) {
     }
     //
     return _config;
+}
+
+/**
+ * 提示bug
+ */
+function alertBug() {
+    //发送请求，获取远程bug提示信息
+    https.get(package.remotePackgeFileUrl, (res) => {
+        res.on('data', (d) => {
+            let data = JSON.parse(d.toString());
+            let _onVNumber = parseInt(package.version.replace(/\./g, ''));
+            let _versionLog = data['version-log'] || [];
+            let _bugs = [];
+            //遍历日志，找出高版本的bug然后输出
+            for (let _o of _versionLog) {
+                // console.log(parseInt(_o['v'].replace(/\./g, '')), _onVNumber, _o['type']);
+                if ((parseInt(_o['v'].replace(/\./g, '')) > _onVNumber) && _o['type'] == 'bug') {
+                    _bugs.push(_o['log']);
+                }
+            }
+            //输出bug日志
+            if (_bugs.length > 0) {
+                console.log(chalk.red('新版本修复了一些目前版本可能存在的bug，建议执行 npm i layabox-esbuild -g 重新安装工具：\n'));
+                _bugs.forEach((item, _i) => {
+                    console.log(chalk.yellow(_i + 1, item));
+                });
+                console.log(chalk.green('\n执行命令 layabox-esbuild -vl 查看全部版本信息'));
+            }
+        });
+    });
 }
