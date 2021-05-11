@@ -206,7 +206,8 @@ function alertBug() {
             //遍历日志，找出高版本的bug然后输出
             for (let _o of _versionLog) {
                 // console.log(parseInt(_o['v'].replace(/\./g, '')), _onVNumber, _o['type']);
-                if ((parseInt(_o['v'].replace(/\./g, '')) > _onVNumber) && _o['type'] == 'bug') {
+                //高版本且为bug且影响程度大于等于3才会被提示
+                if ((parseInt(_o['v'].replace(/\./g, '')) > _onVNumber) && _o['type'] == 'bug' && _o['degree'] >= 3) {
                     _bugs.push(_o['log']);
                 }
             }

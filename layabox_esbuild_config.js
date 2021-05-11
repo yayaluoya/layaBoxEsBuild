@@ -7,6 +7,4 @@ module.exports = {
     //
     // src: 'F:/word/LayaMiniGame/src/',
     // bin: 'F:/word/LayaMiniGame/bin/',
-    src: 'F:/item/beating-tomatoes/src/',
-    bin: 'F:/item/beating-tomatoes/bin/',
 };
