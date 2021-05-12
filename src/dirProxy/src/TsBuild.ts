@@ -5,6 +5,11 @@ import SrcTransition from "./SrcTransition";
 var fs = require("fs");
 var path = require("path");
 const esbuild = require('esbuild');
+//esbuild的接口
+import type {
+    TransformOptions,
+    TransformResult
+} from "esbuild/lib/main";
 
 /**
  * ts文件打包
@@ -22,15 +27,15 @@ export default class TsBuild {
             //读取目标文件
             fs.readFile(_url, (err, rootCode) => {
                 if (err) {
-                    e('读取文件失败！' + _url);
+                    e('读取文件失败！');
                 } else {
                     rootCode = rootCode.toString();
                     //判断后缀
                     if (/^(ts)|(js)$/.test(_suffix)) {
-                        //使用esbuild打包
-                        esbuild.transform(rootCode, {
+                        //esbuild的transform选项
+                        let _transformOptions: TransformOptions = {
                             //装载器
-                            loader: _suffix,
+                            loader: _suffix as any,
                             //内联映射
                             sourcemap: true,
                             //资源文件
@@ -38,13 +43,16 @@ export default class TsBuild {
                             //字符集
                             charset: 'utf8',
                             //
-                        }).then(({ code, map, warnings }) => {
+                        };
+                        //使用esbuild打包
+                        esbuild.transform(rootCode, _transformOptions).then(({ code, map, warnings }: TransformResult) => {
                             //文件过渡
                             code = SrcTransition.tsBuildBack(code);//打包后
                             // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));
+                            //判断是否有警告
                             if (warnings.length > 0) {
                                 warnings.forEach((item) => {
-                                    console.log(chalk.gray(item));
+                                    console.log(chalk.gray(item.toString()));
                                 });
                             }
                             //返回内容，全部转成buffer格式的数据
@@ -53,7 +61,7 @@ export default class TsBuild {
                                 map: Buffer.from(map),
                             });
                         }).catch((E) => {
-                            e(`esBuild打包文件时出错@${_url}\n` + E);
+                            e(E['errors']);
                         });
                     }
                     //打包成普通文本

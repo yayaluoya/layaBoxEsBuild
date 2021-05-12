@@ -1,7 +1,38 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.47",
+  "version": "1.0.48",
   "authorName": "yayaluoya",
+  "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
+  "main": "./index.js",
+  "bin": {
+    "layabox-esbuild": "./bin/index.js",
+    "laya-eb": "./bin/index.js"
+  },
+  "repository": "https://github.com/yayaluoya/layaBoxEsBuild.git",
+  "remotePackgeFileUrl": "https://ghproxy.com/https://raw.githubusercontent.com/yayaluoya/layaBoxEsBuild/master/package.json",
+  "scripts": {
+    "install": "node ./pack/i.js",
+    "uninstall": "node ./pack/uni.js",
+    "ts-build": "tsc -w",
+    "test": "node ./bin/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "chokidar": "^3.5.1",
+    "commander": "^7.2.0",
+    "esbuild": "^0.11.12",
+    "internal-ip": "^6.2.0",
+    "moment": "^2.29.1",
+    "portfinder": "^1.0.28",
+    "ws": "^7.4.4"
+  },
+  "testEnvironment": "node",
+  "devDependencies": {
+    "@types/node": "^15.0.2",
+    "typescript": "^4.2.4"
+  },
   "version-log": [
     {
       "v": "1.0.20",
@@ -113,37 +144,12 @@
       "log": "小优化",
       "type": "opt",
       "degree": 1
+    },
+    {
+      "v": "1.0.48",
+      "log": "优化esbuild打包错误提示",
+      "type": "opt",
+      "degree": 1
     }
-  ],
-  "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
-  "main": "./index.js",
-  "bin": {
-    "layabox-esbuild": "./bin/index.js",
-    "laya-eb": "./bin/index.js"
-  },
-  "repository": "https://github.com/yayaluoya/layaBoxEsBuild.git",
-  "remotePackgeFileUrl": "https://ghproxy.com/https://raw.githubusercontent.com/yayaluoya/layaBoxEsBuild/master/package.json",
-  "scripts": {
-    "install": "node ./pack/i.js",
-    "uninstall": "node ./pack/uni.js",
-    "ts-build": "tsc -w",
-    "test": "node ./bin/index.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "chalk": "^4.1.0",
-    "chokidar": "^3.5.1",
-    "commander": "^7.2.0",
-    "esbuild": "^0.11.12",
-    "internal-ip": "^6.2.0",
-    "moment": "^2.29.1",
-    "portfinder": "^1.0.28",
-    "ws": "^7.4.4"
-  },
-  "testEnvironment": "node",
-  "devDependencies": {
-    "@types/node": "^15.0.2",
-    "typescript": "^4.2.4"
-  }
+  ]
 }

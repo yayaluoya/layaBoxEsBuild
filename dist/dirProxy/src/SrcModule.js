@@ -38,6 +38,47 @@ class SrcModule extends FileModule_1.default {
         //返回一个esbuild的任务
         return TsBuild_1.default.build(this.absolutePath, this.suffix);
     }
+    /** 处理错误回调 */
+    _mismanage(_e) {
+        if (!_e) {
+            return '';
+        }
+        //
+        let _mess = [];
+        let _vscodeUrl;
+        if (typeof _e == 'object' && Array.isArray(_e)) {
+            for (let _o of _e) {
+                //拼接vscodeUrl
+                _vscodeUrl = `vscode://file/${encodeURI(`${this.normPath}:${_o.location.line}`)}`;
+                //
+                _mess.push({
+                    text: `文件：${this.normPath}\n位置：${_o.location.line}:${_o.location.column}\n错误代码：${_o.location.lineText}\n错误信息：${_o.text}`,
+                    vsCodeUrl: _vscodeUrl,
+                });
+            }
+        }
+        else {
+            _mess.push({
+                text: _e,
+                vsCodeUrl: `vscode://file/${this.normPath}`,
+            });
+        }
+        //最后的代码
+        let _content = '';
+        for (let _mes of _mess) {
+            console.log(chalk.yellow('esbuild打包错误'));
+            console.log(chalk.gray(_mes.text));
+            //
+            _content += `
+                console.error('Esbuild打包出错');
+                console.error(\`${_mes.text}\`);
+                ${_mes.vsCodeUrl ? `console.error('点击直达：', \`${_mes.vsCodeUrl}\`);` : ''}
+                \n
+            `;
+        }
+        //
+        return _content;
+    }
 }
 exports.default = SrcModule;
 /** 更新总数 */

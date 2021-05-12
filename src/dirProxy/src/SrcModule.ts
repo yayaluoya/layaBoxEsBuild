@@ -5,6 +5,7 @@ import WebSocket from "../../webSocket/WebSocket";
 import TsBuild from "./TsBuild";
 var moment = require('moment');
 var chalk = require('chalk');
+import type { Message } from "esbuild/lib/main";
 
 /**
  * Src模块
@@ -41,5 +42,47 @@ export default class SrcModule extends FileModule {
     protected _updateContent(): Promise<IFileModuleContent> {
         //返回一个esbuild的任务
         return TsBuild.build(this.absolutePath, this.suffix);
+    }
+
+    /** 处理错误回调 */
+    protected _mismanage(_e: Message[] | string): string {
+        if (!_e) { return ''; }
+        //
+        let _mess: {
+            text: string,
+            vsCodeUrl: string,
+        }[] = [];
+        let _vscodeUrl: string;
+        if (typeof _e == 'object' && Array.isArray(_e)) {
+            for (let _o of _e) {
+                //拼接vscodeUrl
+                _vscodeUrl = `vscode://file/${encodeURI(`${this.normPath}:${_o.location.line}`)}`;
+                //
+                _mess.push({
+                    text: `文件：${this.normPath}\n位置：${_o.location.line}:${_o.location.column}\n错误代码：${_o.location.lineText}\n错误信息：${_o.text}`,
+                    vsCodeUrl: _vscodeUrl,
+                });
+            }
+        } else {
+            _mess.push({
+                text: _e,
+                vsCodeUrl: `vscode://file/${this.normPath}`,
+            });
+        }
+        //最后的代码
+        let _content: string = '';
+        for (let _mes of _mess) {
+            console.log(chalk.yellow('esbuild打包错误'));
+            console.log(chalk.gray(_mes.text));
+            //
+            _content += `
+                console.error('Esbuild打包出错');
+                console.error(\`${ _mes.text}\`);
+                ${_mes.vsCodeUrl ? `console.error('点击直达：', \`${_mes.vsCodeUrl}\`);` : ''}
+                \n
+            `
+        }
+        //
+        return _content;
     }
 }

@@ -168,12 +168,10 @@ export default class FileModule {
                 _task.then(() => {
                     //获取内容
                     this._updateContent().then((_content) => {
-                        this.m_content = _content;
+                        this.m_content = this._rightContent(_content);
                     }).catch((E) => {
-                        let _mes: string = '错误: ' + E;
-                        this.m_content.code = Buffer.from(`console.error(\`${_mes}\`);`);
-                        console.error(chalk.gray(_mes));
-                        console.error(chalk.gray(moment().format('LTS')));
+                        //把错误内容已代码的形式添加进去
+                        this.m_content.code = Buffer.from(this._mismanage(E));
                     }).finally(() => {
                         r(this);
                     });
@@ -187,12 +185,20 @@ export default class FileModule {
 
     /** 更新内容 */
     protected _updateContent(): Promise<IFileModuleContent> {
-        return new Promise<IFileModuleContent>((r) => {
-            r({
-                code: BufferT.nullBuffer,
-                map: BufferT.nullBuffer,
-            });
+        return Promise.resolve({
+            code: BufferT.nullBuffer,
+            map: BufferT.nullBuffer,
         });
+    }
+
+    /** 处理正常的内容 */
+    protected _rightContent(_content: IFileModuleContent): IFileModuleContent {
+        return _content;
+    }
+
+    /** 处理错误回调 */
+    protected _mismanage(_e: any): string {
+        return _e;
     }
 }
 

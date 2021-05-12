@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const chalk = require("chalk");
-const moment = require("moment");
 const MainConfig_1 = require("../config/MainConfig");
 const BufferT_1 = require("../_T/BufferT");
 const URLT_1 = require("../_T/URLT");
@@ -139,12 +137,10 @@ class FileModule {
                 _task.then(() => {
                     //获取内容
                     this._updateContent().then((_content) => {
-                        this.m_content = _content;
+                        this.m_content = this._rightContent(_content);
                     }).catch((E) => {
-                        let _mes = '错误: ' + E;
-                        this.m_content.code = Buffer.from(`console.error(\`${_mes}\`);`);
-                        console.error(chalk.gray(_mes));
-                        console.error(chalk.gray(moment().format('LTS')));
+                        //把错误内容已代码的形式添加进去
+                        this.m_content.code = Buffer.from(this._mismanage(E));
                     }).finally(() => {
                         r(this);
                     });
@@ -158,12 +154,18 @@ class FileModule {
     }
     /** 更新内容 */
     _updateContent() {
-        return new Promise((r) => {
-            r({
-                code: BufferT_1.default.nullBuffer,
-                map: BufferT_1.default.nullBuffer,
-            });
+        return Promise.resolve({
+            code: BufferT_1.default.nullBuffer,
+            map: BufferT_1.default.nullBuffer,
         });
+    }
+    /** 处理正常的内容 */
+    _rightContent(_content) {
+        return _content;
+    }
+    /** 处理错误回调 */
+    _mismanage(_e) {
+        return _e;
     }
 }
 exports.default = FileModule;
