@@ -1,5 +1,3 @@
-import chalk = require("chalk");
-import moment = require("moment");
 import MainConfig from "../config/MainConfig";
 import BufferT from "../_T/BufferT";
 import URLT from "../_T/URLT";

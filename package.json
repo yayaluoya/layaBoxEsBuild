@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.50",
+  "version": "1.0.51",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
@@ -154,6 +154,12 @@
     {
       "v": "1.0.50",
       "log": "新增快捷命令 leb 取消 快捷命令laya-eb",
+      "type": "opt",
+      "degree": 1
+    },
+    {
+      "v": "1.0.51",
+      "log": "优化",
       "type": "opt",
       "degree": 1
     }

@@ -52,34 +52,33 @@ export default class SrcModule extends FileModule {
             text: string,
             vsCodeUrl: string,
         }[] = [];
-        let _vscodeUrl: string;
+        //
         if (typeof _e == 'object' && Array.isArray(_e)) {
             for (let _o of _e) {
                 //拼接vscodeUrl
-                _vscodeUrl = `vscode://file/${encodeURI(`${this.normPath}:${_o.location.line}`)}`;
                 //
                 _mess.push({
                     text: `文件：${this.normPath}\n位置：${_o.location.line}:${_o.location.column}\n错误代码：${_o.location.lineText}\n错误信息：${_o.text}`,
-                    vsCodeUrl: _vscodeUrl,
+                    vsCodeUrl: `vscode://file/${escape(`${this.normPath}:${_o.location.line}:${_o.location.column}`)}`,
                 });
             }
         } else {
             _mess.push({
                 text: _e,
-                vsCodeUrl: `vscode://file/${this.normPath}`,
+                vsCodeUrl: `vscode://file/${escape(this.normPath)}`,
             });
         }
         //最后的代码
         let _content: string = '';
+        moment.locale('zh-cn');
+        let _time: string = moment().format('LLL');
         for (let _mes of _mess) {
             console.log(chalk.yellow('esbuild打包错误'));
             console.log(chalk.gray(_mes.text));
-            //
+            console.log(chalk.gray(_time));
+            //这里引入全局定义的函数
             _content += `
-                console.error('Esbuild打包出错');
-                console.error(\`${ _mes.text}\`);
-                ${_mes.vsCodeUrl ? `console.error('点击直达：', \`${_mes.vsCodeUrl}\`);` : ''}
-                \n
+                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),\`Esbuild打包出错\n-\n${_mes.text}${_mes.vsCodeUrl ? `\n-\n在vscode中打开：${_mes.vsCodeUrl}` : ''}\n-\n${_time}\`));
             `
         }
         //
