@@ -1,12 +1,12 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.0.48",
+  "version": "1.0.50",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
   "bin": {
     "layabox-esbuild": "./bin/index.js",
-    "laya-eb": "./bin/index.js"
+    "leb": "./bin/index.js"
   },
   "repository": "https://github.com/yayaluoya/layaBoxEsBuild.git",
   "remotePackgeFileUrl": "https://ghproxy.com/https://raw.githubusercontent.com/yayaluoya/layaBoxEsBuild/master/package.json",
@@ -148,6 +148,12 @@
     {
       "v": "1.0.48",
       "log": "优化esbuild打包错误提示",
+      "type": "opt",
+      "degree": 1
+    },
+    {
+      "v": "1.0.50",
+      "log": "新增快捷命令 leb 取消 快捷命令laya-eb",
       "type": "opt",
       "degree": 1
     }

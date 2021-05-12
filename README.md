@@ -74,7 +74,7 @@
 - `layabox-esbuild -vl`
     - 查看所以历史版本。
 
-- layabox-esbuild 还有一个快捷指令为 `laya-eb` 把上面的命令中的 `layabox-esbuid` 替换掉即可。
+- layabox-esbuild 还有快捷指令为 `leb` 把上面的命令中的 `layabox-esbuid` 替换掉即可。
 
 ## 全部配置选项
 
