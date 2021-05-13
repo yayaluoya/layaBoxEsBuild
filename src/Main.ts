@@ -30,7 +30,7 @@ export default class layaboxEsbuild {
 			console.log(chalk.magenta('本地主页:'), chalk.blue(BinProxy.getLocalHomePage()), chalk.green('推荐>更快'));
 			console.log(chalk.magenta('局域网主页:'), chalk.blue(BinProxy.getHomePage()));
 			console.log(chalk.gray(`> ${PackageJson.name}@${PackageJson.version}`));
-			console.log(chalk.gray('执行 layabox-esbuild -h 查看帮助或解决bug'));
+			console.log(chalk.gray('执行 leb -h 查看帮助或解决bug'));
 			console.log(chalk.gray('...'));
 		});
 	}

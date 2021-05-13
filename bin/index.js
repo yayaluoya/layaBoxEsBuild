@@ -64,6 +64,7 @@ switch (true) {
         console.log('\n');
         console.log(chalk.green('layabox-esbuild工具的全部命令选项:'));
         console.log(chalk.gray('->'));
+        console.log(chalk.magenta('快捷命令 leb'));
         console.log(chalk.blue('-i'), chalk.gray('在当前执行目录初始化配置文件'));
         console.log(chalk.blue('-h'), chalk.gray('获取帮助信息'));
         console.log(chalk.blue('-s'), chalk.gray('开始构建项目'));
@@ -202,15 +203,21 @@ function alertBug() {
             // console.log(d.toString());
             try {
                 let data = JSON.parse(d.toString());
-                let _onVNumber = parseInt(package.version.replace(/\./g, ''));
                 let _versionLog = data['version-log'] || [];
                 let _bugs = [];
-                //遍历日志，找出高版本的bug然后输出
+                let _opts = []
+                //遍历版本日志
                 for (let _o of _versionLog) {
-                    // console.log(parseInt(_o['v'].replace(/\./g, '')), _onVNumber, _o['type']);
-                    //高版本且为bug且影响程度大于等于3才会被提示
-                    if ((parseInt(_o['v'].replace(/\./g, '')) > _onVNumber) && _o['type'] == 'bug' && _o['degree'] >= 3) {
-                        _bugs.push(_o['log']);
+                    //高版本且影响程度大于等于3才会被提示
+                    if (compareV(_o['v'], package.version) && _o['degree'] >= 3) {
+                        switch (_o['type']) {
+                            case 'bug':
+                                _bugs.push(_o['log']);
+                                break;
+                            case 'opt':
+                                _opts.push(_o['opt']);
+                                break;
+                        }
                     }
                 }
                 //输出bug日志
@@ -219,6 +226,16 @@ function alertBug() {
                     _bugs.forEach((item, _i) => {
                         console.log(chalk.yellow(_i + 1, item));
                     });
+                }
+                //输出opt日志
+                if (_opts.length > 0) {
+                    console.log(chalk.green('新版本存在较大优化，建议执行 npm i layabox-esbuild -g 重新安装工具：\n'));
+                    _bugs.forEach((item, _i) => {
+                        console.log(chalk.gray(_i + 1, item));
+                    });
+                }
+                //
+                if (_bugs.length + _opts.length > 0) {
                     console.log(chalk.green('\n执行命令 layabox-esbuild -vl 查看全部版本信息'));
                 }
             } catch (e) {
@@ -226,4 +243,28 @@ function alertBug() {
             }
         });
     });
+}
+
+/**
+ * 比较版本号,a是否大于b
+ * @param {*} a a版本号
+ * @param {*} b b版本号
+ */
+function compareV(a, b) {
+    let _if = false;
+    let _aNumber = a.split(/\./).map((item) => {
+        return parseInt(item);
+    });
+    let _bNumber = b.split(/\./).map((item) => {
+        return parseInt(item);
+    });
+    for (let i = 0; i < 3; i++) {
+        if (_aNumber[i] == _bNumber[i]) {
+            continue;
+        }
+        _if = _aNumber[i] > _bNumber[i];
+        break;
+    }
+    //
+    return _if;
 }
