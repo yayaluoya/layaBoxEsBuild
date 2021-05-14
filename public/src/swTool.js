@@ -2,10 +2,20 @@ if ('serviceWorker' in navigator) {
     //直接打开sw工具
     navigator.serviceWorker.register('/sw.js').then(function (registration) {
         // Registration was successful
-        console.log('ServiceWorker 注册成功: ', registration.scope);
+        console.log(
+            ...esbuildTool.consoleEx.textPack(
+                esbuildTool.consoleEx.getStyle('#8785a2', '#f4f6ff'),
+                `ServiceWorker 注册成功: ${registration.scope}`
+            )
+        );
     }, function (err) {
         // registration failed :(
-        console.log('ServiceWorker 注册失败: ', err);
+        console.log(
+            ...esbuildTool.consoleEx.textPack(
+                esbuildTool.consoleEx.getStyle('#8785a2', '#f4f6ff'),
+                `ServiceWorker 注册失败: ${err}`
+            )
+        );
     });
 
     //立刻发送一个版本设置事件，设置sw进程的版本

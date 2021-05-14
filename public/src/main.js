@@ -54,8 +54,8 @@ const consoleEx = (function () {
     //打印提示
     console.log(
         ...esbuildTool.consoleEx.textPack(
-            esbuildTool.consoleEx.getStyle('#ffff', '#08d9d6'),
-            '欢迎使用layabox-esbuild构建工具，该工具只是个外壳不会修改项目任何内容。'
+            esbuildTool.consoleEx.getStyle('#8785a2', '#f4f6ff'),
+            `欢迎使用layabox-esbuild构建工具，该工具只是个外壳不会修改项目任何内容。\n当前版本 @${esbuildTool.packageJson.version} 最新版本请查看 https://github.com/yayaluoya/layaBoxEsBuild.git`
         )
     );
 })();
