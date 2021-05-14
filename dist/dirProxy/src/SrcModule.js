@@ -1,28 +1,50 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const FileModule_1 = require("../../com/FileModule");
-const MainConfig_1 = require("../../config/MainConfig");
-const EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
-const WebSocket_1 = require("../../webSocket/WebSocket");
-const TsBuild_1 = require("./TsBuild");
+var FileModule_1 = __importDefault(require("../../com/FileModule"));
+var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
+var EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
+var WebSocket_1 = __importDefault(require("../../webSocket/WebSocket"));
+var TsBuild_1 = __importDefault(require("./TsBuild"));
 var moment = require('moment');
 var chalk = require('chalk');
 /**
  * Src模块
  */
-class SrcModule extends FileModule_1.default {
+var SrcModule = /** @class */ (function (_super) {
+    __extends(SrcModule, _super);
+    function SrcModule() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
     /** 初始化回调 */
-    _init() {
+    SrcModule.prototype._init = function () {
         //
         if (MainConfig_1.default.config.ifLog) {
             console.log(chalk.gray('-> 创建模块'));
             console.log(chalk.gray(this.absolutePath));
         }
-    }
+    };
     /**
      * 更新回调
      */
-    _update() {
+    SrcModule.prototype._update = function () {
         SrcModule.m_updateSum++;
         //
         if (MainConfig_1.default.config.ifLog) {
@@ -32,54 +54,55 @@ class SrcModule extends FileModule_1.default {
         }
         //发出脚本更新事件
         WebSocket_1.default.send(this.key, EWebSocketMesType_1.EWebSocketMesType.scriptUpdate);
-    }
+    };
     /** 更新内容 */
-    _updateContent() {
+    SrcModule.prototype._updateContent = function () {
         //返回一个esbuild的任务
         return TsBuild_1.default.build(this.absolutePath, this.suffix);
-    }
+    };
     /** 处理错误回调 */
-    _mismanage(_e) {
+    SrcModule.prototype._mismanage = function (_e) {
         if (!_e) {
             return '';
         }
         //
-        let _mess = [];
+        var _mess = [];
         //
         if (typeof _e == 'object' && Array.isArray(_e)) {
-            for (let _o of _e) {
+            for (var _i = 0, _e_1 = _e; _i < _e_1.length; _i++) {
+                var _o = _e_1[_i];
                 //拼接vscodeUrl
                 //
                 _mess.push({
-                    text: `文件：${this.normPath}\n位置：${_o.location.line}:${_o.location.column}\n错误代码：${_o.location.lineText}\n错误信息：${_o.text}`,
-                    vsCodeUrl: `vscode://file/${escape(`${this.normPath}:${_o.location.line}:${_o.location.column}`)}`,
+                    text: "\u6587\u4EF6\uFF1A" + this.normPath + "\n\u4F4D\u7F6E\uFF1A" + _o.location.line + ":" + _o.location.column + "\n\u9519\u8BEF\u4EE3\u7801\uFF1A" + _o.location.lineText + "\n\u9519\u8BEF\u4FE1\u606F\uFF1A" + _o.text,
+                    vsCodeUrl: "vscode://file/" + escape(this.normPath + ":" + _o.location.line + ":" + _o.location.column),
                 });
             }
         }
         else {
             _mess.push({
                 text: _e,
-                vsCodeUrl: `vscode://file/${escape(this.normPath)}`,
+                vsCodeUrl: "vscode://file/" + escape(this.normPath),
             });
         }
         //最后的代码
-        let _content = '';
+        var _content = '';
         moment.locale('zh-cn');
-        let _time = moment().format('LLL');
-        for (let _mes of _mess) {
+        var _time = moment().format('LLL');
+        for (var _a = 0, _mess_1 = _mess; _a < _mess_1.length; _a++) {
+            var _mes = _mess_1[_a];
             console.log(chalk.yellow('esbuild打包错误'));
             console.log(chalk.gray(_mes.text));
             console.log(chalk.gray(_time));
             //这里引入全局定义的函数
-            _content += `
-                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),\`Esbuild打包出错\n-\n${_mes.text}${_mes.vsCodeUrl ? `\n-\n在vscode中打开：${_mes.vsCodeUrl}` : ''}\n-\n${_time}\`));
-            `;
+            _content += "\n                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),`Esbuild\u6253\u5305\u51FA\u9519\n-\n" + _mes.text + (_mes.vsCodeUrl ? "\n-\n\u5728vscode\u4E2D\u6253\u5F00\uFF1A" + _mes.vsCodeUrl : '') + "\n-\n" + _time + "`));\n            ";
         }
         //
         return _content;
-    }
-}
+    };
+    /** 更新总数 */
+    SrcModule.m_updateSum = 0;
+    return SrcModule;
+}(FileModule_1.default));
 exports.default = SrcModule;
-/** 更新总数 */
-SrcModule.m_updateSum = 0;
 //# sourceMappingURL=SrcModule.js.map

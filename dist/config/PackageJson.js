@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const PackageJson = require('../../package.json');
+var PackageJson = require('../../package.json');
 /**
  * 包配置文件
  */

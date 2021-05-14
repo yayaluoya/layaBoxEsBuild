@@ -1,22 +1,28 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const MainConfig_1 = require("../../config/MainConfig");
-const EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
-const WebSocket_1 = require("../../webSocket/WebSocket");
-const chokidar = require('chokidar');
+var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
+var EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
+var WebSocket_1 = __importDefault(require("../../webSocket/WebSocket"));
+var chokidar = require('chokidar');
 /**
  * bin文件监视
  */
-class BinWatch {
+var BinWatch = /** @class */ (function () {
+    function BinWatch() {
+    }
     /**
      * 开始监视
      */
-    static start() {
-        chokidar.watch(MainConfig_1.default.config.bin).on('all', (_e, _url) => {
+    BinWatch.start = function () {
+        chokidar.watch(MainConfig_1.default.config.bin).on('all', function (_e, _url) {
             //发送webSocket消息
-            WebSocket_1.default.send(`bin目录${_e}@` + _url, EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
+            WebSocket_1.default.send("bin\u76EE\u5F55" + _e + "@" + _url, EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
         });
-    }
-}
+    };
+    return BinWatch;
+}());
 exports.default = BinWatch;
 //# sourceMappingURL=BinWatch.js.map

@@ -27,6 +27,15 @@ const consoleEx = (function () {
         static pack(_style, _par) {
             return ['%c%s', _style, 'EB', _par];
         }
+
+        /**
+         * 文本包装
+         * @param {*} _style 样式
+         * @param {*} _text 文本内容
+         */
+        static textPack(_style, _text) {
+            return ['%c%s', _style, _text];
+        }
     }
     //
     return ConsoleEx;
@@ -42,4 +51,11 @@ const consoleEx = (function () {
     };
     //
     window.esbuildTool = esbuildTool;
+    //打印提示
+    console.log(
+        ...esbuildTool.consoleEx.textPack(
+            esbuildTool.consoleEx.getStyle('#ffff', '#08d9d6'),
+            '欢迎使用layabox-esbuild构建工具，该工具只是个外壳不会修改项目任何内容。'
+        )
+    );
 })();

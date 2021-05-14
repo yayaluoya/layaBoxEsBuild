@@ -1,42 +1,76 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const URLT_1 = require("./URLT");
-const crypto = require('crypto');
+var URLT_1 = __importDefault(require("./URLT"));
+var crypto = require('crypto');
 /**
  * 资源路径类
  */
-class ResURL {
-    /** 服务路径 */
-    static get serveURL() {
-        return 'http://localhost:3060/';
+var ResURL = /** @class */ (function () {
+    function ResURL() {
     }
-    /** 后端根路径 */
-    static get rootURL() {
-        return URLT_1.default.resolve(__dirname, '../../');
-    }
-    /** public路径 */
-    static get publicURL() {
-        return URLT_1.default.join(this.rootURL, '/public/');
-    }
-    /** 获取public目录下代码目录名字 */
-    static get publicSrcDirName() {
-        return 'dist';
-    }
-    /** 获取public路径下代码的路径 */
-    static get publicSrcURL() {
-        return URLT_1.default.join(this.publicDirName, `/${this.publicSrcDirName}/`);
-    }
-    /** 获取public路径下资源的路径 */
-    static get publicResURL() {
-        return URLT_1.default.join(this.publicDirName, '/res/');
-    }
-    /** 公共目录名称 */
-    static get publicDirName() {
-        if (!this.m_publicDirName) {
-            this.m_publicDirName = crypto.createHash('md5').update(Date.now() + '_').digest('hex');
-        }
-        return this.m_publicDirName;
-    }
-}
+    Object.defineProperty(ResURL, "serveURL", {
+        /** 服务路径 */
+        get: function () {
+            return 'http://localhost:3060/';
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ResURL, "rootURL", {
+        /** 后端根路径 */
+        get: function () {
+            return URLT_1.default.resolve(__dirname, '../../');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ResURL, "publicURL", {
+        /** public路径 */
+        get: function () {
+            return URLT_1.default.join(this.rootURL, '/public/');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ResURL, "publicSrcDirName", {
+        /** 获取public目录下代码目录名字 */
+        get: function () {
+            return 'dist';
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ResURL, "publicSrcURL", {
+        /** 获取public路径下代码的路径 */
+        get: function () {
+            return URLT_1.default.join(this.publicDirName, "/" + this.publicSrcDirName + "/");
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ResURL, "publicResURL", {
+        /** 获取public路径下资源的路径 */
+        get: function () {
+            return URLT_1.default.join(this.publicDirName, '/res/');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ResURL, "publicDirName", {
+        /** 公共目录名称 */
+        get: function () {
+            if (!this.m_publicDirName) {
+                this.m_publicDirName = crypto.createHash('md5').update(Date.now() + '_').digest('hex');
+            }
+            return this.m_publicDirName;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    return ResURL;
+}());
 exports.default = ResURL;
 //# sourceMappingURL=ResURL.js.map

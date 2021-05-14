@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const main_1 = require("./main");
-const config = require('../config.js');
-main_1.default.start(config);
+var Main_1 = __importDefault(require("./Main"));
+var config = require('../config.js');
+Main_1.default.start(config);
 //# sourceMappingURL=test.js.map

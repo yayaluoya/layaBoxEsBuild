@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ContentType = new Map();
+var ContentType = new Map();
 //添加内容
 ContentType.set(".load", "text/html");
 ContentType.set(".123", "application/vnd.lotus-1-2-3");

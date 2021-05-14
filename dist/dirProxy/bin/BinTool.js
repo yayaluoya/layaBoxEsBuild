@@ -1,40 +1,46 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const MainConfig_1 = require("../../config/MainConfig");
-const MyConfig_1 = require("../../config/MyConfig");
-const PackageJson_1 = require("../../config/PackageJson");
-const HttpTool_1 = require("../../http/HttpTool");
-const ResURL_1 = require("../../_T/ResURL");
-const URLT_1 = require("../../_T/URLT");
-const VersionsT_1 = require("../../_T/VersionsT");
-const fs = require('fs');
+var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
+var MyConfig_1 = __importDefault(require("../../config/MyConfig"));
+var PackageJson_1 = __importDefault(require("../../config/PackageJson"));
+var HttpTool_1 = __importDefault(require("../../http/HttpTool"));
+var ResURL_1 = __importDefault(require("../../_T/ResURL"));
+var URLT_1 = __importDefault(require("../../_T/URLT"));
+var VersionsT_1 = __importDefault(require("../../_T/VersionsT"));
+var fs = require('fs');
 /**
  * bin目录工具
  */
-class BinTool {
+var BinTool = /** @class */ (function () {
+    function BinTool() {
+    }
     /**
      * 获取web工具内容
      * @param _url 地址
      */
-    static getWebTool(_url) {
-        return new Promise((r) => {
-            if (this.m_webToolJs[_url]) {
-                r(this.m_webToolJs[_url]);
+    BinTool.getWebTool = function (_url) {
+        var _this = this;
+        return new Promise(function (r) {
+            if (_this.m_webToolJs[_url]) {
+                r(_this.m_webToolJs[_url]);
                 return;
             }
             //获取地址
-            let _jsUrl = URLT_1.default.join(ResURL_1.default.publicURL, _url);
+            var _jsUrl = URLT_1.default.join(ResURL_1.default.publicURL, _url);
             //读取文件
-            fs.readFile(_jsUrl, (err, data) => {
+            fs.readFile(_jsUrl, function (err, data) {
                 if (err) {
-                    r(`没有找到web工具脚本,${_jsUrl}')`);
+                    r("\u6CA1\u6709\u627E\u5230web\u5DE5\u5177\u811A\u672C," + _jsUrl + "')");
                     return;
                 }
-                let _content = data.toString();
+                var _content = data.toString();
                 //根据不同文件做不同操作
                 switch (true) {
                     //主脚本要替换版本，和包信息
-                    case new RegExp(`${MyConfig_1.default.webToolJsName.main}$`).test(_url):
+                    case new RegExp(MyConfig_1.default.webToolJsName.main + "$").test(_url):
                         _content = _content.replace('${{v}}', VersionsT_1.default.getV()).replace('{{packageJson}}', JSON.stringify({
                             name: PackageJson_1.default['name'],
                             version: PackageJson_1.default['version'],
@@ -45,94 +51,71 @@ class BinTool {
                         }).replace(/"/g, '\"'));
                         break;
                     //webSocket工具脚本需要替换主机名和端口号
-                    case new RegExp(`${MyConfig_1.default.webToolJsName.webSocket}$`).test(_url):
+                    case new RegExp(MyConfig_1.default.webToolJsName.webSocket + "$").test(_url):
                         _content = _content.replace('${{hostname}}', HttpTool_1.default.getHostname).replace('${{webSocketPort}}', MyConfig_1.default.webSocketPort + '');
                         break;
                     //alert工具脚本需要替换是否时刻刷新浏览器的变量
-                    case new RegExp(`${MyConfig_1.default.webToolJsName.alert}$`).test(_url):
+                    case new RegExp(MyConfig_1.default.webToolJsName.alert + "$").test(_url):
                         _content = _content.replace('$ifUpdateNow', Boolean(MainConfig_1.default.config.ifUpdateNow).toString());
                         break;
                 }
                 //存入缓存
-                this.m_webToolJs[_url] = _content;
+                _this.m_webToolJs[_url] = _content;
                 //
                 r(_content);
             });
         });
-    }
+    };
     /**
      * 获取主页代码
      */
-    static getHomePage() {
-        return new Promise((r) => {
+    BinTool.getHomePage = function () {
+        return new Promise(function (r) {
             //读取主页html
-            let _html;
-            let _htmlUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homePage);
-            fs.readFile(_htmlUrl, (err, data) => {
+            var _html;
+            var _htmlUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homePage);
+            fs.readFile(_htmlUrl, function (err, data) {
                 if (err) {
                     r('没有找到主页html文件' + _htmlUrl);
                     return;
                 }
                 _html = data.toString();
                 //在头部结束时加上css样式表和serviceWorkers工具脚本
-                _html = _html.replace(/\<\/head\>/, `
-<link rel="stylesheet" type="text/css" href="${ResURL_1.default.publicResURL}${MyConfig_1.default.webToolJsName.css}">
-<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.main}"></script>
-<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.webSocket}"></script>
-<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.swTool}"></script>
-${MainConfig_1.default.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.alert}"></script>` : ''}
-</head>
-                `);
+                _html = _html.replace(/\<\/head\>/, "\n<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResURL_1.default.publicResURL + MyConfig_1.default.webToolJsName.css + "\">\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.main + "\"></script>\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.webSocket + "\"></script>\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.swTool + "\"></script>\n" + (MainConfig_1.default.config.ifOpenWebSocketTool ? "<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.alert + "\"></script>" : '') + "\n</head>\n                ");
                 //在所有脚本前加上webload脚本
-                _html = _html.replace(/\<body\>/, `<body>
-<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.load}"></script>
-                `);
+                _html = _html.replace(/\<body\>/, "<body>\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.load + "\"></script>\n                ");
                 //包装loadLib函数内容，加一个模块的参数
-                _html = _html.replace(/function loadLib\([\s\S]*?\)[\s]\{[\s\S]*?\}/, `
-    function loadLib(url) {
-        var type = arguments.length <= 1 || arguments[1] === undefined ? 'text/javascript' : arguments[1];
-        var script = document.createElement("script");
-        script.async = false;
-        script.src = url;
-        script.type = type;
-        document.body.appendChild(script);
-    }
-                    `);
+                _html = _html.replace(/function loadLib\([\s\S]*?\)[\s]\{[\s\S]*?\}/, "\n    function loadLib(url) {\n        var type = arguments.length <= 1 || arguments[1] === undefined ? 'text/javascript' : arguments[1];\n        var script = document.createElement(\"script\");\n        script.async = false;\n        script.src = url;\n        script.type = type;\n        document.body.appendChild(script);\n    }\n                    ");
                 //
-                _html = `
-<!-- 此文件被包装过，和源文件内容有差异。 -->
-${_html}
-                `;
+                _html = "\n<!-- \u6B64\u6587\u4EF6\u88AB\u5305\u88C5\u8FC7\uFF0C\u548C\u6E90\u6587\u4EF6\u5185\u5BB9\u6709\u5DEE\u5F02\u3002 -->\n" + _html + "\n                ";
                 //
                 r(_html);
             });
         });
-    }
+    };
     /**
      * 获取主页脚本文件内容
      */
-    static getHomeJs() {
-        return new Promise((r) => {
-            let _js;
-            let _jsUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homeJs);
-            fs.readFile(_jsUrl, (err, data) => {
+    BinTool.getHomeJs = function () {
+        return new Promise(function (r) {
+            var _js;
+            var _jsUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homeJs);
+            fs.readFile(_jsUrl, function (err, data) {
                 if (err) {
-                    r(`alert('没有找到主页js脚本',${_jsUrl}')`);
+                    r("alert('\u6CA1\u6709\u627E\u5230\u4E3B\u9875js\u811A\u672C'," + _jsUrl + "')");
                     return;
                 }
                 _js = data.toString();
                 //替换主脚本地址
-                _js = `
-//! 此文件被包装过，和源文件内容有差异。
-${_js.replace(new RegExp(`\\(["']/?${MainConfig_1.default.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://${HttpTool_1.default.getHostname}:${MainConfig_1.default.config.port.src}/${MainConfig_1.default.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
-                `;
+                _js = "\n//! \u6B64\u6587\u4EF6\u88AB\u5305\u88C5\u8FC7\uFF0C\u548C\u6E90\u6587\u4EF6\u5185\u5BB9\u6709\u5DEE\u5F02\u3002\n" + _js.replace(new RegExp("\\([\"']/?" + MainConfig_1.default.config.mainJs.replace(/^\//, '') + "[\"']\\)"), "(\"http://" + HttpTool_1.default.getHostname + ":" + MainConfig_1.default.config.port.src + "/" + MainConfig_1.default.config.mainTs.replace(/\..*?$/, '') + "\", 'module')") + "\n                ";
                 //
                 r(_js);
             });
         });
-    }
-}
+    };
+    /** web工具脚本内容缓存 */
+    BinTool.m_webToolJs = {};
+    return BinTool;
+}());
 exports.default = BinTool;
-/** web工具脚本内容缓存 */
-BinTool.m_webToolJs = {};
 //# sourceMappingURL=BinTool.js.map
