@@ -11,7 +11,7 @@ export default class HttpTool {
      * @param _f 请求响应执行方法
      * @param _port 端口
      */
-    public static createServer(_f: (req, res) => void, _port: number): Promise<http.Server> {
+    public static createServer(_f: http.RequestListener, _port: number): Promise<http.Server> {
         let _portP: Promise<number>;
         //端口为0则自动分配端口
         if (_port == 0) {
