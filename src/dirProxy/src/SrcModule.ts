@@ -3,9 +3,9 @@ import MainConfig from "../../config/MainConfig";
 import { EWebSocketMesType } from "../../webSocket/EWebSocketMesType";
 import WebSocket from "../../webSocket/WebSocket";
 import TsBuild from "./TsBuild";
-var moment = require('moment');
-var chalk = require('chalk');
-import type { Message } from "esbuild/lib/main";
+import moment from "moment";
+import chalk from "chalk";
+import { Message } from "esbuild";
 
 /**
  * Src模块

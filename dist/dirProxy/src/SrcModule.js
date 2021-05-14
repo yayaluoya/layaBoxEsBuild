@@ -23,8 +23,8 @@ var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
 var WebSocket_1 = __importDefault(require("../../webSocket/WebSocket"));
 var TsBuild_1 = __importDefault(require("./TsBuild"));
-var moment = require('moment');
-var chalk = require('chalk');
+var moment_1 = __importDefault(require("moment"));
+var chalk_1 = __importDefault(require("chalk"));
 /**
  * Src模块
  */
@@ -37,8 +37,8 @@ var SrcModule = /** @class */ (function (_super) {
     SrcModule.prototype._init = function () {
         //
         if (MainConfig_1.default.config.ifLog) {
-            console.log(chalk.gray('-> 创建模块'));
-            console.log(chalk.gray(this.absolutePath));
+            console.log(chalk_1.default.gray('-> 创建模块'));
+            console.log(chalk_1.default.gray(this.absolutePath));
         }
     };
     /**
@@ -48,9 +48,9 @@ var SrcModule = /** @class */ (function (_super) {
         SrcModule.m_updateSum++;
         //
         if (MainConfig_1.default.config.ifLog) {
-            console.log(chalk.gray('>'));
-            console.log(chalk.gray('--> 模块更新'), chalk.yellow(this.absolutePath));
-            console.log(chalk.gray('x', this.updateNumber), chalk.magenta('X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
+            console.log(chalk_1.default.gray('>'));
+            console.log(chalk_1.default.gray('--> 模块更新'), chalk_1.default.yellow(this.absolutePath));
+            console.log(chalk_1.default.gray('x', this.updateNumber), chalk_1.default.magenta('X', SrcModule.m_updateSum), chalk_1.default.blue(moment_1.default(Date.now()).format('HH:mm:ss')));
         }
         //发出脚本更新事件
         WebSocket_1.default.send(this.key, EWebSocketMesType_1.EWebSocketMesType.scriptUpdate);
@@ -87,13 +87,13 @@ var SrcModule = /** @class */ (function (_super) {
         }
         //最后的代码
         var _content = '';
-        moment.locale('zh-cn');
-        var _time = moment().format('LLL');
+        moment_1.default.locale('zh-cn');
+        var _time = moment_1.default().format('LLL');
         for (var _a = 0, _mess_1 = _mess; _a < _mess_1.length; _a++) {
             var _mes = _mess_1[_a];
-            console.log(chalk.yellow('esbuild打包错误'));
-            console.log(chalk.gray(_mes.text));
-            console.log(chalk.gray(_time));
+            console.log(chalk_1.default.yellow('esbuild打包错误'));
+            console.log(chalk_1.default.gray(_mes.text));
+            console.log(chalk_1.default.gray(_time));
             //这里引入全局定义的函数
             _content += "\n                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),`Esbuild\u6253\u5305\u51FA\u9519\n-\n" + _mes.text + (_mes.vsCodeUrl ? "\n-\n\u5728vscode\u4E2D\u6253\u5F00\uFF1A" + _mes.vsCodeUrl : '') + "\n-\n" + _time + "`));\n            ";
         }

@@ -1,16 +1,10 @@
-import chalk = require("chalk");
 import { IFileModuleContent } from "../../com/FileModule";
 import BufferT from "../../_T/BufferT";
 import SrcTransition from "./SrcTransition";
-var fs = require("fs");
-var path = require("path");
-const esbuild = require('esbuild');
-//esbuild的接口
-import type {
-    TransformOptions,
-    TransformResult
-} from "esbuild/lib/main";
-
+import chalk from "chalk";
+import path from "path";
+import { transform, TransformOptions, TransformResult } from "esbuild";
+import { readFile } from "fs";
 /**
  * ts文件打包
  */
@@ -25,11 +19,11 @@ export default class TsBuild {
             //文件名字
             let _fileName: string = path.basename(_url);
             //读取目标文件
-            fs.readFile(_url, (err, rootCode) => {
+            readFile(_url, (err, rootCodeBuffer) => {
                 if (err) {
                     e('读取文件失败！');
                 } else {
-                    rootCode = rootCode.toString();
+                    let rootCode: string = rootCodeBuffer.toString();
                     //判断后缀
                     if (/^(ts)|(js)$/.test(_suffix)) {
                         //esbuild的transform选项
@@ -45,7 +39,7 @@ export default class TsBuild {
                             //
                         };
                         //使用esbuild打包
-                        esbuild.transform(rootCode, _transformOptions).then(({ code, map, warnings }: TransformResult) => {
+                        transform(rootCode, _transformOptions).then(({ code, map, warnings }: TransformResult) => {
                             //文件过渡
                             code = SrcTransition.tsBuildBack(code);//打包后
                             // console.log('esbuild之后的代码', chalk.gray(code.slice(0, 50)));

@@ -1,7 +1,7 @@
 import MainConfig from "../../config/MainConfig";
-import URLT from "../../_T/URLT";
 import SrcModule from "./SrcModule";
-var chalk = require('chalk');
+import chalk from "chalk";
+import { join } from "path";
 
 /**
  * Src目录缓存
@@ -35,7 +35,7 @@ export default class SrcCache {
     public static getModule(_url: string): SrcModule {
         //是否从缓存里面拿
         let _ifCache: boolean = true;
-        let _module: SrcModule = this.byUrlGetModule(URLT.join(MainConfig.config.src, _url));
+        let _module: SrcModule = this.byUrlGetModule(join(MainConfig.config.src, _url));
         if (!_module) {
             _ifCache = false;
             _module = new SrcModule(_url);

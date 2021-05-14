@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var crypto = require('crypto');
+var crypto_1 = __importDefault(require("crypto"));
 /**
  * 版本控制工具
  */
@@ -12,7 +15,7 @@ var VersionsT = /** @class */ (function () {
      */
     VersionsT.getV = function () {
         if (!this.v) {
-            this.v = crypto.createHash('md5').update(Date.now() + '_versions').digest('hex');
+            this.v = crypto_1.default.createHash('md5').update(Date.now() + '_versions').digest('hex');
             ;
         }
         //

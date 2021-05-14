@@ -83,5 +83,5 @@ var consoleEx = function () {
 
   window.esbuildTool = esbuildTool; //打印提示
 
-  (_console = console).log.apply(_console, _toConsumableArray(esbuildTool.consoleEx.textPack(esbuildTool.consoleEx.getStyle('#8785a2', '#f4f6ff'), "\u6B22\u8FCE\u4F7F\u7528layabox-esbuild\u6784\u5EFA\u5DE5\u5177\uFF0C\u8BE5\u5DE5\u5177\u53EA\u662F\u4E2A\u5916\u58F3\u4E0D\u4F1A\u4FEE\u6539\u9879\u76EE\u4EFB\u4F55\u5185\u5BB9\u3002\n\u5F53\u524D\u7248\u672C @".concat(esbuildTool.packageJson.version, " \u6700\u65B0\u7248\u672C\u8BF7\u67E5\u770B https://github.com/yayaluoya/layaBoxEsBuild.git"))));
+  (_console = console).log.apply(_console, _toConsumableArray(esbuildTool.consoleEx.textPack(esbuildTool.consoleEx.getStyle('#8785a2', 'rgb(138 255 185 / 20%)'), "\u6B22\u8FCE\u4F7F\u7528layabox-esbuild\u6784\u5EFA\u5DE5\u5177\uFF0C\u8BE5\u5DE5\u5177\u53EA\u662F\u4E2A\u5916\u58F3\u4E0D\u4F1A\u4FEE\u6539\u9879\u76EE\u4EFB\u4F55\u5185\u5BB9\u3002\n\u5F53\u524D\u7248\u672C @".concat(esbuildTool.packageJson.version, " \u6700\u65B0\u7248\u672C\u8BF7\u67E5\u770B https://github.com/yayaluoya/layaBoxEsBuild.git"))));
 })();

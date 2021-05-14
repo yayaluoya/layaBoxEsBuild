@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
 var WebSocket_1 = __importDefault(require("../../webSocket/WebSocket"));
-var chokidar = require('chokidar');
+var chokidar_1 = __importDefault(require("chokidar"));
 /**
  * bin文件监视
  */
@@ -17,7 +17,7 @@ var BinWatch = /** @class */ (function () {
      * 开始监视
      */
     BinWatch.start = function () {
-        chokidar.watch(MainConfig_1.default.config.bin).on('all', function (_e, _url) {
+        chokidar_1.default.watch(MainConfig_1.default.config.bin).on('all', function (_e, _url) {
             //发送webSocket消息
             WebSocket_1.default.send("bin\u76EE\u5F55" + _e + "@" + _url, EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
         });

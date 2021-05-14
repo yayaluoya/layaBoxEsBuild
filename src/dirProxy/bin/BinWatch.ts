@@ -1,8 +1,8 @@
 import MainConfig from "../../config/MainConfig";
 import { EWebSocketMesType } from "../../webSocket/EWebSocketMesType";
 import WebSocket from "../../webSocket/WebSocket";
+import chokidar from "chokidar";
 
-const chokidar = require('chokidar');
 /**
  * bin文件监视
  */

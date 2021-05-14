@@ -4,7 +4,7 @@ import MainConfig from "./config/MainConfig";
 import Init from "./Init";
 import SrcProxy from "./dirProxy/src/SrcProxy";
 import PackageJson from "./config/PackageJson";
-const chalk = require('chalk');
+import chalk from "chalk";
 
 /**
  * layaboxEsbuild构建实例

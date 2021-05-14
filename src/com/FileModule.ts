@@ -1,7 +1,7 @@
 import MainConfig from "../config/MainConfig";
 import BufferT from "../_T/BufferT";
-import URLT from "../_T/URLT";
-const crypto = require('crypto');
+import crypto from "crypto";
+import { join } from "path";
 
 /**
  * 文件模块
@@ -98,7 +98,7 @@ export default class FileModule {
         //
         // console.log('后缀', this.m_url, this.m_suffix);
         //
-        this.m_absolutePath = URLT.join(MainConfig.config.src, this.m_url.replace(_reg, '')) + '.' + this.m_suffix;
+        this.m_absolutePath = join(MainConfig.config.src, this.m_url.replace(_reg, '')) + '.' + this.m_suffix;
         this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
         //通过url生成唯一标识符
         this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');

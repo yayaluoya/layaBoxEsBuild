@@ -44,7 +44,7 @@ var MainConfig_1 = __importDefault(require("./config/MainConfig"));
 var Init_1 = __importDefault(require("./Init"));
 var SrcProxy_1 = __importDefault(require("./dirProxy/src/SrcProxy"));
 var PackageJson_1 = __importDefault(require("./config/PackageJson"));
-var chalk = require('chalk');
+var chalk_1 = __importDefault(require("chalk"));
 /**
  * layaboxEsbuild构建实例
  */
@@ -76,12 +76,12 @@ var layaboxEsbuild = /** @class */ (function () {
                         //代理bin
                         _a.sent();
                         //提示bin目录的主页地址
-                        console.log(chalk.gray('---->'));
-                        console.log(chalk.magenta('本地主页:'), chalk.blue(BinProxy_1.default.getLocalHomePage()), chalk.green('推荐>更快'));
-                        console.log(chalk.magenta('局域网主页:'), chalk.blue(BinProxy_1.default.getHomePage()));
-                        console.log(chalk.gray("> " + PackageJson_1.default.name + "@" + PackageJson_1.default.version));
-                        console.log(chalk.gray('执行 leb -h 查看帮助或解决bug'));
-                        console.log(chalk.gray('...'));
+                        console.log(chalk_1.default.gray('---->'));
+                        console.log(chalk_1.default.magenta('本地主页:'), chalk_1.default.blue(BinProxy_1.default.getLocalHomePage()), chalk_1.default.green('推荐>更快'));
+                        console.log(chalk_1.default.magenta('局域网主页:'), chalk_1.default.blue(BinProxy_1.default.getHomePage()));
+                        console.log(chalk_1.default.gray("> " + PackageJson_1.default.name + "@" + PackageJson_1.default.version));
+                        console.log(chalk_1.default.gray('执行 leb -h 查看帮助或解决bug'));
+                        console.log(chalk_1.default.gray('...'));
                         return [2 /*return*/];
                 }
             });

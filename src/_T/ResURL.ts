@@ -1,36 +1,29 @@
-import URLT from "./URLT";
-const crypto = require('crypto');
+import crypto from "crypto";
+import { join, resolve } from "path";
 
 /**
  * 资源路径类
  */
 export default class ResURL {
-    /** 服务路径 */
-    public static get serveURL(): string {
-        return 'http://localhost:3060/';
-    }
-
-    /** 后端根路径 */
+    /** 工具根路径 */
     public static get rootURL(): string {
-        return URLT.resolve(__dirname, '../../');
+        return resolve(__dirname, '../../');
     }
 
     /** public路径 */
     public static get publicURL(): string {
-        return URLT.join(this.rootURL, '/public/');
+        return join(this.rootURL, '/public/');
     }
 
     /** 获取public目录下代码目录名字 */
-    public static get publicSrcDirName(): string {
-        return 'dist';
-    }
+    public static readonly publicSrcDirName: string = 'dist';
     /** 获取public路径下代码的路径 */
     public static get publicSrcURL(): string {
-        return URLT.join(this.publicDirName, `/${this.publicSrcDirName}/`);
+        return join(this.publicDirName, `/${this.publicSrcDirName}/`);
     }
     /** 获取public路径下资源的路径 */
     public static get publicResURL(): string {
-        return URLT.join(this.publicDirName, '/res/');
+        return join(this.publicDirName, '/res/');
     }
     /** 公共目录名称，一个随机值，不固定 */
     private static m_publicDirName: string;

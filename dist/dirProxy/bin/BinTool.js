@@ -8,9 +8,9 @@ var MyConfig_1 = __importDefault(require("../../config/MyConfig"));
 var PackageJson_1 = __importDefault(require("../../config/PackageJson"));
 var HttpTool_1 = __importDefault(require("../../http/HttpTool"));
 var ResURL_1 = __importDefault(require("../../_T/ResURL"));
-var URLT_1 = __importDefault(require("../../_T/URLT"));
 var VersionsT_1 = __importDefault(require("../../_T/VersionsT"));
-var fs = require('fs');
+var path_1 = require("path");
+var fs_1 = require("fs");
 /**
  * bin目录工具
  */
@@ -29,9 +29,9 @@ var BinTool = /** @class */ (function () {
                 return;
             }
             //获取地址
-            var _jsUrl = URLT_1.default.join(ResURL_1.default.publicURL, _url);
+            var _jsUrl = path_1.join(ResURL_1.default.publicURL, _url);
             //读取文件
-            fs.readFile(_jsUrl, function (err, data) {
+            fs_1.readFile(_jsUrl, function (err, data) {
                 if (err) {
                     r("\u6CA1\u6709\u627E\u5230web\u5DE5\u5177\u811A\u672C," + _jsUrl + "')");
                     return;
@@ -73,8 +73,8 @@ var BinTool = /** @class */ (function () {
         return new Promise(function (r) {
             //读取主页html
             var _html;
-            var _htmlUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homePage);
-            fs.readFile(_htmlUrl, function (err, data) {
+            var _htmlUrl = path_1.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homePage);
+            fs_1.readFile(_htmlUrl, function (err, data) {
                 if (err) {
                     r('没有找到主页html文件' + _htmlUrl);
                     return;
@@ -99,8 +99,8 @@ var BinTool = /** @class */ (function () {
     BinTool.getHomeJs = function () {
         return new Promise(function (r) {
             var _js;
-            var _jsUrl = URLT_1.default.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homeJs);
-            fs.readFile(_jsUrl, function (err, data) {
+            var _jsUrl = path_1.join(MainConfig_1.default.config.bin, MainConfig_1.default.config.homeJs);
+            fs_1.readFile(_jsUrl, function (err, data) {
                 if (err) {
                     r("alert('\u6CA1\u6709\u627E\u5230\u4E3B\u9875js\u811A\u672C'," + _jsUrl + "')");
                     return;

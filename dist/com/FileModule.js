@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var MainConfig_1 = __importDefault(require("../config/MainConfig"));
 var BufferT_1 = __importDefault(require("../_T/BufferT"));
-var URLT_1 = __importDefault(require("../_T/URLT"));
-var crypto = require('crypto');
+var crypto_1 = __importDefault(require("crypto"));
+var path_1 = require("path");
 /**
  * 文件模块
  * * 会把目标模块内容读取到内存中，方便下次访问，并在该文件被修改时自动更新
@@ -38,10 +38,10 @@ var FileModule = /** @class */ (function () {
         //
         // console.log('后缀', this.m_url, this.m_suffix);
         //
-        this.m_absolutePath = URLT_1.default.join(MainConfig_1.default.config.src, this.m_url.replace(_reg, '')) + '.' + this.m_suffix;
+        this.m_absolutePath = path_1.join(MainConfig_1.default.config.src, this.m_url.replace(_reg, '')) + '.' + this.m_suffix;
         this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
         //通过url生成唯一标识符
-        this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
+        this.m_key = crypto_1.default.createHash('md5').update(this.m_absolutePath).digest('hex');
         //更新修改版本
         this.updateModifyV();
         //

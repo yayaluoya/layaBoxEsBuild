@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
-var URLT_1 = __importDefault(require("../../_T/URLT"));
 var SrcModule_1 = __importDefault(require("./SrcModule"));
-var chalk = require('chalk');
+var chalk_1 = __importDefault(require("chalk"));
+var path_1 = require("path");
 /**
  * Src目录缓存
  */
@@ -28,8 +28,8 @@ var SrcCache = /** @class */ (function () {
                 item.autoUpdateTask() ? _i++ : false;
             });
             if (_i > 0 && MainConfig_1.default.config.ifLog) {
-                console.log(chalk.gray('>'));
-                console.log(chalk.gray('预构建所有已修改模块->', _i));
+                console.log(chalk_1.default.gray('>'));
+                console.log(chalk_1.default.gray('预构建所有已修改模块->', _i));
             }
         }, 1000 * 60 * 3);
     };
@@ -40,7 +40,7 @@ var SrcCache = /** @class */ (function () {
     SrcCache.getModule = function (_url) {
         //是否从缓存里面拿
         var _ifCache = true;
-        var _module = this.byUrlGetModule(URLT_1.default.join(MainConfig_1.default.config.src, _url));
+        var _module = this.byUrlGetModule(path_1.join(MainConfig_1.default.config.src, _url));
         if (!_module) {
             _ifCache = false;
             _module = new SrcModule_1.default(_url);

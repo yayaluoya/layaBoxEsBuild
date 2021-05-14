@@ -38,19 +38,19 @@ var SrcProxy = /** @class */ (function () {
                 'cache-control': 'no-cache', //协商缓存
             };
             //get请求
-            if (req.method === 'GET') {
-                //
-                SrcOperation_1.default.getFile(req).then(function (_fileData) {
+            switch (req.method) {
+                case 'GET':
                     //
-                    res.writeHead(_fileData.stateCode, __assign(__assign({}, _head), _fileData.resHead));
-                    //返回数据
-                    res.end(_fileData.content);
-                });
-            }
-            //post请求
-            else if (req.method === 'POST') {
-                //
-                res.end('不支持post请求。');
+                    SrcOperation_1.default.getFile(req).then(function (_fileData) {
+                        //
+                        res.writeHead(_fileData.stateCode, __assign(__assign({}, _head), _fileData.resHead));
+                        //返回数据
+                        res.end(_fileData.content);
+                    });
+                    break;
+                case 'POST':
+                    res.end('不支持post请求。');
+                    return;
             }
         }, MainConfig_1.default.config.port.src)
             .then(function (server) {

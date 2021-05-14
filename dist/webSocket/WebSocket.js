@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var MyConfig_1 = __importDefault(require("../config/MyConfig"));
 var HttpTool_1 = __importDefault(require("../http/HttpTool"));
-var webSocket = require('ws');
-var portfinder = require('portfinder');
+var ws_1 = __importDefault(require("ws"));
+var portfinder_1 = __importDefault(require("portfinder"));
 /**
  * webSocket模块
  */
@@ -27,11 +27,11 @@ var WebSocket = /** @class */ (function () {
     WebSocket.start = function () {
         var _this = this;
         //自动分配端口
-        return portfinder.getPortPromise()
+        return portfinder_1.default.getPortPromise()
             .then(function (port) {
             MyConfig_1.default.webSocketPort = port;
             // 实例化:
-            var _wss = new webSocket.Server({
+            var _wss = new ws_1.default.Server({
                 //主机
                 host: HttpTool_1.default.getHostname,
                 //端口

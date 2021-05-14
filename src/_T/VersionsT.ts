@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+import crypto from "crypto";
 
 /**
  * 版本控制工具

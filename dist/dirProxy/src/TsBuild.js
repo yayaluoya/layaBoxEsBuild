@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var chalk = require("chalk");
 var BufferT_1 = __importDefault(require("../../_T/BufferT"));
 var SrcTransition_1 = __importDefault(require("./SrcTransition"));
-var fs = require("fs");
-var path = require("path");
-var esbuild = require('esbuild');
+var chalk_1 = __importDefault(require("chalk"));
+var path_1 = __importDefault(require("path"));
+var esbuild_1 = require("esbuild");
+var fs_1 = require("fs");
 /**
  * ts文件打包
  */
@@ -23,14 +23,14 @@ var TsBuild = /** @class */ (function () {
     TsBuild.build = function (_url, _suffix) {
         return new Promise(function (r, e) {
             //文件名字
-            var _fileName = path.basename(_url);
+            var _fileName = path_1.default.basename(_url);
             //读取目标文件
-            fs.readFile(_url, function (err, rootCode) {
+            fs_1.readFile(_url, function (err, rootCodeBuffer) {
                 if (err) {
                     e('读取文件失败！');
                 }
                 else {
-                    rootCode = rootCode.toString();
+                    var rootCode = rootCodeBuffer.toString();
                     //判断后缀
                     if (/^(ts)|(js)$/.test(_suffix)) {
                         //esbuild的transform选项
@@ -46,7 +46,7 @@ var TsBuild = /** @class */ (function () {
                             //
                         };
                         //使用esbuild打包
-                        esbuild.transform(rootCode, _transformOptions).then(function (_a) {
+                        esbuild_1.transform(rootCode, _transformOptions).then(function (_a) {
                             var code = _a.code, map = _a.map, warnings = _a.warnings;
                             //文件过渡
                             code = SrcTransition_1.default.tsBuildBack(code); //打包后
@@ -54,7 +54,7 @@ var TsBuild = /** @class */ (function () {
                             //判断是否有警告
                             if (warnings.length > 0) {
                                 warnings.forEach(function (item) {
-                                    console.log(chalk.gray(item.toString()));
+                                    console.log(chalk_1.default.gray(item.toString()));
                                 });
                             }
                             //返回内容，全部转成buffer格式的数据

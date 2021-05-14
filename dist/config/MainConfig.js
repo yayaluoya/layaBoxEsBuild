@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var path = require("path");
-var URLT_1 = __importDefault(require("../_T/URLT"));
+var path_1 = require("path");
 /**
  * 主配置文件
  */
@@ -25,8 +21,8 @@ var MainConfig = /** @class */ (function () {
             //执行目录
             var _cwdUrl = process.cwd();
             //把_config中的几个关键路径转成绝对路径
-            (!path.isAbsolute(_c.src)) && (_c.src = URLT_1.default.resolve(_cwdUrl, _c.src));
-            (!path.isAbsolute(_c.bin)) && (_c.bin = URLT_1.default.resolve(_cwdUrl, _c.bin));
+            (!path_1.isAbsolute(_c.src)) && (_c.src = path_1.resolve(_cwdUrl, _c.src));
+            (!path_1.isAbsolute(_c.bin)) && (_c.bin = path_1.resolve(_cwdUrl, _c.bin));
             //
             this.m_config = _c;
         },

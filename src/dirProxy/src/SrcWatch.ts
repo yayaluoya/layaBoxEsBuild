@@ -2,8 +2,8 @@ import MainConfig from "../../config/MainConfig";
 import { EWebSocketMesType } from "../../webSocket/EWebSocketMesType";
 import WebSocket from "../../webSocket/WebSocket";
 import SrcCache from "./SrcCache";
-import URLT from "../../_T/URLT";
-const chokidar = require('chokidar');
+import chokidar from "chokidar";
+import { join } from "path";
 /**
  * Src文件监视
  */
@@ -16,9 +16,9 @@ export default class SrcWatch {
             //更新缓存文件模块
             SrcCache.updateModule(_url);
             //取相对路径
-            _url = _url.replace(URLT.join(MainConfig.config.src, '/'), '/');
+            _url = _url.replace(join(MainConfig.config.src, '/'), '/');
             //发送webSocket消息
-            WebSocket.send(`src代码${_e}@` + URLT.join(_url), EWebSocketMesType.contentUpdate);
+            WebSocket.send(`src代码${_e}@` + join(_url), EWebSocketMesType.contentUpdate);
         });
     }
 }

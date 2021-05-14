@@ -1,6 +1,7 @@
 import MainConfig from "../../config/MainConfig";
 import HttpTool from "../../http/HttpTool";
 import SrcOperation from "./SrcOperation";
+import { AddressInfo } from "net";
 
 /**
  * src代理
@@ -21,27 +22,27 @@ export default class SrcProxy {
                 'cache-control': 'no-cache',//协商缓存
             };
             //get请求
-            if (req.method === 'GET') {
-                //
-                SrcOperation.getFile(req).then((_fileData) => {
+            switch (req.method) {
+                case 'GET':
                     //
-                    res.writeHead(_fileData.stateCode, {
-                        ..._head,
-                        ..._fileData.resHead
+                    SrcOperation.getFile(req).then((_fileData) => {
+                        //
+                        res.writeHead(_fileData.stateCode, {
+                            ..._head,
+                            ..._fileData.resHead
+                        });
+                        //返回数据
+                        res.end(_fileData.content);
                     });
-                    //返回数据
-                    res.end(_fileData.content);
-                });
-            }
-            //post请求
-            else if (req.method === 'POST') {
-                //
-                res.end('不支持post请求。');
+                    break;
+                case 'POST':
+                    res.end('不支持post请求。');
+                    return;
             }
         }, MainConfig.config.port.src)
             .then((server) => {
                 //重置scr目录服务代理端口
-                MainConfig.config.port.src = server.address().port;
+                MainConfig.config.port.src = (server.address() as AddressInfo).port;
             });
         ;
     }

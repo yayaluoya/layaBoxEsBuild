@@ -3,10 +3,9 @@ import MyConfig from "../../config/MyConfig";
 import PackageJson from "../../config/PackageJson";
 import HttpTool from "../../http/HttpTool";
 import ResURL from "../../_T/ResURL";
-import URLT from "../../_T/URLT";
 import VersionsT from "../../_T/VersionsT";
-
-const fs = require('fs');
+import { join } from "path";
+import { readFile } from "fs";
 
 /**
  * bin目录工具
@@ -28,9 +27,9 @@ export default class BinTool {
                 return;
             }
             //获取地址
-            let _jsUrl: string = URLT.join(ResURL.publicURL, _url);
+            let _jsUrl: string = join(ResURL.publicURL, _url);
             //读取文件
-            fs.readFile(_jsUrl, (err, data) => {
+            readFile(_jsUrl, (err, data) => {
                 if (err) {
                     r(`没有找到web工具脚本,${_jsUrl}')`);
                     return;
@@ -73,8 +72,8 @@ export default class BinTool {
         return new Promise<string>((r) => {
             //读取主页html
             let _html: string;
-            let _htmlUrl: string = URLT.join(MainConfig.config.bin, MainConfig.config.homePage);
-            fs.readFile(_htmlUrl, (err, data) => {
+            let _htmlUrl: string = join(MainConfig.config.bin, MainConfig.config.homePage);
+            readFile(_htmlUrl, (err, data) => {
                 if (err) {
                     r('没有找到主页html文件' + _htmlUrl);
                     return;
@@ -121,8 +120,8 @@ ${_html}
     public static getHomeJs(): Promise<string> {
         return new Promise<string>((r) => {
             let _js: string;
-            let _jsUrl: string = URLT.join(MainConfig.config.bin, MainConfig.config.homeJs);
-            fs.readFile(_jsUrl, (err, data) => {
+            let _jsUrl: string = join(MainConfig.config.bin, MainConfig.config.homeJs);
+            readFile(_jsUrl, (err, data) => {
                 if (err) {
                     r(`alert('没有找到主页js脚本',${_jsUrl}')`);
                     return;

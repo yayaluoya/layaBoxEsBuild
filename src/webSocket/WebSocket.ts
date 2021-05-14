@@ -1,7 +1,7 @@
 import MyConfig from "../config/MyConfig";
 import HttpTool from "../http/HttpTool";
-const webSocket = require('ws');
-const portfinder = require('portfinder');
+import webSocket from 'ws';
+import portfinder from 'portfinder';
 
 /**
  * webSocket模块
