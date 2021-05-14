@@ -122,7 +122,8 @@ class cacheT {
      */
     static get(_url) {
         let _data = this.cache.find((item) => {
-            return item[0] == _url;
+            //不区分大小写匹配
+            return new RegExp(item[0], 'i').test(_url);
         });
         //
         if (_data) {
@@ -138,6 +139,9 @@ class cacheT {
      * @param {*} _response 响应
      */
     static add(_url, _key, _response) {
+        //如果有缓存的话就先删除,确保只有一个缓存与后端文件对应
+        this.remove(_key);
+        //
         this.cache.push([_url, _key, _response]);
     }
 

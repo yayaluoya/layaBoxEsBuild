@@ -41,6 +41,7 @@ var BinTool = /** @class */ (function () {
                 switch (true) {
                     //主脚本要替换版本，和包信息
                     case new RegExp(MyConfig_1.default.webToolJsName.main + "$").test(_url):
+                        //进过序列化后的字符串必须对"进行转义处理
                         _content = _content.replace('${{v}}', VersionsT_1.default.getV()).replace('{{packageJson}}', JSON.stringify({
                             name: PackageJson_1.default['name'],
                             version: PackageJson_1.default['version'],
@@ -48,7 +49,7 @@ var BinTool = /** @class */ (function () {
                             description: PackageJson_1.default['description'],
                             repository: PackageJson_1.default['repository'],
                             remotePackgeFileUrl: PackageJson_1.default['remotePackgeFileUrl'],
-                        }).replace(/"/g, '\"'));
+                        }).replace(/"/g, '\\"'));
                         break;
                     //webSocket工具脚本需要替换主机名和端口号
                     case new RegExp(MyConfig_1.default.webToolJsName.webSocket + "$").test(_url):

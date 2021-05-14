@@ -39,6 +39,7 @@ export default class BinTool {
                 switch (true) {
                     //主脚本要替换版本，和包信息
                     case new RegExp(`${MyConfig.webToolJsName.main}$`).test(_url):
+                        //进过序列化后的字符串必须对"进行转义处理
                         _content = _content.replace('${{v}}', VersionsT.getV()).replace('{{packageJson}}', JSON.stringify({
                             name: PackageJson['name'],
                             version: PackageJson['version'],
@@ -46,7 +47,7 @@ export default class BinTool {
                             description: PackageJson['description'],
                             repository: PackageJson['repository'],
                             remotePackgeFileUrl: PackageJson['remotePackgeFileUrl'],
-                        }).replace(/"/g, '\"'));
+                        }).replace(/"/g, '\\"'));
                         break;
                     //webSocket工具脚本需要替换主机名和端口号
                     case new RegExp(`${MyConfig.webToolJsName.webSocket}$`).test(_url):

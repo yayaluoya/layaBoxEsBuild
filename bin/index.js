@@ -93,8 +93,12 @@ switch (true) {
         };
         // console.log(_config);
         //把config中的几个关键路径转成绝对路径
-        (!path.isAbsolute(_config.src)) && (_config.src = path.resolve(_cwdUrl, _config.src));
-        (!path.isAbsolute(_config.bin)) && (_config.bin = path.resolve(_cwdUrl, _config.bin));
+        try {
+            (!path.isAbsolute(_config.src)) && (_config.src = path.resolve(_cwdUrl, _config.src));
+            (!path.isAbsolute(_config.bin)) && (_config.bin = path.resolve(_cwdUrl, _config.bin));
+        } catch (e) {
+            //
+        }
         //
         console.log(_config);
         break;
