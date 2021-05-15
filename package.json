@@ -13,6 +13,7 @@
   "scripts": {
     "install": "node ./pack/i.js",
     "uninstall": "node ./pack/uni.js",
+    "npm-publish": "npm publish",
     "ts-build": "tsc -w",
     "test": "node ./bin/index.js"
   },
