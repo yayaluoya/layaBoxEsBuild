@@ -219,7 +219,7 @@ function alertBug() {
                                 _bugs.push(_o['log']);
                                 break;
                             case 'opt':
-                                _opts.push(_o['opt']);
+                                _opts.push(_o['log']);
                                 break;
                         }
                     }
@@ -230,6 +230,7 @@ function alertBug() {
                     _bugs.forEach((item, _i) => {
                         console.log(chalk.yellow(_i + 1, item));
                     });
+                    console.log('-');
                 }
                 //输出opt日志
                 if (_opts.length > 0) {
@@ -237,6 +238,7 @@ function alertBug() {
                     _bugs.forEach((item, _i) => {
                         console.log(chalk.gray(_i + 1, item));
                     });
+                    console.log('-');
                 }
                 //
                 if (_bugs.length + _opts.length > 0) {
