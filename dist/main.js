@@ -77,9 +77,9 @@ var layaboxEsbuild = /** @class */ (function () {
                         _a.sent();
                         //提示bin目录的主页地址
                         console.log(chalk_1.default.gray('---->'));
-                        console.log(chalk_1.default.magenta('本地主页:'), chalk_1.default.blue(BinProxy_1.default.getLocalHomePage()), chalk_1.default.green('推荐>更快'));
+                        console.log(chalk_1.default.magenta('本地主页:'), chalk_1.default.blue(BinProxy_1.default.getLocalHomePage()), chalk_1.default.green('推荐>更快⚡'));
                         console.log(chalk_1.default.magenta('局域网主页:'), chalk_1.default.blue(BinProxy_1.default.getHomePage()));
-                        console.log(chalk_1.default.gray("> " + PackageJson_1.default.name + "@" + PackageJson_1.default.version));
+                        console.log(chalk_1.default.gray("> " + PackageJson_1.default.name + "@" + PackageJson_1.default.version + " \u5FEB\u6377\u547D\u4EE4:leb"));
                         console.log(chalk_1.default.gray('执行 leb -h 查看帮助或解决bug'));
                         console.log(chalk_1.default.gray('...'));
                         return [2 /*return*/];

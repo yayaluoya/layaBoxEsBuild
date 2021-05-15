@@ -8,8 +8,8 @@ window.addEventListener('load', function () {
             <div class="content">
                 <div class="mes">消息</div>
                 <div class="but">
-                    <button class="yes">确认</button>
-                    <button class="no">取消</button>
+                    <button class="yes">确认✔️</button>
+                    <button class="no">取消❌</button>
                 </div>
             </div>
         </div>
@@ -32,11 +32,11 @@ window.addEventListener('load', function () {
         let _backF;
         //添加键盘事件
         window.addEventListener('keydown', (event) => {
-            if (_ifShow && event.keyCode == 13) {
+            if (_ifShow && event.key == 'Enter') {
                 _backF && _backF(true);
                 _hide();
             }
-            if (_ifShow && event.keyCode == 27) {
+            if (_ifShow && event.key == 'Escape') {
                 _backF && _backF(false);
                 _hide();
             }
@@ -103,7 +103,7 @@ window.addEventListener('load', function () {
                     _ifConfirm = true;
                     //
                     confirmEx(`
-                        <div class="title">项目内容有更新</div>
+                        <div class="title">项目内容有更新 🔔</div>
                         <div class="content">点击消息框或点击确认按钮或按Enter键刷新页面，点击背景或取消按钮取消</div>
                     `, (flag) => {
                         _updateNumber = 0;
@@ -137,7 +137,7 @@ window.addEventListener('load', function () {
             }
             // 判断浏览器的支持情况 
             if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
-                consol.warn("当前浏览器不能判断窗口是否获取或失去焦点");
+                consol.warn("当前浏览器不能判断窗口是否获取或失去焦点😰");
             } else {
                 // 监听visibilityChange事件    
                 document.addEventListener(visibilityChange, () => {

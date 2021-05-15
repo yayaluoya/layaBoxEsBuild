@@ -75,7 +75,7 @@ var SrcCache = /** @class */ (function () {
         //查找
         var _SrcModule = this.m_moduleCache.find(function (item) {
             //* 不区分大小写匹配
-            return new RegExp('^' + item.normPath + '$', 'i').test(_url);
+            return new RegExp("^" + item.normPath + "$", 'i').test(_url);
         });
         //
         return _SrcModule;

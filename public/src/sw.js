@@ -91,7 +91,7 @@ class webSocketT {
         this.usable = true;
         //webSocket错误的回调
         this.instance.addEventListener('error', () => {
-            console.error('webSocket出错啦！');
+            console.error('webSocket出错啦！😱');
             //清空所有缓存
             cacheT.removeAll();
             //
@@ -121,9 +121,11 @@ class cacheT {
      * @param {*} _url 请求路径
      */
     static get(_url) {
+        //全部转成统一的路径
+        _url = _url.replace(/\\/g, '/');
         let _data = this.cache.find((item) => {
             //不区分大小写匹配
-            return new RegExp(item[0], 'i').test(_url);
+            return new RegExp(`^${item[0]}$`, 'i').test(_url);
         });
         //
         if (_data) {
@@ -139,6 +141,8 @@ class cacheT {
      * @param {*} _response 响应
      */
     static add(_url, _key, _response) {
+        //全部转成统一的路径
+        _url = _url.replace(/\\/g, '/');
         //如果有缓存的话就先删除,确保只有一个缓存与后端文件对应
         this.remove(_key);
         //
@@ -154,7 +158,7 @@ class cacheT {
             return item[1] == _key;
         });
         if (_index != -1) {
-            // console.log('删除缓存');
+            console.log('%c%s', 'color: #8785a2;', `> 删除sw废弃缓存文件@${this.cache[_index][0].replace(/[a-z]+:\/\/[a-zA-Z0-9\.]+:?[0-9]*/, '')} ✖️`);
             //
             this.cache.splice(_index, 1);
         }

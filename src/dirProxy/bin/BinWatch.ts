@@ -13,7 +13,7 @@ export default class BinWatch {
     public static start() {
         chokidar.watch(MainConfig.config.bin).on('all', (_e, _url: string) => {
             //发送webSocket消息
-            WebSocket.send(`bin目录${_e}@` + _url, EWebSocketMesType.contentUpdate);
+            WebSocket.send(`bin目录${_e}@${_url}`, EWebSocketMesType.contentUpdate);
         });
     }
 }

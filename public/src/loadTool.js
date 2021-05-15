@@ -2,7 +2,7 @@
     let _div = `
         <div class="loading">
             <b>
-                加载中...
+                加载中🍜...
             </b>
             <p class="explain">
                 ${window.esbuildTool.packageJson.authorName}/${window.esbuildTool.packageJson.name}

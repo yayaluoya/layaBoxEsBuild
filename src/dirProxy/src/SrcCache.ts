@@ -71,7 +71,7 @@ export default class SrcCache {
         //查找
         let _SrcModule: SrcModule = this.m_moduleCache.find((item) => {
             //* 不区分大小写匹配
-            return new RegExp('^' + item.normPath + '$', 'i').test(_url);
+            return new RegExp(`^${item.normPath}$`, 'i').test(_url);
         });
         //
         return _SrcModule;
