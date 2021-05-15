@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.1.8",
+  "version": "1.1.10",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
@@ -23,7 +23,7 @@
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^7.2.0",
-    "esbuild": "^0.11.20",
+    "esbuild": "^0.11.21",
     "internal-ip": "^6.2.0",
     "mime": "^2.5.2",
     "moment": "^2.29.1",
@@ -35,7 +35,8 @@
     "@types/node": "^15.0.2",
     "typescript": "^4.2.4"
   },
-  "version-log": [{
+  "version-log": [
+    {
       "v": "1.0.20",
       "log": "把sourcemap从内联转移到外部文件的形式，修复谷歌浏览器断点调试的不稳定的bug。",
       "type": "bug"
@@ -199,6 +200,12 @@
       "log": "紧急修复一个sw查找缓存请求的bug",
       "type": "bug",
       "degree": 3
+    },
+    {
+      "v": "1.1.10",
+      "log": "同步esbuild新版本",
+      "type": "opt",
+      "degree": 1
     }
   ]
 }
