@@ -47,7 +47,7 @@ var ResURL = /** @class */ (function () {
         /** 公共目录名称 */
         get: function () {
             if (!this.m_publicDirName) {
-                this.m_publicDirName = crypto_1.default.createHash('md5').update(Date.now() + '_').digest('hex');
+                this.m_publicDirName = '_leb_' + crypto_1.default.createHash('md5').update(Date.now() + '_').digest('hex');
             }
             return this.m_publicDirName;
         },
