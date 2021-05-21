@@ -18,7 +18,7 @@ export default class SrcWatch {
             //取相对路径
             _url = _url.replace(join(MainConfig.config.src, '/'), '/');
             //发送webSocket消息
-            WebSocket.send(`src代码${_e}@${join(_url)}✔️`, EWebSocketMesType.contentUpdate);
+            WebSocket.send(`src代码${_e}@${join(_url).replace(/\\/g, '/')}✔️`, EWebSocketMesType.contentUpdate);
         });
     }
 }
