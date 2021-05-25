@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
@@ -27,6 +27,7 @@
     "internal-ip": "^6.2.0",
     "mime": "^2.5.2",
     "moment": "^2.29.1",
+    "node-watch": "^0.7.1",
     "portfinder": "^1.0.28",
     "ws": "^7.4.4"
   },
@@ -210,6 +211,12 @@
     {
       "v": "1.1.11",
       "log": "小优化，修改了文件监听机制，bin目录采用node自带文件监听，src目录采用chokidar监听",
+      "type": "opt",
+      "degree": 1
+    },
+    {
+      "v": "1.1.12",
+      "log": "小优化，重构文件监听机制",
       "type": "opt",
       "degree": 1
     }

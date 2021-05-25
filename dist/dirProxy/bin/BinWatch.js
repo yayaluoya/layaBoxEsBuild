@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
 var WebSocket_1 = __importDefault(require("../../webSocket/WebSocket"));
-var fs_1 = __importDefault(require("fs"));
 var path_1 = require("path");
+var FileWatch_1 = __importDefault(require("../../_T/FileWatch"));
 /**
  * bin文件监视
  */
@@ -18,10 +18,13 @@ var BinWatch = /** @class */ (function () {
      * 开始监视
      */
     BinWatch.start = function () {
-        fs_1.default.watch(MainConfig_1.default.config.bin, { recursive: true, }, function (_e, _url) {
+        /** 开始监听 */
+        FileWatch_1.default.startWatch(MainConfig_1.default.config.bin, function (_e, _url) {
+            //取相对路径
+            _url = _url.replace(path_1.join(MainConfig_1.default.config.bin, '/'), '/');
             //发送webSocket消息
-            WebSocket_1.default.send("bin\u76EE\u5F55" + _e + "@" + path_1.join('/', _url).replace(/\\/g, '/'), EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
-        });
+            WebSocket_1.default.send("bin\u76EE\u5F55" + _e + "@" + path_1.join(_url).replace(/\\/g, '/'), EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
+        }, 'watch');
     };
     return BinWatch;
 }());
