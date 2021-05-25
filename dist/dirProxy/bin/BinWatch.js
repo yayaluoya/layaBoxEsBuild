@@ -24,7 +24,7 @@ var BinWatch = /** @class */ (function () {
             _url = _url.replace(path_1.join(MainConfig_1.default.config.bin, '/'), '/');
             //发送webSocket消息
             WebSocket_1.default.send("bin\u76EE\u5F55" + _e + "@" + path_1.join(_url).replace(/\\/g, '/'), EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
-        }, 'watch');
+        }, 'chokidar', 500);
     };
     return BinWatch;
 }());

@@ -18,6 +18,6 @@ export default class BinWatch {
             _url = _url.replace(join(MainConfig.config.bin, '/'), '/');
             //发送webSocket消息
             WebSocket.send(`bin目录${_e}@${join(_url).replace(/\\/g, '/')}`, EWebSocketMesType.contentUpdate);
-        }, 'watch');
+        }, 'chokidar', 500);
     }
 }

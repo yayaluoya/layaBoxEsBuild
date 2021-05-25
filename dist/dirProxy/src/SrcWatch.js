@@ -27,7 +27,7 @@ var SrcWatch = /** @class */ (function () {
             _url = _url.replace(path_1.join(MainConfig_1.default.config.src, '/'), '/');
             //发送webSocket消息
             WebSocket_1.default.send("src\u4EE3\u7801" + _e + "@" + path_1.join(_url).replace(/\\/g, '/') + "\u2714\uFE0F", EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
-        }, 'chokidar');
+        }, 'chokidar', 100);
     };
     return SrcWatch;
 }());

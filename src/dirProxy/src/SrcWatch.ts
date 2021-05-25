@@ -20,6 +20,6 @@ export default class SrcWatch {
             _url = _url.replace(join(MainConfig.config.src, '/'), '/');
             //发送webSocket消息
             WebSocket.send(`src代码${_e}@${join(_url).replace(/\\/g, '/')}✔️`, EWebSocketMesType.contentUpdate);
-        }, 'chokidar');
+        }, 'chokidar', 100);
     }
 }
