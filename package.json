@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.1.15",
+  "version": "1.1.16",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
@@ -221,6 +221,12 @@
     },
     {
       "v": "1.1.15",
+      "log": "小优化",
+      "type": "opt",
+      "degree": 1
+    },
+    {
+      "v": "1.1.16",
       "log": "小优化",
       "type": "opt",
       "degree": 1

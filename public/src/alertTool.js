@@ -30,6 +30,12 @@ window.addEventListener('load', function () {
         let _ifShow = false;
         //回调函数
         let _backF;
+        //监听窗口大小改变
+        window.addEventListener('resize', (e) => {
+            _contentDom.style.transform = `scale(${window.innerWidth / 500})`;
+        });
+        //主动触发窗口大小改变事件
+        _contentDom.style.transform = `scale(${window.innerWidth / 500})`;
         //添加键盘事件
         window.addEventListener('keydown', (event) => {
             if (_ifShow && event.key == 'Enter') {
@@ -77,6 +83,7 @@ window.addEventListener('load', function () {
             _hide();
             e.stopPropagation();
         };
+        //
         return _show;
     })();
 

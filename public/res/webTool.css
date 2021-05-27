@@ -16,7 +16,9 @@
 
 .loading>b {
     color: #393e46;
-    font-size: 20px;
+    font-size: 25px;
+    padding-bottom: 5px;
+    border-bottom: 5px dashed #ffffff;
 }
 
 .loading>p {
@@ -32,7 +34,7 @@
 }
 
 .loading>p.explain {
-    left: 0px;
+    left: 10px;
 }
 
 .confirmEx {
