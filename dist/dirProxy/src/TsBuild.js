@@ -27,7 +27,7 @@ var TsBuild = /** @class */ (function () {
             //读取目标文件
             fs_1.readFile(_url, function (err, rootCodeBuffer) {
                 if (err) {
-                    e('读取文件失败！');
+                    e("\u8BFB\u53D6\u6587\u4EF6\u5931\u8D25\uFF01@" + _url);
                 }
                 else {
                     var rootCode = rootCodeBuffer.toString();

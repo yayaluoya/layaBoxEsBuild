@@ -21,7 +21,7 @@ export default class TsBuild {
             //读取目标文件
             readFile(_url, (err, rootCodeBuffer) => {
                 if (err) {
-                    e('读取文件失败！');
+                    e(`读取文件失败！@${_url}`);
                 } else {
                     let rootCode: string = rootCodeBuffer.toString();
                     //判断后缀
