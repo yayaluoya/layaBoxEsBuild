@@ -40,8 +40,8 @@ var BinProxy = /** @class */ (function () {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE', //允许跨域
             };
-            //
-            var url = req.url;
+            //忽略掉请求后的search和hash值
+            var url = req.url.replace(/\?.+/, '');
             //判断请求类型
             switch (req.method) {
                 //get请求

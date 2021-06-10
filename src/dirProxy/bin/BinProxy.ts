@@ -24,8 +24,8 @@ export default class BinProxy {
                 'Access-Control-Allow-Origin': '*',//允许跨域
                 'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE',//允许跨域
             };
-            //
-            let url: string = req.url;
+            //忽略掉请求后的search和hash值
+            let url: string = req.url.replace(/\?.+/, '');
             //判断请求类型
             switch (req.method) {
                 //get请求
