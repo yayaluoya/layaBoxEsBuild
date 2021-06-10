@@ -10,7 +10,7 @@ class FileWatch {
      * @param {boolean} _usePolling 是否使用轮询，使用轮询的话可能会导致cpu占用过高，不使用轮询的话可能会导致文件夹占用不能删除 [true]
      * @param {number} _interval 轮询间隔时间，_usePolling=true时有效 [100]
      */
-    constructor(_enable, _usePolling, _interval) {
+    constructor(_enable = null, _usePolling = null, _interval = null) {
         _defineProperty(this, "enable", true);
 
         _defineProperty(this, "usePolling", true);
