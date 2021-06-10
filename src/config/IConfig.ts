@@ -17,7 +17,7 @@ export default interface IConfig {
         bin: number,
     },
     /** src目录文件默认后缀  */
-    srcFileDefaultSuffix: string,
+    srcFileDefaultSuffix?: string,
     /** 入口文件名，地址相对于src目录 */
     mainTs?: string,
     /** 主页地址， 相对于bin目录 */
@@ -26,10 +26,31 @@ export default interface IConfig {
     homeJs?: string,
     /** 入口js文件，相对于bin目录 */
     mainJs?: string,
+    /** 自动更新任务时间，分 */
+    autoUpdateTaskTime?: number,
     /** 是否打印日志 */
     ifLog?: boolean,
     /** 是否启用webSocket工具 */
     ifOpenWebSocketTool?: boolean,
     /** 是否立即刷新浏览器 */
-    ifUpdateNow: boolean,
+    ifUpdateNow?: boolean,
+    /** 文件监听 */
+    fileWatch?: {
+        /** scr目录的监听配置，enable选项无效 */
+        scr: IFileWatch,
+        /** bin目录的监听配置 */
+        bin: IFileWatch,
+    },
+}
+
+/**
+ * 文件监听方式
+ */
+export interface IFileWatch {
+    /** 是否启用 */
+    enable: boolean;
+    /** 是否使用轮询，使用轮询的话可能会导致cpu占用过高，不使用轮询的话可能会导致文件夹占用不能删除 */
+    usePolling: boolean;
+    /** 轮询间隔时间，usePolling=true有效 */
+    interval: number;
 }

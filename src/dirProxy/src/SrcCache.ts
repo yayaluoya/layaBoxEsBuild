@@ -25,7 +25,7 @@ export default class SrcCache {
                 console.log(chalk.gray('>'));
                 console.log(chalk.gray('预构建所有已修改模块->', _i));
             }
-        }, 1000 * 60 * 3);
+        }, 1000 * 60 * MainConfig.config.autoUpdateTaskTime);
     }
 
     /**

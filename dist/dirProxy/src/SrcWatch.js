@@ -19,6 +19,8 @@ var SrcWatch = /** @class */ (function () {
      * 开始监视
      */
     SrcWatch.start = function () {
+        //src目录的监听必须启用
+        MainConfig_1.default.config.fileWatch.scr.enable = true;
         /** 开始监听 */
         FileWatch_1.default.startWatch(MainConfig_1.default.config.src, function (_e, _url) {
             //更新缓存文件模块
@@ -27,7 +29,7 @@ var SrcWatch = /** @class */ (function () {
             _url = _url.replace(path_1.join(MainConfig_1.default.config.src, '/'), '/');
             //发送webSocket消息
             WebSocket_1.default.send("src\u4EE3\u7801" + _e + "@" + path_1.join(_url).replace(/\\/g, '/') + "\u2714\uFE0F", EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
-        }, 'chokidar', 100);
+        }, 'chokidar', MainConfig_1.default.config.fileWatch.scr);
     };
     return SrcWatch;
 }());

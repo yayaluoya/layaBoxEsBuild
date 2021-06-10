@@ -31,7 +31,7 @@ var SrcCache = /** @class */ (function () {
                 console.log(chalk_1.default.gray('>'));
                 console.log(chalk_1.default.gray('预构建所有已修改模块->', _i));
             }
-        }, 1000 * 60 * 3);
+        }, 1000 * 60 * MainConfig_1.default.config.autoUpdateTaskTime);
     };
     /**
      * 根据模块路径获取模块
