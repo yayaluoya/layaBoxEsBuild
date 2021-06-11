@@ -62,8 +62,8 @@ module.exports = {
     ifUpdateNow: true,
     /** 文件监听 */
     fileWatch: {
-        /** scr目录的监听配置，enable选项无效 */
-        scr: new FileWatch(),
+        /** src目录的监听配置，enable选项无效 */
+        src: new FileWatch(),
         /** bin目录的监听配置 */
         bin: new FileWatch(true, true, 500),
     },

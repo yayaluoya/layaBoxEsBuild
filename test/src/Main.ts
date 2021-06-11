@@ -5,4 +5,4 @@ import './ts';
 
 console.log(_module);
 
-console.log('测试', 254);
+console.log('测试', 256);

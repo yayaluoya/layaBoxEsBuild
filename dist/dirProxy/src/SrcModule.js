@@ -91,11 +91,11 @@ var SrcModule = /** @class */ (function (_super) {
         var _time = moment_1.default().format('LLL');
         for (var _a = 0, _mess_1 = _mess; _a < _mess_1.length; _a++) {
             var _mes = _mess_1[_a];
-            console.log(chalk_1.default.yellow('esbuild打包错误'));
+            console.log(chalk_1.default.yellow('esbuild编译错误！'));
             console.log(chalk_1.default.gray(_mes.text));
             console.log(chalk_1.default.gray(_time));
             //这里引入全局定义的函数
-            _content += "\n                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),`Esbuild\u6253\u5305\u51FA\u9519\n-\n" + _mes.text + (_mes.vsCodeUrl ? "\n-\n\u5728vscode\u4E2D\u6253\u5F00\uFF1A" + _mes.vsCodeUrl : '') + "\n-\n" + _time + "`));\n            ";
+            _content += "\n                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),`esbuild\u7F16\u8BD1\u9519\u8BEF\uFF01\n-\n" + _mes.text + (_mes.vsCodeUrl ? "\n-\n\u5728vscode\u4E2D\u6253\u5F00\uFF1A" + _mes.vsCodeUrl : '') + "\n-\n" + _time + "`));\n            ";
         }
         //
         return _content;

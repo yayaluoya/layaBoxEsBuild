@@ -73,12 +73,12 @@ export default class SrcModule extends FileModule {
         moment.locale('zh-cn');
         let _time: string = moment().format('LLL');
         for (let _mes of _mess) {
-            console.log(chalk.yellow('esbuild打包错误'));
+            console.log(chalk.yellow('esbuild编译错误！'));
             console.log(chalk.gray(_mes.text));
             console.log(chalk.gray(_time));
             //这里引入全局定义的函数
             _content += `
-                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),\`Esbuild打包出错\n-\n${_mes.text}${_mes.vsCodeUrl ? `\n-\n在vscode中打开：${_mes.vsCodeUrl}` : ''}\n-\n${_time}\`));
+                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),\`esbuild编译错误！\n-\n${_mes.text}${_mes.vsCodeUrl ? `\n-\n在vscode中打开：${_mes.vsCodeUrl}` : ''}\n-\n${_time}\`));
             `
         }
         //

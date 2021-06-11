@@ -36,8 +36,8 @@ export default interface IConfig {
     ifUpdateNow?: boolean,
     /** 文件监听 */
     fileWatch?: {
-        /** scr目录的监听配置，enable选项无效 */
-        scr: IFileWatch,
+        /** src目录的监听配置，enable选项无效 */
+        src: IFileWatch,
         /** bin目录的监听配置 */
         bin: IFileWatch,
     },

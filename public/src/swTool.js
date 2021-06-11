@@ -5,7 +5,7 @@ if ('serviceWorker' in navigator) {
         console.log(
             ...esbuildTool.consoleEx.textPack(
                 esbuildTool.consoleEx.getStyle('#8785a2', '#f4f6ff'),
-                `ServiceWorker 注册成功✔️: ${registration.scope}`
+                `ServiceWorker 注册成功✔️: 访问更快⚡`
             )
         );
     }, function (err) {

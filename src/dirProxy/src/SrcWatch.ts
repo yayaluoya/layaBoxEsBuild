@@ -13,7 +13,7 @@ export default class SrcWatch {
      */
     public static start() {
         //src目录的监听必须启用
-        MainConfig.config.fileWatch.scr.enable = true;
+        MainConfig.config.fileWatch.src.enable = true;
         /** 开始监听 */
         FileWatch.startWatch(MainConfig.config.src, (_e: string, _url: string) => {
             //更新缓存文件模块
@@ -22,6 +22,6 @@ export default class SrcWatch {
             _url = _url.replace(join(MainConfig.config.src, '/'), '/');
             //发送webSocket消息
             WebSocket.send(`src代码${_e}@${join(_url).replace(/\\/g, '/')}✔️`, EWebSocketMesType.contentUpdate);
-        }, 'chokidar', MainConfig.config.fileWatch.scr);
+        }, 'chokidar', MainConfig.config.fileWatch.src);
     }
 }
