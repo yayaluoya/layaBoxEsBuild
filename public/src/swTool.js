@@ -1,10 +1,12 @@
 //先判断能否使用serviceWorker
 if ('serviceWorker' in navigator) {
+    //注册
+    let _ifRegister = false;
     //更新已有的sw
     if (navigator.serviceWorker.controller) {
         //关闭上一个版本的sw
         if (navigator.serviceWorker.controller.scriptURL.match(/[^\/]+$/)[0] != esbuildTool.config.swURL) {
-            _ifClose = true;
+            _ifRegister = true;
             navigator.serviceWorker.controller.postMessage(JSON.stringify({
                 type: 'close',
             }));
@@ -22,6 +24,10 @@ if ('serviceWorker' in navigator) {
             }));
         }
     } else {
+        _ifRegister = true;
+    }
+    //
+    if (_ifRegister) {
         //注册sw
         navigator.serviceWorker.register(`/${esbuildTool.config.swURL}`).then((registration) => {
             //立刻发送一个初始化事件，初始化相关信息

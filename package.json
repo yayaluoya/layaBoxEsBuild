@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.1.24",
+  "version": "1.1.26",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
@@ -253,6 +253,12 @@
       "log": "在sw中用webSocket模拟http请求，绕过浏览器请求并发限制，提升初始访问速度，还有一些优化。",
       "type": "opt",
       "degree": 2
+    },
+    {
+      "v": "1.1.26",
+      "log": "修复上一个版本的一个小瑕疵",
+      "type": "opt",
+      "degree": 1
     }
   ]
 }
