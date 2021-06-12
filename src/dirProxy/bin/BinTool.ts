@@ -6,6 +6,8 @@ import ResURL from "../../_T/ResURL";
 import VersionsT from "../../_T/VersionsT";
 import { join } from "path";
 import { readFile } from "fs";
+import TemplateT from "../../_T/TemplateT";
+import SwT from "../../sw/SwT";
 
 /**
  * bin目录工具
@@ -40,22 +42,21 @@ export default class BinTool {
                     //主脚本要替换版本，和包信息
                     case new RegExp(`${MyConfig.webToolJsName.main}$`).test(_url):
                         //进过序列化后的字符串必须对"进行转义处理
-                        _content = _content.replace('${{v}}', VersionsT.getV()).replace('{{packageJson}}', JSON.stringify({
-                            name: PackageJson['name'],
-                            version: PackageJson['version'],
-                            authorName: PackageJson['authorName'],
-                            description: PackageJson['description'],
-                            repository: PackageJson['repository'],
-                            remotePackgeFileUrl: PackageJson['remotePackgeFileUrl'],
-                        }).replace(/"/g, '\\"'));
-                        break;
-                    //webSocket工具脚本需要替换主机名和端口号
-                    case new RegExp(`${MyConfig.webToolJsName.webSocket}$`).test(_url):
-                        _content = _content.replace('${{hostname}}', HttpTool.getHostname).replace('${{webSocketPort}}', MyConfig.webSocketPort + '');
-                        break;
-                    //alert工具脚本需要替换是否时刻刷新浏览器的变量
-                    case new RegExp(`${MyConfig.webToolJsName.alert}$`).test(_url):
-                        _content = _content.replace('$ifUpdateNow', Boolean(MainConfig.config.ifUpdateNow).toString());
+                        _content = TemplateT.ReplaceVariable(_content, {
+                            version: VersionsT.getV(),
+                            mainURL: `http://${HttpTool.getHostname}:${MainConfig.config.port.src}`,
+                            swURL: SwT.swURL,
+                            webSocketUrl: `ws://${HttpTool.getHostname}:${MyConfig.webSocketPort}`,
+                            ifUpdateNow: Boolean(MainConfig.config.ifUpdateNow).toString(),
+                            packageJson: JSON.stringify({
+                                name: PackageJson['name'],
+                                version: PackageJson['version'],
+                                authorName: PackageJson['authorName'],
+                                description: PackageJson['description'],
+                                repository: PackageJson['repository'],
+                                remotePackgeFileUrl: PackageJson['remotePackgeFileUrl'],
+                            }).replace(/"/g, '\\"'),
+                        });
                         break;
                 }
                 //存入缓存
@@ -84,8 +85,8 @@ export default class BinTool {
                 _html = _html.replace(/\<\/head\>/, `
 <link rel="stylesheet" type="text/css" href="${ResURL.publicResURL}${MyConfig.webToolJsName.css}">
 <script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.main}"></script>
-<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.webSocket}"></script>
 <script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.swTool}"></script>
+<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.webSocket}"></script>
 ${MainConfig.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.alert}"></script>` : ''}
 </head>
                 `);
@@ -104,7 +105,7 @@ ${MainConfig.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="$
         document.body.appendChild(script);
     }
                     `);
-                //
+                //添加提示
                 _html = `
 <!-- 此文件被包装过，和源文件内容有差异。 -->
 ${_html}

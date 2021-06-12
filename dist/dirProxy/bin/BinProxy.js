@@ -22,6 +22,7 @@ var BinTool_1 = __importDefault(require("./BinTool"));
 var path_1 = require("path");
 var fs_1 = require("fs");
 var mime_1 = __importDefault(require("mime"));
+var SwT_1 = __importDefault(require("../../sw/SwT"));
 /**
  * bin目录代理
  */
@@ -47,10 +48,10 @@ var BinProxy = /** @class */ (function () {
                 //get请求
                 case 'GET':
                     //sw文件
-                    if (new RegExp("^/" + MyConfig_1.default.webToolJsName.sw + "$").test(url)) {
+                    if (new RegExp("^/" + SwT_1.default.swURL + "$").test(url)) {
                         res.writeHead(200, __assign(__assign({}, _head), { 'Content-Type': mime_1.default.getType('js') }));
                         //提取出相对目录并取出内容
-                        BinTool_1.default.getWebTool(path_1.join(ResURL_1.default.publicSrcDirName, url)).then(function (_js) {
+                        BinTool_1.default.getWebTool(path_1.join(ResURL_1.default.publicSrcDirName, "/" + MyConfig_1.default.webToolJsName.sw)).then(function (_js) {
                             res.end(_js);
                         });
                     }
@@ -113,8 +114,7 @@ var BinProxy = /** @class */ (function () {
                     res.end('不支持post请求。');
                     break;
             }
-        }, MainConfig_1.default.config.port.bin)
-            .then(function (server) {
+        }, MainConfig_1.default.config.port.bin).then(function (server) {
             //重置bin目录服务代理端口
             MainConfig_1.default.config.port.bin = server.address().port;
         });

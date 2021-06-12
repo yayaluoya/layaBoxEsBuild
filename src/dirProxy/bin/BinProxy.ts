@@ -7,6 +7,7 @@ import { join, extname } from "path";
 import { createReadStream, stat } from "fs";
 import mime from "mime";
 import { AddressInfo } from "net";
+import SwT from "../../sw/SwT";
 
 /**
  * bin目录代理
@@ -31,13 +32,13 @@ export default class BinProxy {
                 //get请求
                 case 'GET':
                     //sw文件
-                    if (new RegExp(`^/${MyConfig.webToolJsName.sw}$`).test(url)) {
+                    if (new RegExp(`^/${SwT.swURL}$`).test(url)) {
                         res.writeHead(200, {
                             ..._head,
                             'Content-Type': mime.getType('js'),
                         });
                         //提取出相对目录并取出内容
-                        BinTool.getWebTool(join(ResURL.publicSrcDirName, url)).then((_js) => {
+                        BinTool.getWebTool(join(ResURL.publicSrcDirName, `/${MyConfig.webToolJsName.sw}`)).then((_js) => {
                             res.end(_js);
                         });
                     }
@@ -112,11 +113,10 @@ export default class BinProxy {
                     res.end('不支持post请求。');
                     break;
             }
-        }, MainConfig.config.port.bin)
-            .then((server) => {
-                //重置bin目录服务代理端口
-                MainConfig.config.port.bin = (server.address() as AddressInfo).port;
-            });
+        }, MainConfig.config.port.bin).then((server) => {
+            //重置bin目录服务代理端口
+            MainConfig.config.port.bin = (server.address() as AddressInfo).port;
+        });
     }
 
     /**

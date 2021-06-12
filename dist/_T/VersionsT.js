@@ -15,7 +15,7 @@ var VersionsT = /** @class */ (function () {
      */
     VersionsT.getV = function () {
         if (!this.v) {
-            this.v = crypto_1.default.createHash('md5').update(Date.now() + '_versions').digest('hex');
+            this.v = crypto_1.default.createHash('md5').update(Date.now() + ":_versions:" + Math.random()).digest('hex');
             ;
         }
         //

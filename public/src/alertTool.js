@@ -129,7 +129,7 @@ window.addEventListener('load', function () {
         });
 
         // 监听页面焦点事件
-        if ($ifUpdateNow) {
+        if (esbuildTool.config.ifUpdateNow) {
             //根据不同浏览器获取属性名称
             var hidden, visibilityChange;
             if (typeof document.hidden !== "undefined") {

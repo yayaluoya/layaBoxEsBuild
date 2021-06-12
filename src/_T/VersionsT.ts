@@ -12,7 +12,7 @@ export default class VersionsT {
      */
     public static getV(): string {
         if (!this.v) {
-            this.v = crypto.createHash('md5').update(Date.now() + '_versions').digest('hex');;
+            this.v = crypto.createHash('md5').update(`${Date.now()}:_versions:${Math.random()}`).digest('hex');;
         }
         //
         return this.v;

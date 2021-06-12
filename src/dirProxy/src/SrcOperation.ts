@@ -24,8 +24,7 @@ export default class SrcOperation {
             //
             SrcCache.getModule(_url).task.then((module: SrcModule) => {
                 //读取请求头中带有的协商缓存信息
-                let _etag: string = req.headers['if-none-match'];
-                // console.log(req.headers);
+                let _etag: string = req?.headers?.['if-none-match'];
                 //
                 let _fileData: IFileData = {
                     content: BufferT.nullBuffer,

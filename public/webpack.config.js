@@ -34,6 +34,7 @@ module.exports = {
             },
         ],
     },
+    devtool: "inline-source-map", // enum
     //
     target: "web", // 枚举
     //

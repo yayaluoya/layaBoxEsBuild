@@ -25,7 +25,7 @@ var WebSocket = /** @class */ (function () {
      * 开始
      */
     WebSocket.start = function () {
-        var _this = this;
+        var _this_1 = this;
         //自动分配端口
         return portfinder_1.default.getPortPromise()
             .then(function (port) {
@@ -37,13 +37,42 @@ var WebSocket = /** @class */ (function () {
                 //端口
                 port: MyConfig_1.default.webSocketPort,
             });
+            //监听连接
             _wss.on('connection', function (ws) {
-                _this.m_wss.add(ws);
-                //
+                _this_1.m_wss.add(ws);
+                //监听关闭
                 ws.on('close', function () {
-                    _this.m_wss.delete(ws);
+                    _this_1.m_wss.delete(ws);
+                });
+                //监听消息
+                ws.on('message', function (event) {
+                    var _a = JSON.parse(event), type = _a.type, mes = _a.mes;
+                    _this_1.m_mesBackList.forEach(function (f) {
+                        f.back.call(f.this, type, mes);
+                    });
                 });
             });
+        });
+    };
+    /**
+     * 添加监听
+     * @param _this 执行域
+     * @param _back 回调
+     */
+    WebSocket.addMesBack = function (_this, _back) {
+        this.m_mesBackList.push({
+            this: _this,
+            back: _back,
+        });
+    };
+    /**
+     * 删除消息监听
+     * @param _this 执行域
+     * @param _back 执行回调
+     */
+    WebSocket.remoteMesBack = function (_this, _back) {
+        this.m_mesBackList = this.m_mesBackList.filter(function (item) {
+            return !(item.this == _this && (_back ? item.back == _back : true));
         });
     };
     /**
@@ -62,6 +91,8 @@ var WebSocket = /** @class */ (function () {
     };
     /** ws实例 */
     WebSocket.m_wss = new Set();
+    /** 消息回调列表 */
+    WebSocket.m_mesBackList = [];
     return WebSocket;
 }());
 exports.default = WebSocket;

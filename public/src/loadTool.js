@@ -5,10 +5,10 @@
                 加载中🚀...
             </b>
             <p class="explain">
-                ${window.esbuildTool.packageJson.authorName}/${window.esbuildTool.packageJson.name}
+                ${esbuildTool.config.packageJson.authorName}/${esbuildTool.config.packageJson.name}
             </p>
             <p class="v">
-                V: ${window.esbuildTool.packageJson.version}
+                V: ${esbuildTool.config.packageJson.version}
             </p>
         </div>
     `;
@@ -16,7 +16,7 @@
     let _divDom = document.createElement("div");
     _divDom.innerHTML = _div;
     //
-    _divDom = document.body.appendChild(_divDom.firstElementChild);
+    _divDom = document.body.insertBefore(_divDom.firstElementChild, document.body.firstElementChild);
     //
     let _loadF = () => {
         //取消监听事件
