@@ -9,6 +9,7 @@ var chalk_1 = __importDefault(require("chalk"));
 var path_1 = __importDefault(require("path"));
 var esbuild_1 = require("esbuild");
 var fs_1 = require("fs");
+var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 /**
  * ts文件打包
  */
@@ -24,6 +25,8 @@ var TsBuild = /** @class */ (function () {
         return new Promise(function (r, e) {
             //文件名字
             var _fileName = path_1.default.basename(_url);
+            //相对目录，且文件分隔符必须为/
+            var _relativeUrl = _url.replace(path_1.default.join(MainConfig_1.default.config.src, '/'), '').replace(/\\/g, '/');
             //读取目标文件
             fs_1.readFile(_url, function (err, rootCodeBuffer) {
                 if (err) {
@@ -40,7 +43,7 @@ var TsBuild = /** @class */ (function () {
                             //内联映射
                             sourcemap: true,
                             //资源文件
-                            sourcefile: "./." + _fileName + " \u2714",
+                            sourcefile: "webpack://\uD83C\uDF08Src\u2714\uFE0F/" + _relativeUrl + " \u2714",
                             //字符集
                             charset: 'utf8',
                             //

@@ -5,6 +5,7 @@ import chalk from "chalk";
 import path from "path";
 import { transform, TransformOptions, TransformResult } from "esbuild";
 import { readFile } from "fs";
+import MainConfig from "../../config/MainConfig";
 /**
  * ts文件打包
  */
@@ -18,6 +19,8 @@ export default class TsBuild {
         return new Promise<IFileModuleContent>((r, e) => {
             //文件名字
             let _fileName: string = path.basename(_url);
+            //相对目录，且文件分隔符必须为/
+            let _relativeUrl: string = _url.replace(path.join(MainConfig.config.src, '/'), '').replace(/\\/g, '/');
             //读取目标文件
             readFile(_url, (err, rootCodeBuffer) => {
                 if (err) {
@@ -33,7 +36,7 @@ export default class TsBuild {
                             //内联映射
                             sourcemap: true,
                             //资源文件
-                            sourcefile: `./.${_fileName} ✔`,
+                            sourcefile: `webpack://🌈Src✔️/${_relativeUrl} ✔`,
                             //字符集
                             charset: 'utf8',
                             //

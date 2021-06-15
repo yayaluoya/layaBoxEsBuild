@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var crypto_1 = __importDefault(require("crypto"));
 var path_1 = require("path");
 /**
  * 资源路径类
@@ -47,7 +43,7 @@ var ResURL = /** @class */ (function () {
         /** 公共目录名称 */
         get: function () {
             if (!this.m_publicDirName) {
-                this.m_publicDirName = '_leb_' + crypto_1.default.createHash('md5').update(Date.now() + '_').digest('hex');
+                this.m_publicDirName = '_leb⚙️';
             }
             return this.m_publicDirName;
         },

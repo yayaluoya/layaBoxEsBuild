@@ -41,8 +41,8 @@ var BinProxy = /** @class */ (function () {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE', //允许跨域
             };
-            //忽略掉请求后的search和hash值
-            var url = req.url.replace(/\?.+/, '');
+            //忽略掉请求后的search和hash值并对特殊字符解码
+            var url = decodeURI(req.url.replace(/\?.+/, ''));
             //判断请求类型
             switch (req.method) {
                 //get请求
@@ -82,17 +82,8 @@ var BinProxy = /** @class */ (function () {
                                 break;
                             //其他文件
                             case true:
-                                //处理特殊字符
-                                // _url = _url.replace(/%2B/g, '+');
-                                // _url = _url.replace(/%20/g, ' ');
-                                // _url = _url.replace(/%2F/g, '/');
-                                // _url = _url.replace(/%3F/g, '?');
-                                // _url = _url.replace(/%25/g, '%');
-                                // _url = _url.replace(/%23/g, '#');
-                                // _url = _url.replace(/%26/g, '&');
-                                // _url = _url.replace(/%3D/g, '=');
-                                //url解码
-                                var _url_1 = decodeURI(path_1.join(MainConfig_1.default.config.bin, url));
+                                //
+                                var _url_1 = path_1.join(MainConfig_1.default.config.bin, url);
                                 //判断是否有这个文件
                                 fs_1.stat(_url_1, function (err, stats) {
                                     if (err || !stats.isFile()) {

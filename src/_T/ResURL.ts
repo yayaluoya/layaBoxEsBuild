@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import { join, resolve } from "path";
 
 /**
@@ -30,7 +29,7 @@ export default class ResURL {
     /** 公共目录名称 */
     public static get publicDirName(): string {
         if (!this.m_publicDirName) {
-            this.m_publicDirName = '_leb_' + crypto.createHash('md5').update(Date.now() + '_').digest('hex');
+            this.m_publicDirName = '_leb⚙️';
         }
         return this.m_publicDirName;
     }
