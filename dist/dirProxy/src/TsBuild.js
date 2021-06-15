@@ -43,7 +43,7 @@ var TsBuild = /** @class */ (function () {
                             //内联映射
                             sourcemap: true,
                             //资源文件
-                            sourcefile: "webpack://\uD83C\uDF08Src\u2714\uFE0F/" + _relativeUrl + " \u2714",
+                            sourcefile: "webpack://\uD83D\uDDC2\uFE0Fsrc\u2714\uFE0F/" + _relativeUrl + " \u2714",
                             //字符集
                             charset: 'utf8',
                             //

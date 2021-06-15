@@ -43,7 +43,7 @@ var ResURL = /** @class */ (function () {
         /** 公共目录名称 */
         get: function () {
             if (!this.m_publicDirName) {
-                this.m_publicDirName = '_leb⚙️';
+                this.m_publicDirName = '⚙️leb';
             }
             return this.m_publicDirName;
         },

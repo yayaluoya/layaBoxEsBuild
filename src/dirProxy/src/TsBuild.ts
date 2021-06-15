@@ -36,7 +36,7 @@ export default class TsBuild {
                             //内联映射
                             sourcemap: true,
                             //资源文件
-                            sourcefile: `webpack://🌈Src✔️/${_relativeUrl} ✔`,
+                            sourcefile: `webpack://🗂️src✔️/${_relativeUrl} ✔`,
                             //字符集
                             charset: 'utf8',
                             //
