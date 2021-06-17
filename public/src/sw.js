@@ -52,16 +52,6 @@ function fetchEvent(event) {
     //在有配置的情况下先在缓存中找响应
     if (Config) {
         _response = cacheT.get(request.url);
-        //用webScocket模拟http请求，避开浏览器http请求并发限制
-        if (!_response) {
-            //检测是否是脚本请求
-            let _regExp = new RegExp(`^${Config.mainURL}`);
-            if (_regExp.test(request.url)) {
-                _response = webSocketT.fetch(request.url.replace(_regExp, ''))?.then((response) => {
-                    return cacheT.addResponse(request, response);
-                });
-            }
-        }
     }
     //如果还是没找到则直接发送一个http请求
     if (!_response) {
@@ -86,15 +76,11 @@ class webSocketT {
     static instance = null;
     /** 是否可用 */
     static usable = false;
-    /** 请求任务列表 */
-    static m_fetchTaskList = [];
 
     /**
      * 更新
      */
     static update(_url) {
-        //重置请求
-        this.m_fetchTaskList.length = 0;
         //先关闭之前的连接
         this.instance && this.instance.close();
         /** 开启新的连接 */
@@ -108,57 +94,6 @@ class webSocketT {
             //
             this.usable = false;
         });
-        //添加一个用来模拟http请求的回调
-        this.addMessageEventListener((event) => {
-            let data = JSON.parse(event.data);
-            //判断是不是请求
-            if (data.type == 'fetch') {
-                this._fetch(data.mes);
-            }
-        });
-    }
-
-    /**
-     * 发送一个用webSocket模拟的http请求
-     * @param {*} _url 请求地址
-     */
-    static fetch(_url) {
-        if (!this.usable || this.instance.readyState != 1) { return null; }
-        let _key = this.getFetchKey();
-        return new Promise((r) => {
-            //添加到任务
-            this.m_fetchTaskList.push({
-                key: _key,
-                resolve: r,
-            });
-            //发送请求
-            this.instance.send(JSON.stringify({
-                type: 'fetch',
-                mes: {
-                    url: _url,
-                    key: _key,
-                },
-            }));
-        });
-    }
-    //
-    static _fetch(_data) {
-        let { key, body, head, stateCode } = _data;
-        let _index = this.m_fetchTaskList.findIndex((item) => {
-            return item.key == key;
-        });
-        if (_index != -1) {
-            this.m_fetchTaskList[_index].resolve(new Response(body, { headers: head, status: stateCode }));
-            //删除任务
-            this.m_fetchTaskList.splice(_index, 1);
-        } else {
-            console.error('模拟http请求出错，建议重启工具。');
-        }
-    }
-    //
-    static getFetchKeyNumber = 0;
-    static getFetchKey() {
-        return btoa(`${Date.now()}:${this.getFetchKeyNumber++}:${Math.random()}`);
     }
 
     /**

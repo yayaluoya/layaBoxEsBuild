@@ -23,6 +23,7 @@ var path_1 = require("path");
 var fs_1 = require("fs");
 var mime_1 = __importDefault(require("mime"));
 var SwT_1 = __importDefault(require("../../sw/SwT"));
+var ResHead_1 = require("../../com/ResHead");
 /**
  * bin目录代理
  */
@@ -35,12 +36,6 @@ var BinProxy = /** @class */ (function () {
     BinProxy.start = function () {
         // req 请求， res 响应 
         return HttpTool_1.default.createServer(function (req, res) {
-            //head
-            var _head = {
-                'Content-Type': 'application/javascript;charset=UTF-8',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE', //允许跨域
-            };
             //忽略掉请求后的search和hash值并对特殊字符解码
             var url = decodeURI(req.url.replace(/\?.+/, ''));
             //判断请求类型
@@ -49,7 +44,7 @@ var BinProxy = /** @class */ (function () {
                 case 'GET':
                     //sw文件
                     if (new RegExp("^/" + SwT_1.default.swURL + "$").test(url)) {
-                        res.writeHead(200, __assign(__assign({}, _head), { 'Content-Type': mime_1.default.getType('js') }));
+                        res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType('js') }));
                         //提取出相对目录并取出内容
                         BinTool_1.default.getWebTool(path_1.join(ResURL_1.default.publicSrcDirName, "/" + MyConfig_1.default.webToolJsName.sw)).then(function (_js) {
                             res.end(_js);
@@ -57,7 +52,7 @@ var BinProxy = /** @class */ (function () {
                     }
                     //web工具脚本
                     else if (new RegExp("^/" + ResURL_1.default.publicDirName).test(url)) {
-                        res.writeHead(200, __assign(__assign({}, _head), { 'Content-Type': mime_1.default.getType(path_1.extname(url)) || '' }));
+                        res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType(path_1.extname(url)) || '' }));
                         //提取出相对目录并取出内容
                         BinTool_1.default.getWebTool(url.replace(new RegExp("^/" + ResURL_1.default.publicDirName), '')).then(function (_js) {
                             res.end(_js);
@@ -68,14 +63,14 @@ var BinProxy = /** @class */ (function () {
                         switch (true) {
                             //主页html文件
                             case new RegExp("^((/?)|(/?" + MainConfig_1.default.config.homePage.replace(/^\//, '') + "))$").test(url):
-                                res.writeHead(200, __assign(__assign({}, _head), { 'Content-Type': mime_1.default.getType('html') + ';charset=UTF-8' }));
+                                res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType('html') + ';charset=UTF-8' }));
                                 BinTool_1.default.getHomePage().then(function (_html) {
                                     res.end(_html);
                                 });
                                 break;
                             //主页js文件
                             case new RegExp("^/?" + MainConfig_1.default.config.homeJs.replace(/^\//, '') + "$").test(url):
-                                res.writeHead(200, __assign(__assign({}, _head), { 'Content-Type': mime_1.default.getType('js') + ';charset=UTF-8' }));
+                                res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType('js') + ';charset=UTF-8' }));
                                 BinTool_1.default.getHomeJs().then(function (_js) {
                                     res.end(_js);
                                 });
@@ -87,22 +82,17 @@ var BinProxy = /** @class */ (function () {
                                 //判断是否有这个文件
                                 fs_1.stat(_url_1, function (err, stats) {
                                     if (err || !stats.isFile()) {
-                                        res.writeHead(404, _head);
+                                        res.writeHead(404, ResHead_1.crossDomainHead);
                                         res.end();
                                         return;
                                     }
-                                    res.writeHead(200, __assign(__assign({}, _head), { 'Content-Type': mime_1.default.getType(path_1.extname(url)) || '' }));
+                                    res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType(path_1.extname(url)) || '' }));
                                     //
                                     fs_1.createReadStream(_url_1).pipe(res);
                                 });
                                 break;
                         }
                     }
-                    break;
-                //post请求
-                case 'POST':
-                    //
-                    res.end('不支持post请求。');
                     break;
             }
         }, MainConfig_1.default.config.port.bin).then(function (server) {

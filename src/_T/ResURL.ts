@@ -29,7 +29,7 @@ export default class ResURL {
     /** 公共目录名称 */
     public static get publicDirName(): string {
         if (!this.m_publicDirName) {
-            this.m_publicDirName = '⚙️leb';
+            this.m_publicDirName = '_⚙️_leb';
         }
         return this.m_publicDirName;
     }

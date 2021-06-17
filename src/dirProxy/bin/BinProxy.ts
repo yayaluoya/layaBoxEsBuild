@@ -8,6 +8,7 @@ import { createReadStream, stat } from "fs";
 import mime from "mime";
 import { AddressInfo } from "net";
 import SwT from "../../sw/SwT";
+import { crossDomainHead } from "../../com/ResHead";
 
 /**
  * bin目录代理
@@ -19,12 +20,6 @@ export default class BinProxy {
     public static start(): Promise<void> {
         // req 请求， res 响应 
         return HttpTool.createServer((req, res) => {
-            //head
-            let _head = {
-                'Content-Type': 'application/javascript;charset=UTF-8',
-                'Access-Control-Allow-Origin': '*',//允许跨域
-                'Access-Control-Allow-Headers': 'Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE',//允许跨域
-            };
             //忽略掉请求后的search和hash值并对特殊字符解码
             let url: string = decodeURI(req.url.replace(/\?.+/, ''));
             //判断请求类型
@@ -34,7 +29,7 @@ export default class BinProxy {
                     //sw文件
                     if (new RegExp(`^/${SwT.swURL}$`).test(url)) {
                         res.writeHead(200, {
-                            ..._head,
+                            ...crossDomainHead,
                             'Content-Type': mime.getType('js'),
                         });
                         //提取出相对目录并取出内容
@@ -45,7 +40,7 @@ export default class BinProxy {
                     //web工具脚本
                     else if (new RegExp(`^/${ResURL.publicDirName}`).test(url)) {
                         res.writeHead(200, {
-                            ..._head,
+                            ...crossDomainHead,
                             'Content-Type': mime.getType(extname(url)) || '',
                         });
                         //提取出相对目录并取出内容
@@ -59,7 +54,7 @@ export default class BinProxy {
                             //主页html文件
                             case new RegExp(`^((/?)|(/?${MainConfig.config.homePage.replace(/^\//, '')}))$`).test(url):
                                 res.writeHead(200, {
-                                    ..._head,
+                                    ...crossDomainHead,
                                     'Content-Type': mime.getType('html') + ';charset=UTF-8',
                                 });
                                 BinTool.getHomePage().then((_html) => {
@@ -69,7 +64,7 @@ export default class BinProxy {
                             //主页js文件
                             case new RegExp(`^/?${MainConfig.config.homeJs.replace(/^\//, '')}$`).test(url):
                                 res.writeHead(200, {
-                                    ..._head,
+                                    ...crossDomainHead,
                                     'Content-Type': mime.getType('js') + ';charset=UTF-8',
                                 });
                                 BinTool.getHomeJs().then((_js) => {
@@ -83,12 +78,12 @@ export default class BinProxy {
                                 //判断是否有这个文件
                                 stat(_url, (err, stats) => {
                                     if (err || !stats.isFile()) {
-                                        res.writeHead(404, _head);
+                                        res.writeHead(404, crossDomainHead);
                                         res.end();
                                         return;
                                     }
                                     res.writeHead(200, {
-                                        ..._head,
+                                        ...crossDomainHead,
                                         'Content-Type': mime.getType(extname(url)) || '',
                                     });
                                     //
@@ -97,11 +92,6 @@ export default class BinProxy {
                                 break;
                         }
                     }
-                    break;
-                //post请求
-                case 'POST':
-                    //
-                    res.end('不支持post请求。');
                     break;
             }
         }, MainConfig.config.port.bin).then((server) => {

@@ -6,6 +6,4 @@ export enum EWebSocketMesType {
     contentUpdate = 'contentUpdate',
     /** 脚本更新 */
     scriptUpdate = 'scriptUpdate',
-    /** 请求 */
-    fetch = 'fetch',
 }

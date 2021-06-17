@@ -13,8 +13,10 @@ if ('serviceWorker' in navigator) {
             //提示打开新窗口
             console.log(
                 ...esbuildTool.consoleEx.textPack(
-                    esbuildTool.consoleEx.getStyle('#fdfaf6', '#ce1212'),
-                    `工具更新，已停用旧 serviceWorker \n关闭此窗口，用新窗口打开 ${location.href} 重启项目。`
+                    esbuildTool.consoleEx.getStyle('#fdfaf6', '#f08a5d'),
+                    `工具更新，已停用旧 serviceWorker 
+关闭此窗口，用新窗口打开 ${location.href} 重启项目。
+或者打开 chrome://serviceworker-internals 手动关闭 serviceWorker`
                 )
             );
         } else {

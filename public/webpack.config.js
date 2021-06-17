@@ -17,7 +17,7 @@ module.exports = {
         // 必须是绝对路径（使用 Node.js 的 path 模块）
         filename: "[name].js",
         // 此选项确定 output.devtoolModuleFilenameTemplate 使用的模块名称空间
-        devtoolNamespace: "⚙️leb",
+        devtoolNamespace: "⚙️leb❕",
     },
     module: {
         // 关于模块配置

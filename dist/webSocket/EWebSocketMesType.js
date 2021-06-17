@@ -10,7 +10,5 @@ var EWebSocketMesType;
     EWebSocketMesType["contentUpdate"] = "contentUpdate";
     /** 脚本更新 */
     EWebSocketMesType["scriptUpdate"] = "scriptUpdate";
-    /** 请求 */
-    EWebSocketMesType["fetch"] = "fetch";
 })(EWebSocketMesType = exports.EWebSocketMesType || (exports.EWebSocketMesType = {}));
 //# sourceMappingURL=EWebSocketMesType.js.map
