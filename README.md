@@ -7,6 +7,7 @@
 
 - #### 使用 esbuild 来增量构建 layabox 项目 修改代码后立即就能看到效果 提高开发速度，优化开发体验。
 - #### 视频介绍：https://www.bilibili.com/video/BV16w411R7ZT?share_source=copy_web
+- 有问题加qq群 <img src="./res/qq.png">
 
 
 ----------
