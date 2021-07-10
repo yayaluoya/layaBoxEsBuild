@@ -10,7 +10,7 @@ const layaboxEsbuild = require('../dist/main.js');
 /** 默认配置 */
 const defaultConfig = require('../config.js');
 /** 配置文件名字 */
-const configName = 'layabox_esbuild_config.js';
+const configName = `ayabox_esbuild_config@${package.version.replace(/\./g, '-')}.js`;
 //
 const program = new Command();
 
@@ -54,7 +54,7 @@ switch (true) {
             //
             let stream = fs.createReadStream(_defaultConfigUrl).pipe(fs.createWriteStream(_configUrl));
             stream.on('close', () => {
-                console.log(chalk.green('配置文件初始化完成。'));
+                console.log(chalk.green('配置文件初始化完成。', package.version));
             });
         });
         //

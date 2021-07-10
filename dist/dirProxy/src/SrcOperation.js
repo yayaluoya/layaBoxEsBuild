@@ -40,6 +40,7 @@ var SrcOperation = /** @class */ (function () {
                 if (_ifMap) {
                     _fileData.stateCode = 200;
                     _fileData.content = module.content.map;
+                    // console.log(module);
                 }
                 else {
                     //判断etag

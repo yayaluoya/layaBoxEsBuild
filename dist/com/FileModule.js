@@ -27,18 +27,9 @@ var FileModule = /** @class */ (function () {
             code: BufferT_1.default.nullBuffer,
             map: BufferT_1.default.nullBuffer,
         };
-        //匹配用的reg
-        var _reg = /\.([^\.]*?)$/;
-        //剔除后缀
         this.m_url = _url;
-        //提取后缀
-        this.m_suffix = MainConfig_1.default.config.srcFileDefaultSuffix;
-        var _suffix = _url.match(_reg);
-        _suffix && (this.m_suffix = _suffix[1]);
-        //
-        // console.log('后缀', this.m_url, this.m_suffix);
-        //
-        this.m_absolutePath = path_1.join(MainConfig_1.default.config.src, this.m_url.replace(_reg, '')) + '.' + this.m_suffix;
+        //绝对路径
+        this.m_absolutePath = path_1.join(MainConfig_1.default.config.src, this.m_url);
         this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
         //通过url生成唯一标识符
         this.m_key = crypto_1.default.createHash('md5').update(this.m_absolutePath).digest('hex');
@@ -93,14 +84,6 @@ var FileModule = /** @class */ (function () {
         /** 获取标准路径 */
         get: function () {
             return this.m_normPath;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(FileModule.prototype, "suffix", {
-        /** 获取后缀 */
-        get: function () {
-            return this.m_suffix;
         },
         enumerable: false,
         configurable: true
@@ -178,9 +161,11 @@ var FileModule = /** @class */ (function () {
                 _task_1.then(function () {
                     //获取内容
                     _this._updateContent().then(function (_content) {
+                        // console.log(_content);
                         _this.m_content = _this._rightContent(_content);
+                        // console.log(this);
                     }).catch(function (E) {
-                        //把错误内容已代码的形式添加进去
+                        //把错误内容以代码的形式添加进去
                         _this.m_content.code = Buffer.from(_this._mismanage(E));
                     }).finally(function () {
                         r(_this);

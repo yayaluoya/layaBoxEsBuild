@@ -35,6 +35,7 @@ export default class SrcOperation {
                 if (_ifMap) {
                     _fileData.stateCode = 200;
                     _fileData.content = module.content.map;
+                    // console.log(module);
                 } else {
                     //判断etag
                     if (_etag == module.modifyKey) {

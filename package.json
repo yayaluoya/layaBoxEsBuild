@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.1.28",
+  "version": "1.1.30",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
@@ -23,7 +23,7 @@
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^7.2.0",
-    "esbuild": "^0.11.23",
+    "esbuild": "^0.12.15",
     "internal-ip": "^6.2.0",
     "mime": "^2.5.2",
     "moment": "^2.29.1",
@@ -263,6 +263,12 @@
     {
       "v": "1.1.28",
       "log": "删除一些多余的功能",
+      "type": "opt",
+      "degree": 1
+    },
+    {
+      "v": "1.1.30",
+      "log": "添加导入其它任意文件，外置其它类型文件处理loader，同步esbuild版本",
       "type": "opt",
       "degree": 1
     }

@@ -1,3 +1,5 @@
+import { ILoaderConfig } from "../dirProxy/src/SrcLoader";
+
 /**
  * 配置表接口
  */
@@ -16,8 +18,8 @@ export default interface IConfig {
         src: number,
         bin: number,
     },
-    /** src目录文件默认后缀  */
-    srcFileDefaultSuffix?: string,
+    /** src目录文件默认后缀，当导入的文件不带后缀时会以这个数组依次寻找，知道找到匹配的，全部找不到的话就报错  */
+    srcFileDefaultSuffixs?: string[],
     /** 入口文件名，地址相对于src目录 */
     mainTs?: string,
     /** 主页地址， 相对于bin目录 */
@@ -41,6 +43,8 @@ export default interface IConfig {
         /** bin目录的监听配置 */
         bin: IFileWatch,
     },
+    /** loader列表 */
+    loader?: ILoaderConfig[]
 }
 
 /**

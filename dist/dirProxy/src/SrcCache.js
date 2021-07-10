@@ -58,6 +58,7 @@ var SrcCache = /** @class */ (function () {
         // console.log('准备更新模块', _url, this.m_moduleCache.map((item) => {
         //     return item.url;
         // }));
+        //
         (_a = this.byUrlGetModule(_url)) === null || _a === void 0 ? void 0 : _a.update();
     };
     /**
@@ -65,20 +66,32 @@ var SrcCache = /** @class */ (function () {
      * @param _url url
      */
     SrcCache.byUrlGetModule = function (_url) {
-        //判断是否包含后缀
-        if (!/\.([^\.]*?)$/.test(_url)) {
-            //加上默认后缀
-            _url = _url + "." + MainConfig_1.default.config.srcFileDefaultSuffix;
-        }
-        //把路径中的\转意成/,不然匹配不到
+        //把路径转成标准路径
         _url = _url.replace(/\\/g, '/');
         //查找
-        var _SrcModule = this.m_moduleCache.find(function (item) {
-            //* 不区分大小写匹配
-            return new RegExp("^" + item.normPath + "$", 'i').test(_url);
+        return this.m_moduleCache.find(function (item) {
+            /** 不区分大小写匹配 */
+            var _b = false;
+            //
+            var _sus = MainConfig_1.default.config.srcFileDefaultSuffixs;
+            var _su;
+            var _susRegExp;
+            for (var _i in _sus) {
+                _su = _sus[_i];
+                if (_su) {
+                    _susRegExp = new RegExp("\\." + _su + "$", 'i');
+                    //先判断是否满足当前后缀的格式了，避免重复添加
+                    _b = new RegExp("^" + item.normPath.replace(_susRegExp, '') + "\\." + _su + "$", 'i').test(_url.replace(_susRegExp, '') + "." + _su);
+                }
+                else {
+                    _b = new RegExp("^" + item.normPath + "$", 'i').test(_url);
+                }
+                if (_b)
+                    break;
+            }
+            //
+            return _b;
         });
-        //
-        return _SrcModule;
     };
     /** 文件模块缓存列表 */
     SrcCache.m_moduleCache = [];

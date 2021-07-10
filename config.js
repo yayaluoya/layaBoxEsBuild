@@ -42,8 +42,8 @@ module.exports = {
         src: 0,
         bin: 0,
     },
-    /** src目录文件默认后缀  */
-    srcFileDefaultSuffix: 'ts',
+    /** src目录文件默认后缀，当导入的文件不带后缀时会以这个数组依次寻找，知道找到匹配的，全部找不到的话就报错 */
+    srcFileDefaultSuffixs: ['ts', 'd.ts', 'js', ''],
     /** 入口文件名，地址相对于src目录 */
     mainTs: 'Main.ts',
     /** 主页， 相对于bin目录 */
@@ -67,4 +67,37 @@ module.exports = {
         /** bin目录的监听配置 */
         bin: new FileWatch(true, true, 500),
     },
+    /** loader列表 */
+    loader: [
+        {
+            /** 这里匹配需要包含的文件 */
+            include: /^$/,
+            /** loader，如果是字符串的话就用内置的loader，如果是函数的话就直接调用函数 */
+            loader: [
+                /**
+                 * loader处理函数示例
+                 * @param {*} _content 文件类容
+                 * @param {*} _absolutePath 文件绝对路径
+                 * @param {*} _suffix 文件后缀
+                 * @returns 一个解决结果是字符串的promise
+                 */
+                function (_content, _absolutePath, _suffix) {
+                    // console.log(_absolutePath);
+                    return Promise.resolve(_content);
+                }
+            ],
+        },
+        {
+            /** 处理ts或者js的路径，对应上面配置的文件修改规则 */
+            include: /\.(ts|js)$/,
+            /** loader */
+            loader: ['path'],
+        },
+        {
+            /** 处理文本内容 */
+            include: /\.txt$/,
+            /** loader */
+            loader: ['txt'],
+        },
+    ],
 };

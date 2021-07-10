@@ -22,8 +22,6 @@ export default class FileModule {
     private m_absolutePath: string;
     /** 标准路径 */
     private m_normPath: string;
-    /** 后缀 */
-    private m_suffix: string;
 
     /** 任务 */
     private m_task: Promise<FileModule> = new Promise((r) => { r(this); });
@@ -59,10 +57,6 @@ export default class FileModule {
     public get normPath(): string {
         return this.m_normPath;
     }
-    /** 获取后缀 */
-    public get suffix(): string {
-        return this.m_suffix;
-    }
     /** 获取 任务 */
     public get task(): Promise<FileModule> {
         //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务
@@ -87,18 +81,9 @@ export default class FileModule {
             code: BufferT.nullBuffer,
             map: BufferT.nullBuffer,
         };
-        //匹配用的reg
-        let _reg: RegExp = /\.([^\.]*?)$/;
-        //剔除后缀
         this.m_url = _url;
-        //提取后缀
-        this.m_suffix = MainConfig.config.srcFileDefaultSuffix;
-        let _suffix = _url.match(_reg);
-        _suffix && (this.m_suffix = _suffix[1]);
-        //
-        // console.log('后缀', this.m_url, this.m_suffix);
-        //
-        this.m_absolutePath = join(MainConfig.config.src, this.m_url.replace(_reg, '')) + '.' + this.m_suffix;
+        //绝对路径
+        this.m_absolutePath = join(MainConfig.config.src, this.m_url);
         this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
         //通过url生成唯一标识符
         this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
@@ -166,9 +151,11 @@ export default class FileModule {
                 _task.then(() => {
                     //获取内容
                     this._updateContent().then((_content) => {
+                        // console.log(_content);
                         this.m_content = this._rightContent(_content);
+                        // console.log(this);
                     }).catch((E) => {
-                        //把错误内容已代码的形式添加进去
+                        //把错误内容以代码的形式添加进去
                         this.m_content.code = Buffer.from(this._mismanage(E));
                     }).finally(() => {
                         r(this);

@@ -3,19 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefLoaders = void 0;
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
-/**
- * Src文件过渡操作
- * 当从本地读取文件的是否会经过这个流程
- */
-var SrcTransition = /** @class */ (function () {
-    function SrcTransition() {
-    }
-    /**
-     * ts文件打包后
-     * @param _content 文件内容
-     */
-    SrcTransition.tsBuildBack = function (_content) {
+/** 默认loader列表 */
+exports.DefLoaders = {
+    /** 路径处理loader */
+    'path': function (_content, _suffix) {
         //处理路径
         _content = _content.replace(/import.*?["'](.*?)["'];/g, function (text, $1) {
             var _$1 = $1;
@@ -29,17 +22,12 @@ var SrcTransition = /** @class */ (function () {
             return text.replace($1, _$1);
         });
         //
-        return _content;
-    };
-    /**
-     * 普通文件打包后
-     * @param _content 文件内容
-     */
-    SrcTransition.textBuildBack = function (_content) {
+        return Promise.resolve(_content);
+    },
+    /** text处理插件 */
+    'text': function (_content, _suffix) {
         //需要转义反引号 `
-        return "\nexport default `" + _content.replace(/`/, '\\`') + "`;\n        ";
-    };
-    return SrcTransition;
-}());
-exports.default = SrcTransition;
+        return Promise.resolve("\n    export default `" + _content.replace(/`/, '\\`') + "`;\n            ");
+    }
+};
 //# sourceMappingURL=SrcTransition.js.map
