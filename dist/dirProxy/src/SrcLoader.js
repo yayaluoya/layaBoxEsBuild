@@ -39,20 +39,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Loaders = void 0;
+exports.LoaderHandle = void 0;
+var chalk_1 = __importDefault(require("chalk"));
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
+/** 匹配代码中的导入语句 */
+var importRrlReg = /import.*?["'](.*?)["'];/g;
 /** 内置loader列表 */
-exports.Loaders = {
+var Loaders = {
     /**
      * 路径处理loader
      */
     'path': function (_content, _absolutePath, _suffix) {
         //处理路径
-        _content = _content.replace(/import.*?["'](.*?)["'];/g, function (text, $1) {
+        _content = _content.replace(importRrlReg, function (text, $1) {
             var _$1 = $1;
             if (MainConfig_1.default.config.filePathModify && MainConfig_1.default.config.filePathModify.length > 0) {
-                for (var _i = 0, _a = MainConfig_1.default.config.filePathModify; _i < _a.length; _i++) {
-                    var _o = _a[_i];
+                for (var _a = 0, _b = MainConfig_1.default.config.filePathModify; _a < _b.length; _a++) {
+                    var _o = _b[_a];
                     _$1 = _$1.replace(_o.a, _o.b);
                 }
             }
@@ -79,34 +82,72 @@ exports.Loaders = {
  */
 function LoaderHandle(_loaders, _content, _absolutePath, _suffix) {
     return __awaiter(this, void 0, void 0, function () {
-        var _loaderF, _i, _loaders_1, _loaderConfig, _a, _b, _loader;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var _loaderF, _names, _a, _loaders_1, _loaderConfig, _loop_1, _b, _c, _loader;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
-                    _i = 0, _loaders_1 = _loaders;
-                    _c.label = 1;
+                    _a = 0, _loaders_1 = _loaders;
+                    _d.label = 1;
                 case 1:
-                    if (!(_i < _loaders_1.length)) return [3 /*break*/, 6];
-                    _loaderConfig = _loaders_1[_i];
+                    if (!(_a < _loaders_1.length)) return [3 /*break*/, 6];
+                    _loaderConfig = _loaders_1[_a];
+                    _names = [_loaderConfig.name];
                     if (!_loaderConfig.include.test(_absolutePath)) return [3 /*break*/, 5];
-                    _a = 0, _b = _loaderConfig.loader;
-                    _c.label = 2;
+                    _loop_1 = function (_loader) {
+                        var __loaderF;
+                        return __generator(this, function (_e) {
+                            switch (_e.label) {
+                                case 0:
+                                    __loaderF = (typeof _loader == 'string') ? (_names.push(_loader), Loaders[_loader]) : _loader;
+                                    if (!__loaderF) {
+                                        return [2 /*return*/, "continue"];
+                                    }
+                                    //包装一下__loaderF方法，主要是在这个loader出错时跳过这个loader
+                                    _loaderF = (function () {
+                                        var arg = [];
+                                        for (var _a = 0; _a < arguments.length; _a++) {
+                                            arg[_a] = arguments[_a];
+                                        }
+                                        return new Promise(function (r, e) {
+                                            try {
+                                                __loaderF.apply(void 0, arg).then(r)
+                                                    .catch(function (err) {
+                                                    //loader处理出错了，跳过这个loader并打印粗错消息
+                                                    r(_content);
+                                                    //
+                                                    loaderErrHand(_names, err);
+                                                });
+                                            }
+                                            catch (err) {
+                                                //loader出错了，跳过这个loader并给出提示
+                                                r(_content);
+                                                //
+                                                loaderErrHand(_names, err);
+                                            }
+                                        });
+                                    });
+                                    return [4 /*yield*/, _loaderF(_content, _absolutePath, _suffix)];
+                                case 1:
+                                    //处理正真结果
+                                    _content = _e.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    };
+                    _b = 0, _c = _loaderConfig.loader;
+                    _d.label = 2;
                 case 2:
-                    if (!(_a < _b.length)) return [3 /*break*/, 5];
-                    _loader = _b[_a];
-                    _loaderF = (typeof _loader == 'string') ? exports.Loaders[_loader] : _loader;
-                    if (!_loaderF) {
-                        return [3 /*break*/, 4];
-                    }
-                    return [4 /*yield*/, _loaderF(_content, _absolutePath, _suffix)];
+                    if (!(_b < _c.length)) return [3 /*break*/, 5];
+                    _loader = _c[_b];
+                    return [5 /*yield**/, _loop_1(_loader)];
                 case 3:
-                    _content = _c.sent();
-                    _c.label = 4;
+                    _d.sent();
+                    _d.label = 4;
                 case 4:
-                    _a++;
+                    _b++;
                     return [3 /*break*/, 2];
                 case 5:
-                    _i++;
+                    _a++;
                     return [3 /*break*/, 1];
                 case 6: 
                 //
@@ -115,5 +156,20 @@ function LoaderHandle(_loaders, _content, _absolutePath, _suffix) {
         });
     });
 }
-exports.default = LoaderHandle;
+exports.LoaderHandle = LoaderHandle;
+/**
+ * loader异常处理
+ * @param _names loader名字列表
+ * @param err 错误
+ */
+function loaderErrHand(_names, err) {
+    var _name = '-> ';
+    var _l = _names.length;
+    _names.forEach(function (item, _i) {
+        _name += "" + item + (_i < _l - 1 ? ' > ' : '');
+    });
+    //
+    console.log(chalk_1.default.red("loader " + _name + " \u6267\u884C\u51FA\u9519\u4E86\uFF0C\u5DF2\u8DF3\u8FC7\u8FD9\u4E2Aloader\u7684\u6267\u884C:"));
+    console.log(err);
+}
 //# sourceMappingURL=SrcLoader.js.map

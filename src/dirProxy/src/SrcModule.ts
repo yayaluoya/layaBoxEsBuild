@@ -2,10 +2,10 @@ import FileModule, { IFileModuleContent } from "../../com/FileModule";
 import MainConfig from "../../config/MainConfig";
 import { EWebSocketMesType } from "../../webSocket/EWebSocketMesType";
 import WebSocket from "../../webSocket/WebSocket";
-import TsBuild from "./TsBuild";
 import moment from "moment";
 import chalk from "chalk";
 import { Message } from "esbuild";
+import { FileBuild } from "./FileBuild";
 
 /**
  * Src模块
@@ -41,7 +41,7 @@ export default class SrcModule extends FileModule {
     /** 更新内容 */
     protected _updateContent(): Promise<IFileModuleContent> {
         //返回一个esbuild的任务
-        return TsBuild.build(this.absolutePath);
+        return FileBuild(this.absolutePath);
     }
 
     /** 处理错误回调 */

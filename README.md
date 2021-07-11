@@ -142,20 +142,24 @@ export interface IFileWatch {
 }
 
 /**
- * loader处理函数
- */
-export interface ILoaderHandleFunction {
-    (_content: string, _absolutePath: string, _suffix: string): Promise<string>;
-}
-
-/**
  * loader配置
+ * 用于对匹配文件的额外处理，用来同步对应的打包系统保持，保持构建结果和打包结果的同步。
+ * 默认的有path，txt两个loader用来处理ts文件的路径，和处理txt文件的导入。
  */
 export interface ILoaderConfig {
+    /** loader名字，打包出错时会给出提示 */
+    name: string;
     /** 包含内容 */
     include: RegExp;
     /** loader */
     loader: (string | ILoaderHandleFunction)[];
+}
+
+/**
+ * loader处理函数
+ */
+export interface ILoaderHandleFunction {
+    (_content: string, _absolutePath: string, _suffix: string): Promise<string>;
 }
 ```
 

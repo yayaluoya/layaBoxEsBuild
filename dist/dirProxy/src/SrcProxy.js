@@ -21,6 +21,9 @@ var ResHead_1 = require("../../com/ResHead");
 /**
  * src代理
  */
+//head
+/** 公共头部 */
+var _head = __assign(__assign({}, ResHead_1.crossDomainHead), { 'cache-control': 'no-cache' });
 var SrcProxy = /** @class */ (function () {
     function SrcProxy() {
     }
@@ -28,8 +31,6 @@ var SrcProxy = /** @class */ (function () {
      * 开始
      */
     SrcProxy.start = function () {
-        //head
-        var _head = __assign(__assign({}, ResHead_1.crossDomainHead), { 'cache-control': 'no-cache' });
         // req 请求， res 响应 
         return HttpTool_1.default.createServer(function (req, res) {
             //get请求

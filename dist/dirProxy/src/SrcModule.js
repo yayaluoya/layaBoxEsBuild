@@ -22,9 +22,9 @@ var FileModule_1 = __importDefault(require("../../com/FileModule"));
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var EWebSocketMesType_1 = require("../../webSocket/EWebSocketMesType");
 var WebSocket_1 = __importDefault(require("../../webSocket/WebSocket"));
-var TsBuild_1 = __importDefault(require("./TsBuild"));
 var moment_1 = __importDefault(require("moment"));
 var chalk_1 = __importDefault(require("chalk"));
+var FileBuild_1 = require("./FileBuild");
 /**
  * Src模块
  */
@@ -58,7 +58,7 @@ var SrcModule = /** @class */ (function (_super) {
     /** 更新内容 */
     SrcModule.prototype._updateContent = function () {
         //返回一个esbuild的任务
-        return TsBuild_1.default.build(this.absolutePath);
+        return FileBuild_1.FileBuild(this.absolutePath);
     };
     /** 处理错误回调 */
     SrcModule.prototype._mismanage = function (_e) {

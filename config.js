@@ -70,6 +70,8 @@ module.exports = {
     /** loader列表 */
     loader: [
         {
+            /** loader名字 */
+            name: 'test',
             /** 这里匹配需要包含的文件 */
             include: /^$/,
             /** loader，如果是字符串的话就用内置的loader，如果是函数的话就直接调用函数 */
@@ -88,12 +90,16 @@ module.exports = {
             ],
         },
         {
+            /** loader名字 */
+            name: 'path',
             /** 处理ts或者js的路径，对应上面配置的文件修改规则 */
             include: /\.(ts|js)$/,
             /** loader */
             loader: ['path'],
         },
         {
+            /** loader名字 */
+            name: 'txt',
             /** 处理文本内容 */
             include: /\.txt$/,
             /** loader */

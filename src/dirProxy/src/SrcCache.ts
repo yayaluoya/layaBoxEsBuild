@@ -25,7 +25,7 @@ export default class SrcCache {
                 console.log(chalk.gray('>'));
                 console.log(chalk.gray('预构建所有已修改模块->', _i));
             }
-        }, 1000 * 60 * MainConfig.config.autoUpdateTaskTime);
+        }, 1000 * 60 * Math.max(1, MainConfig.config.autoUpdateTaskTime));
     }
 
     /**
@@ -58,7 +58,7 @@ export default class SrcCache {
     }
 
     /**
-     * 通过url获取模块，绝对路径
+     * 通过url获取模块，绝对路径，有的带后缀，有的不带
      * @param _url url
      */
     private static byUrlGetModule(_url: string): SrcModule {

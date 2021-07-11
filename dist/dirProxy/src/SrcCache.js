@@ -31,7 +31,7 @@ var SrcCache = /** @class */ (function () {
                 console.log(chalk_1.default.gray('>'));
                 console.log(chalk_1.default.gray('预构建所有已修改模块->', _i));
             }
-        }, 1000 * 60 * MainConfig_1.default.config.autoUpdateTaskTime);
+        }, 1000 * 60 * Math.max(1, MainConfig_1.default.config.autoUpdateTaskTime));
     };
     /**
      * 根据模块路径获取模块
@@ -62,7 +62,7 @@ var SrcCache = /** @class */ (function () {
         (_a = this.byUrlGetModule(_url)) === null || _a === void 0 ? void 0 : _a.update();
     };
     /**
-     * 通过url获取模块，绝对路径
+     * 通过url获取模块，绝对路径，有的带后缀，有的不带
      * @param _url url
      */
     SrcCache.byUrlGetModule = function (_url) {

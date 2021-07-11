@@ -7,16 +7,18 @@ import { crossDomainHead } from "../../com/ResHead";
 /**
  * src代理
  */
+//head
+/** 公共头部 */
+const _head = {
+    ...crossDomainHead,
+    'cache-control': 'no-cache',//协商缓存
+};
+
 export default class SrcProxy {
     /**
      * 开始
      */
     public static start(): Promise<void> {
-        //head
-        let _head = {
-            ...crossDomainHead,
-            'cache-control': 'no-cache',//协商缓存
-        };
         // req 请求， res 响应 
         return HttpTool.createServer((req, res) => {
             //get请求
