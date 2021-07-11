@@ -114,7 +114,7 @@ var _esbuildTransformOptions = {
     //资源文件，将会显示到资源管理器里面，通过webpack协议来自定义源
     sourcefile: null,
     //字符集
-    // charset: 'utf8',
+    charset: 'utf8',
     //
 };
 /**
