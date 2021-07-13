@@ -91,17 +91,17 @@ module.exports = {
         },
         {
             /** loader名字 */
-            name: 'path',
-            /** 处理ts或者js的路径，对应上面配置的文件修改规则 */
-            include: /\.(ts|js)$/,
+            name: 'src-path',
+            /** 处理ts,d.ts,js后缀文件的导入路径，对应上面配置的文件修改规则 */
+            include: /\.((d\.)?ts|js)$/,
             /** loader */
             loader: ['path'],
         },
         {
             /** loader名字 */
-            name: 'txt',
-            /** 处理文本内容 */
-            include: /\.txt$/,
+            name: 'src-txt',
+            /** 处理文本内容，.txt后缀的文件 */
+            include: /\.te?xt$/,
             /** loader */
             loader: ['txt'],
         },
