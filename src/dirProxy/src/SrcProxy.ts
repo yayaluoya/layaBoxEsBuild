@@ -3,6 +3,7 @@ import HttpTool from "../../http/HttpTool";
 import SrcOperation from "./SrcOperation";
 import { AddressInfo } from "net";
 import { crossDomainHead } from "../../com/ResHead";
+import { server } from "./NodeModulesT";
 
 /**
  * src代理
@@ -18,8 +19,10 @@ export default class SrcProxy {
     /**
      * 开始
      */
-    public static start(): Promise<void> {
-        // req 请求， res 响应 
+    public static async start(): Promise<void> {
+        //开启node_module服务
+        await server();
+        // 开启代码请求服务
         return HttpTool.createServer((req, res) => {
             //get请求
             switch (req.method) {

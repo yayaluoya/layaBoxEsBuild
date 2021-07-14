@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.1.33",
+  "version": "1.1.34",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
@@ -20,6 +20,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^7.2.0",
@@ -28,6 +30,9 @@
     "mime": "^2.5.2",
     "moment": "^2.29.1",
     "portfinder": "^1.0.28",
+    "rollup": "^2.53.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-polyfills": "^0.2.1",
     "ws": "^7.4.4"
   },
   "testEnvironment": "node",
@@ -35,7 +40,8 @@
     "@types/node": "^15.0.2",
     "typescript": "^4.2.4"
   },
-  "version-log": [{
+  "version-log": [
+    {
       "v": "1.0.20",
       "log": "把sourcemap从内联转移到外部文件的形式，修复谷歌浏览器断点调试的不稳定的bug。",
       "type": "bug"
@@ -225,6 +231,12 @@
       "log": "关于loader异常的处理",
       "type": "opt",
       "degree": 1
+    },
+    {
+      "v": "1.1.34",
+      "log": "关于npm包的导入处理，和amd格式的导入",
+      "type": "opt",
+      "degree": 2
     }
   ]
 }

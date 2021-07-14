@@ -14,6 +14,11 @@ export default class ResURL {
         return join(this.rootURL, '/public/');
     }
 
+    /** 执行目录 */
+    public static get cwdUrl(): string {
+        return process.cwd();
+    }
+
     /** 获取public目录下代码目录名字 */
     public static readonly publicSrcDirName: string = 'dist';
     /** 获取public路径下代码的路径 */

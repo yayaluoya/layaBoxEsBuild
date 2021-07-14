@@ -5,6 +5,7 @@ import Init from "./Init";
 import SrcProxy from "./dirProxy/src/SrcProxy";
 import PackageJson from "./config/PackageJson";
 import chalk from "chalk";
+import TestMain from "./_test/TestMain";
 
 /**
  * layaboxEsbuild构建实例
@@ -32,6 +33,8 @@ export default class layaboxEsbuild {
 			console.log(chalk.gray(`> ${PackageJson.name}@${PackageJson.version} 快捷命令:leb`));
 			console.log(chalk.gray('执行 leb -h 查看帮助或解决bug'));
 			console.log(chalk.gray('...'));
+			//测试
+			TestMain.start();
 		});
 	}
 }

@@ -1,2 +1,5 @@
 # compiled output
 /node_modules
+
+#测试目录包
+/test/node_modules

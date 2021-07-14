@@ -23,6 +23,14 @@ var ResURL = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(ResURL, "cwdUrl", {
+        /** 执行目录 */
+        get: function () {
+            return process.cwd();
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(ResURL, "publicSrcURL", {
         /** 获取public路径下代码的路径 */
         get: function () {

@@ -42,26 +42,42 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoaderHandle = void 0;
 var chalk_1 = __importDefault(require("chalk"));
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
+var NodeModulesT_1 = require("./NodeModulesT");
 /** 匹配代码中的导入语句 */
-var importRrlReg = /import.*?["'](.*?)["'];/g;
+var importReg = /([\s])?import\s*([\w{}\s,]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
+var requireReg = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
 /** 内置loader列表 */
 var Loaders = {
     /**
      * 路径处理loader
      */
     'path': function (_content, _absolutePath, _suffix) {
-        //处理路径
-        _content = _content.replace(importRrlReg, function (text, $1) {
-            var _$1 = $1;
-            if (MainConfig_1.default.config.filePathModify && MainConfig_1.default.config.filePathModify.length > 0) {
-                for (var _a = 0, _b = MainConfig_1.default.config.filePathModify; _a < _b.length; _a++) {
-                    var _o = _b[_a];
-                    _$1 = _$1.replace(_o.a, _o.b);
-                }
+        /**
+         * 处理路径
+         * @param _ 占位。。。
+         * @param $0 赋值表达式
+         * @param $1 路径
+         */
+        var _f = function (_, $_, $0, $1) {
+            //检测是否时npm的包，由字母数字，连字符组成
+            if (/^[a-zA-Z0-9-]+$/.test($1)) {
+                return ($_ || '') + "import \"" + NodeModulesT_1.getNMIndexURL($1) + "\";" + (($0 && $0 !== $1) ? "const " + $0 + " = " + $1 + ";" : '');
             }
-            //
-            return text.replace($1, _$1);
-        });
+            //处理路径
+            else {
+                if (MainConfig_1.default.config.filePathModify && MainConfig_1.default.config.filePathModify.length > 0) {
+                    for (var _a = 0, _b = MainConfig_1.default.config.filePathModify; _a < _b.length; _a++) {
+                        var _o = _b[_a];
+                        $1 = $1.replace(_o.a, _o.b);
+                    }
+                }
+                return ($_ || '') + "import " + ($0 && $0 + " from" || '') + " \"" + $1 + "\";";
+            }
+        };
+        //处理路径，先处理import再处理require
+        _content = _content
+            .replace(importReg, _f)
+            .replace(requireReg, _f);
         //
         return Promise.resolve(_content);
     },
