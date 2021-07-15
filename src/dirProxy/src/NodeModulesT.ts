@@ -39,7 +39,14 @@ export function getNMIndexPath(_name: string): string {
 }
 
 /** npm包缓存文件 */
-const _npmPackageCatch: { [index: string]: string } = {};
+const _npmPackageCatch: {
+    [index: string]: {
+        /** url */
+        url?: string,
+        /** 代码 */
+        code?: string,
+    }
+} = {};
 /** nm主机地址 */
 let _nmHost: string = '';
 
@@ -99,13 +106,13 @@ export function server(): Promise<void> {
         //开启一个局域网服务
         http.createServer((rep, res) => {
             //获取包名
-            let _name: string = rep.url.replace(/^[\/\\]/, '');
+            let _name: string = decodeURI(rep.url).replace(/\?.*$/, '').replace(/^[\/\\]/, '');
             //获取模块路径
             let _url: string = getNMIndexPath(_name);
             if (!_url) {
                 res.writeHead(200, {
                     ...crossDomainHead,
-                    'Content-Type': mime.getType('js') + ';charset=UTF-8',
+                    'Content-Type': mime.getType('js'),
                 });
                 res.end(`
                     alert('编译npm包错误@${_name}，可能是没有安装这个包导致的。');
@@ -114,12 +121,15 @@ export function server(): Promise<void> {
             }
             switch (rep.method) {
                 case 'GET':
+                    // console.log(_name);
                     res.writeHead(200, {
                         ...crossDomainHead,
-                        'Content-Type': mime.getType('js') + ';charset=UTF-8',
+                        'Content-Type': mime.getType('js'),
+                        //加计时缓存
+                        'Cache-Control': 'max-age=36000',
                     });
-                    if (_npmPackageCatch[_name]) {
-                        res.end(_npmPackageCatch[_name]);
+                    if (_npmPackageCatch[_name] && _npmPackageCatch[_name].code) {
+                        res.end(_npmPackageCatch[_name].code);
                         return;
                     }
                     //用rollup打包npm中的包
@@ -140,9 +150,20 @@ ${outputOptions.banner}
                         })
                         .then(({ output }) => {
                             //获取打包后的代码
-                            let _code: string = output[0].code;
+                            let _code: string = `
+${output[0].code}
+
+/** 提示 */
+try{
+    console.log(
+        ...esbuildTool.consoleEx.textPack(
+            esbuildTool.consoleEx.getStyle('#d32e2d', '#ffffff'),
+            \`从入口 ${_url.replace(/\\/g, '/')} 编译npm包 ${_name}\`)
+    );
+}catch{}
+                            `;
                             //把改代码存入缓存
-                            _npmPackageCatch[_name] = _code;
+                            (_npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})).code = _code;
                             //
                             res.end(_code);
                         })
@@ -161,12 +182,23 @@ ${outputOptions.banner}
     });
 }
 
+/** 一个随机字符串 */
+let _getNMIndexURLRKey: number = 0;
 /**
  * 获取包url
  * @param _name 包名
  */
 export function getNMIndexURL(_name: string): string {
-    return `${_nmHost}/${_name}`;
+    //查看缓存
+    if (_npmPackageCatch[_name] && _npmPackageCatch[_name].url) {
+        return _npmPackageCatch[_name].url;
+    }
+    //获取一带唯一字符串的临时路径
+    let _url: string = `${_nmHost}/${_name}?q=${Date.now()}_${_getNMIndexURLRKey++}`;
+    //添加到缓存
+    (_npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})).url = _url;
+    //
+    return _url;
 }
 
 /**

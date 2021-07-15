@@ -96,19 +96,22 @@ function server() {
         //开启一个局域网服务
         http_1.default.createServer(function (rep, res) {
             //获取包名
-            var _name = rep.url.replace(/^[\/\\]/, '');
+            var _name = decodeURI(rep.url).replace(/\?.*$/, '').replace(/^[\/\\]/, '');
             //获取模块路径
             var _url = getNMIndexPath(_name);
             if (!_url) {
-                res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType('js') + ';charset=UTF-8' }));
+                res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType('js') }));
                 res.end("\n                    alert('\u7F16\u8BD1npm\u5305\u9519\u8BEF@" + _name + "\uFF0C\u53EF\u80FD\u662F\u6CA1\u6709\u5B89\u88C5\u8FD9\u4E2A\u5305\u5BFC\u81F4\u7684\u3002');\n                ");
                 return;
             }
             switch (rep.method) {
                 case 'GET':
-                    res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType('js') + ';charset=UTF-8' }));
-                    if (_npmPackageCatch[_name]) {
-                        res.end(_npmPackageCatch[_name]);
+                    // console.log(_name);
+                    res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType('js'), 
+                        //加计时缓存
+                        'Cache-Control': 'max-age=36000' }));
+                    if (_npmPackageCatch[_name] && _npmPackageCatch[_name].code) {
+                        res.end(_npmPackageCatch[_name].code);
                         return;
                     }
                     //用rollup打包npm中的包
@@ -119,9 +122,9 @@ function server() {
                         .then(function (_a) {
                         var output = _a.output;
                         //获取打包后的代码
-                        var _code = output[0].code;
+                        var _code = "\n" + output[0].code + "\n\n/** \u63D0\u793A */\ntry{\n    console.log(\n        ...esbuildTool.consoleEx.textPack(\n            esbuildTool.consoleEx.getStyle('#d32e2d', '#ffffff'),\n            `\u4ECE\u5165\u53E3 " + _url.replace(/\\/g, '/') + " \u7F16\u8BD1npm\u5305 " + _name + "`)\n    );\n}catch{}\n                            ";
                         //把改代码存入缓存
-                        _npmPackageCatch[_name] = _code;
+                        (_npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})).code = _code;
                         //
                         res.end(_code);
                     })
@@ -140,12 +143,23 @@ function server() {
     });
 }
 exports.server = server;
+/** 一个随机字符串 */
+var _getNMIndexURLRKey = 0;
 /**
  * 获取包url
  * @param _name 包名
  */
 function getNMIndexURL(_name) {
-    return _nmHost + "/" + _name;
+    //查看缓存
+    if (_npmPackageCatch[_name] && _npmPackageCatch[_name].url) {
+        return _npmPackageCatch[_name].url;
+    }
+    //获取一带唯一字符串的临时路径
+    var _url = _nmHost + "/" + _name + "?q=" + Date.now() + "_" + _getNMIndexURLRKey++;
+    //添加到缓存
+    (_npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})).url = _url;
+    //
+    return _url;
 }
 exports.getNMIndexURL = getNMIndexURL;
 /**
