@@ -46,7 +46,8 @@ let _nmHost: string = '';
 /** rollup入口选项 */
 const inputOptions: any = {
     input: '',
-    plugins: [ // 打包插件
+    // 打包插件
+    plugins: [
         commonjs(),
         plugin_josn(),
         node_polyfills(),
@@ -56,8 +57,37 @@ const inputOptions: any = {
 /** rollup出口选项 */
 const outputOptions: any = {
     name: '',
-    format: 'umd',
+    /**
+     *  amd – 异步模块定义，用于像RequireJS这样的模块加载器
+        cjs – CommonJS，适用于 Node 和 Browserify/Webpack
+        esm – 将软件包保存为 ES 模块文件，在现代浏览器中可以通过 <script type=module> 标签引入
+        iife – 一个自动执行的功能，适合作为<script>标签。（如果要为应用程序创建一个捆绑包，您可能想要使用它，因为它会使文件大小变小。）
+        umd – 通用模块定义，以amd，cjs 和 iife 为一体
+        system - SystemJS 加载器格式
+     */
+    format: 'esm',
+    exports: 'default',
     sourcemap: false,
+    /** 注入的内容 */
+    banner: `
+
+/** 注入预制内容 */
+
+//* 注入process
+var process = {
+    env: {
+        NODE_ENV: 'production'
+    }
+};
+//* 注入global
+var global = (
+        typeof global !== "undefined" ? global :
+        typeof self !== "undefined" ? self :
+        typeof window !== "undefined" ? window : {}
+    );
+
+/** 正式内容 */
+    `,
 };
 
 /**
@@ -72,6 +102,16 @@ export function server(): Promise<void> {
             let _name: string = rep.url.replace(/^[\/\\]/, '');
             //获取模块路径
             let _url: string = getNMIndexPath(_name);
+            if (!_url) {
+                res.writeHead(200, {
+                    ...crossDomainHead,
+                    'Content-Type': mime.getType('js') + ';charset=UTF-8',
+                });
+                res.end(`
+                    alert('编译npm包错误@${_name}，可能是没有安装这个包导致的。');
+                `);
+                return;
+            }
             switch (rep.method) {
                 case 'GET':
                     res.writeHead(200, {
@@ -90,6 +130,11 @@ export function server(): Promise<void> {
                         .then((bundle) => {
                             return bundle.generate({
                                 ...outputOptions,
+                                banner: `
+//!注意这个文件是动态编译的，但是会被缓存起来。
+//包入口文件路径@${_url}
+${outputOptions.banner}
+                                `,
                                 name: _name,
                             });
                         })

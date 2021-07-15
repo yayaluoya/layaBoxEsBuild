@@ -43,41 +43,50 @@ exports.LoaderHandle = void 0;
 var chalk_1 = __importDefault(require("chalk"));
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var NodeModulesT_1 = require("./NodeModulesT");
+/** 匹配npm包名字 */
+var npmPackReg = /^[a-zA-Z0-9-]+$/;
 /** 匹配代码中的导入语句 */
 var importReg = /([\s])?import\s*([\w{}\s,]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
 var requireReg = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
+/**
+ * 获取导入路径
+ * @param _ 占位。。。
+ * @param $0 赋值表达式
+ * @param $1 路径
+ */
+function getImportURL(_, $_, $0, $1) {
+    //检测是否时npm的包，由字母数字，连字符组成
+    if (npmPackReg.test($1)) {
+        //换成npm服务的地址
+        return _getImportURL($_, $0, NodeModulesT_1.getNMIndexURL($1));
+    }
+    //处理路径
+    else {
+        //通过配置文件中的路径处理规则处理路径
+        if (MainConfig_1.default.config.filePathModify && MainConfig_1.default.config.filePathModify.length > 0) {
+            for (var _a = 0, _b = MainConfig_1.default.config.filePathModify; _a < _b.length; _a++) {
+                var _o = _b[_a];
+                $1 = $1.replace(_o.a, _o.b);
+            }
+        }
+        return _getImportURL($_, $0, $1);
+    }
+}
+;
+/** 返回最终的模块导入地址 */
+function _getImportURL($_, $0, $1) {
+    return ($_ || '') + "import " + ($0 && $0 + " from " || '') + "\"" + $1 + "\";";
+}
 /** 内置loader列表 */
 var Loaders = {
     /**
      * 路径处理loader
      */
     'path': function (_content, _absolutePath, _suffix) {
-        /**
-         * 处理路径
-         * @param _ 占位。。。
-         * @param $0 赋值表达式
-         * @param $1 路径
-         */
-        var _f = function (_, $_, $0, $1) {
-            //检测是否时npm的包，由字母数字，连字符组成
-            if (/^[a-zA-Z0-9-]+$/.test($1)) {
-                return ($_ || '') + "import \"" + NodeModulesT_1.getNMIndexURL($1) + "\";" + (($0 && $0 !== $1) ? "const " + $0 + " = " + $1 + ";" : '');
-            }
-            //处理路径
-            else {
-                if (MainConfig_1.default.config.filePathModify && MainConfig_1.default.config.filePathModify.length > 0) {
-                    for (var _a = 0, _b = MainConfig_1.default.config.filePathModify; _a < _b.length; _a++) {
-                        var _o = _b[_a];
-                        $1 = $1.replace(_o.a, _o.b);
-                    }
-                }
-                return ($_ || '') + "import " + ($0 && $0 + " from" || '') + " \"" + $1 + "\";";
-            }
-        };
         //处理路径，先处理import再处理require
         _content = _content
-            .replace(importReg, _f)
-            .replace(requireReg, _f);
+            .replace(importReg, getImportURL)
+            .replace(requireReg, getImportURL);
         //
         return Promise.resolve(_content);
     },

@@ -2,9 +2,39 @@ import chalk from "chalk";
 import MainConfig from "../../config/MainConfig";
 import { getNMIndexURL } from "./NodeModulesT";
 
+/** 匹配npm包名字 */
+const npmPackReg: RegExp = /^[a-zA-Z0-9-]+$/;
 /** 匹配代码中的导入语句 */
 const importReg: RegExp = /([\s])?import\s*([\w{}\s,]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
 const requireReg: RegExp = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
+
+/**
+ * 获取导入路径
+ * @param _ 占位。。。
+ * @param $0 赋值表达式
+ * @param $1 路径
+ */
+function getImportURL(_, $_, $0, $1): string {
+    //检测是否时npm的包，由字母数字，连字符组成
+    if (npmPackReg.test($1)) {
+        //换成npm服务的地址
+        return _getImportURL($_, $0, getNMIndexURL($1));
+    }
+    //处理路径
+    else {
+        //通过配置文件中的路径处理规则处理路径
+        if (MainConfig.config.filePathModify && MainConfig.config.filePathModify.length > 0) {
+            for (let _o of MainConfig.config.filePathModify) {
+                $1 = $1.replace(_o.a, _o.b);
+            }
+        }
+        return _getImportURL($_, $0, $1);
+    }
+};
+/** 返回最终的模块导入地址 */
+function _getImportURL($_, $0, $1): string {
+    return `${$_ || ''}import ${$0 && `${$0} from ` || ''}"${$1}";`;
+}
 
 /** 内置loader列表 */
 const Loaders: { [index: string]: ILoaderHandleFunction } = {
@@ -12,31 +42,11 @@ const Loaders: { [index: string]: ILoaderHandleFunction } = {
      * 路径处理loader
      */
     'path': function (_content: string, _absolutePath: string, _suffix: string): Promise<string> {
-        /**
-         * 处理路径
-         * @param _ 占位。。。
-         * @param $0 赋值表达式
-         * @param $1 路径
-         */
-        let _f = (_, $_, $0, $1) => {
-            //检测是否时npm的包，由字母数字，连字符组成
-            if (/^[a-zA-Z0-9-]+$/.test($1)) {
-                return `${$_ || ''}import "${getNMIndexURL($1)}";${($0 && $0 !== $1) ? `const ${$0} = ${$1};` : ''}`;
-            }
-            //处理路径
-            else {
-                if (MainConfig.config.filePathModify && MainConfig.config.filePathModify.length > 0) {
-                    for (let _o of MainConfig.config.filePathModify) {
-                        $1 = $1.replace(_o.a, _o.b);
-                    }
-                }
-                return `${$_ || ''}import ${$0 && `${$0} from` || ''} "${$1}";`;
-            }
-        };
+
         //处理路径，先处理import再处理require
         _content = _content
-            .replace(importReg, _f)
-            .replace(requireReg, _f);
+            .replace(importReg, getImportURL)
+            .replace(requireReg, getImportURL);
         //
         return Promise.resolve(_content);
     },
