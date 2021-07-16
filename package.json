@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.1.40",
+  "version": "1.1.42",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
@@ -40,7 +40,8 @@
     "@types/node": "^15.0.2",
     "typescript": "^4.2.4"
   },
-  "version-log": [{
+  "version-log": [
+    {
       "v": "1.0.20",
       "log": "把sourcemap从内联转移到外部文件的形式，修复谷歌浏览器断点调试的不稳定的bug。",
       "type": "bug"
@@ -240,6 +241,12 @@
     {
       "v": "1.1.36",
       "log": "对上一个版本1.1.34的修复。",
+      "type": "opt",
+      "degree": 1
+    },
+    {
+      "v": "1.1.42",
+      "log": "对上一个版本1.1.36的修复。",
       "type": "opt",
       "degree": 1
     }

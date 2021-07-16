@@ -2,11 +2,9 @@ import chalk from "chalk";
 import MainConfig from "../../config/MainConfig";
 import { getNMIndexURL } from "./NodeModulesT";
 
-/** 匹配npm包名字 */
-const npmPackReg: RegExp = /^[a-zA-Z0-9-]+$/;
 /** 匹配代码中的导入语句 */
-const importReg: RegExp = /([\s])?import\s*([\w{}\s,]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
-const requireReg: RegExp = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
+const importReg: RegExp = /([\s])?import\s*([\w{}\s,\.\[\]\*]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
+const requireReg: RegExp = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,\.\[\]\*]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
 
 /**
  * 获取导入路径
@@ -15,8 +13,8 @@ const requireReg: RegExp = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,]*?)\s*=
  * @param $1 路径
  */
 function getImportURL(_, $_, $0, $1): string {
-    //检测是否时npm的包，由字母数字，连字符组成
-    if (npmPackReg.test($1)) {
+    //检测是否时npm的包，由字母开头且不是以src/开头
+    if (/^[a-zA-Z]/.test($1) && !/^src\//.test($1)) {
         //换成npm服务的地址
         return _getImportURL($_, $0, getNMIndexURL($1));
     }

@@ -43,11 +43,9 @@ exports.LoaderHandle = void 0;
 var chalk_1 = __importDefault(require("chalk"));
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var NodeModulesT_1 = require("./NodeModulesT");
-/** 匹配npm包名字 */
-var npmPackReg = /^[a-zA-Z0-9-]+$/;
 /** 匹配代码中的导入语句 */
-var importReg = /([\s])?import\s*([\w{}\s,]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
-var requireReg = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
+var importReg = /([\s])?import\s*([\w{}\s,\.\[\]\*]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
+var requireReg = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,\.\[\]\*]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
 /**
  * 获取导入路径
  * @param _ 占位。。。
@@ -55,8 +53,8 @@ var requireReg = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,]*?)\s*=?\s*requir
  * @param $1 路径
  */
 function getImportURL(_, $_, $0, $1) {
-    //检测是否时npm的包，由字母数字，连字符组成
-    if (npmPackReg.test($1)) {
+    //检测是否时npm的包，由字母开头且不是以src/开头
+    if (/^[a-zA-Z]/.test($1) && !/^src\//.test($1)) {
         //换成npm服务的地址
         return _getImportURL($_, $0, NodeModulesT_1.getNMIndexURL($1));
     }
