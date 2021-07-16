@@ -56,7 +56,7 @@ function getImportURL(_, $_, $0, $1) {
     //检测是否时npm的包，由字母开头且不是以src/开头
     if (/^[a-zA-Z]/.test($1) && !/^src\//.test($1)) {
         //换成npm服务的地址
-        return _getImportURL($_, $0, NodeModulesT_1.getNMIndexURL($1));
+        return _getImportURL($_, $0, NodeModulesT_1.getNMIndexURL($1), $1, true);
     }
     //处理路径
     else {
@@ -67,13 +67,39 @@ function getImportURL(_, $_, $0, $1) {
                 $1 = $1.replace(_o.a, _o.b);
             }
         }
-        return _getImportURL($_, $0, $1);
+        return _getImportURL($_, $0, $1, $1);
     }
 }
 ;
+var _asReg = /^\*\s+as\s*/;
+var __absolutePath = '';
+var __getImportURL_ = 0;
 /** 返回最终的模块导入地址 */
-function _getImportURL($_, $0, $1) {
-    return ($_ || '') + "import " + ($0 && $0 + " from " || '') + "\"" + $1 + "\";";
+function _getImportURL($_, $0, $1, _packageName, _ifNmpPackage) {
+    if (_ifNmpPackage === void 0) { _ifNmpPackage = false; }
+    if (_ifNmpPackage) {
+        var _name_1 = "_____" + Date.now() + "_____" + __getImportURL_++ + "_____";
+        var _ifAs = _asReg.test($0);
+        _ifAs && (console.log(chalk_1.default.yellow("\u68C0\u6D4B\u5230\u6587\u4EF6@ " + __absolutePath + " \u5BFC\u5165npm\u5305 " + _packageName + " \u65F6\u7528\u5230\u4E86as\u8BED\u6CD5\uFF0C\u672C\u5DE5\u5177\u6682\u4E0D\u652F\u6301\u8BE5\u8BED\u6CD5\u5BFC\u5165npm\u5305\u5462\uFF0C\u8BF7\u6539\u6210\u5E38\u89C4\u8BED\u6CD5\u5BFC\u5165\u3002")));
+        $0 = $0.replace(_asReg, '').replace(/\s/g, '');
+        if ($0) {
+            //没有被{}包裹且带有,则需要拆分开
+            if (/,/.test($0) && !/^\{.*?\}$/.test($0)) {
+                var _$0 = $0;
+                $0 = '';
+                _$0.split(',').forEach(function (item) {
+                    item && ($0 += "const " + item + " = " + _name_1 + ";");
+                });
+            }
+            else {
+                $0 = "const " + $0 + " = " + _name_1 + ";";
+            }
+        }
+        return ($_ || '') + "import " + _name_1 + " from \"" + $1 + "\";" + $0 + "//\u26A0\uFE0F \u8FD9\u91CC\u662Fleb\u5DE5\u5177\u7F16\u8BD1\u7684\uFF0C\u4F5C\u8005\u80FD\u529B\u6709\u9650\uFF0C\u53EA\u652F\u6301\u4E00\u4E9B\u5E38\u89C1\u7684\u5BFC\u5165\u5199\u6CD5\u5BFC\u5165npm\u7684\u5305\u5462\uFF0C\u8BF7\u8C05\u89E3\u3002\uD83D\uDE4F\uD83D\uDE4F\uD83D\uDE4F";
+    }
+    else {
+        return ($_ || '') + "import " + ($0 && $0 + " from " || '') + "\"" + $1 + "\";";
+    }
 }
 /** 内置loader列表 */
 var Loaders = {
@@ -81,6 +107,7 @@ var Loaders = {
      * 路径处理loader
      */
     'path': function (_content, _absolutePath, _suffix) {
+        __absolutePath = _absolutePath;
         //处理路径，先处理import再处理require
         _content = _content
             .replace(importReg, getImportURL)

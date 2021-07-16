@@ -248,6 +248,8 @@ function alertBug() {
                 //
             }
         });
+    }).on('error', () => {
+        // console.log('提示bug请求出错。');
     });
 }
 

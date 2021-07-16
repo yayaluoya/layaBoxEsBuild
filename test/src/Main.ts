@@ -5,8 +5,11 @@ import 'src/ts';
 
 import axios from 'axios';
 const dayjs = require('dayjs');
-const dayjs_local = require('dayjs/locale/zh-cn');
-import dayjs1 = require('dayjs');
+import 'dayjs/locale/zh-cn';
+import lodash from "lodash";
+import * as dfasdfasd from "lodash";
+dfasdfasd;
+import thenby, { firstBy } from "thenby";
 
 import { Test, Modle__ } from './test';
 
@@ -18,4 +21,6 @@ let b: Modle__.M = new Modle__.M();
 
 console.log('d.ts文件内容', a, b);
 
-console.log('npm包测试', axios, dayjs, dayjs_local);
+console.log(dayjs.locale('zh-cn'));
+console.log({ thenby, firstBy });
+console.log('npm包测试', { axios, dayjs, lodash });

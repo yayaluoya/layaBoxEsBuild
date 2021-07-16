@@ -81,11 +81,9 @@ var outputOptions = {
         umd – 通用模块定义，以amd，cjs 和 iife 为一体
         system - SystemJS 加载器格式
      */
-    format: 'esm',
-    exports: 'default',
+    format: 'umd',
+    // exports: 'default',
     sourcemap: false,
-    /** 注入的内容 */
-    banner: "\n\n/** \u6CE8\u5165\u9884\u5236\u5185\u5BB9 */\n\n//* \u6CE8\u5165process\nvar process = {\n    env: {\n        NODE_ENV: 'production'\n    }\n};\n//* \u6CE8\u5165global\nvar global = (\n        typeof global !== \"undefined\" ? global :\n        typeof self !== \"undefined\" ? self :\n        typeof window !== \"undefined\" ? window : {}\n    );\n\n/** \u6B63\u5F0F\u5185\u5BB9 */\n    ",
 };
 /**
  * 开启node_modules服务
@@ -117,12 +115,12 @@ function server() {
                     //用rollup打包npm中的包
                     rollup_1.rollup(__assign(__assign({}, inputOptions), { input: _url }))
                         .then(function (bundle) {
-                        return bundle.generate(__assign(__assign({}, outputOptions), { banner: "\n//!\u6CE8\u610F\u8FD9\u4E2A\u6587\u4EF6\u662F\u52A8\u6001\u7F16\u8BD1\u7684\uFF0C\u4F46\u662F\u4F1A\u88AB\u7F13\u5B58\u8D77\u6765\u3002\n//\u5305\u5165\u53E3\u6587\u4EF6\u8DEF\u5F84@" + _url + "\n" + outputOptions.banner + "\n                                ", name: _name }));
+                        return bundle.generate(__assign(__assign({}, outputOptions), { name: _name }));
                     })
                         .then(function (_a) {
                         var output = _a.output;
                         //获取打包后的代码
-                        var _code = "\n" + output[0].code + "\n\n/** \u63D0\u793A */\ntry{\n    console.log(\n        ...esbuildTool.consoleEx.textPack(\n            esbuildTool.consoleEx.getStyle('#d32e2d', '#ffffff'),\n            `\u4ECE\u5165\u53E3 " + _url.replace(/\\/g, '/') + " \u7F16\u8BD1npm\u5305 " + _name + "`)\n    );\n}catch{}\n                            ";
+                        var _code = "\n//!\u6CE8\u610F\u8FD9\u4E2A\u6587\u4EF6\u662F\u52A8\u6001\u7F16\u8BD1\u7684\uFF0C\u4F46\u662F\u4F1A\u88AB\u7F13\u5B58\u8D77\u6765\u3002\n//\u5305\u5165\u53E3\u6587\u4EF6\u8DEF\u5F84@" + _url + "\n\n//* \u6CE8\u5165process\nvar process = {\n    env: {\n        NODE_ENV: 'production'\n    }\n};\n//* \u6CE8\u5165global\nvar global = (\n        typeof global !== \"undefined\" ? global :\n        typeof self !== \"undefined\" ? self :\n        typeof window !== \"undefined\" ? window :\n        typeof globalThis !== \"undefined\" ? globalThis : {}\n    );\n\n/** \uD83D\uDEA9\uD83D\uDEA9\uD83D\uDEA9\u6B63\u5F0F\u5185\u5BB9\uFF0C\u5982\u679C\u6709\u95EE\u9898\u8BF7\u53CD\u9988\u5230\u4ED3\u5E93\u8BA8\u8BBA\u533A\uFF0Chttps://github.com/yayaluoya/layaBoxEsBuild.git\uFF0C\u8C22\u8C22\u5566\uFF0C\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00 */\nlet _npmPageages = (global._$lebNpmPackages || (global._$lebNpmPackages = []));\n(!_npmPageages.includes('" + _name + "') && function(){\n_npmPageages.push('" + _name + "');\n" + output[0].code + "\n/** \u63D0\u793A */\ntry{\n    console.log(\n        ...esbuildTool.consoleEx.textPack(\n            esbuildTool.consoleEx.getStyle('#d32e2d', '#f4f4f4'),\n            `\u26A1 \u5BFC\u5165npm\u5305 " + _name + " \u7F16\u8BD1\u5165\u53E3 @" + _url.replace(/\\/g, '/') + "`)\n            );\n}catch{}\n}());\n/** \u5BFC\u51FA */\nexport default global['" + _name + "'];\n                            ";
                         //把改代码存入缓存
                         (_npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})).code = _code;
                         //

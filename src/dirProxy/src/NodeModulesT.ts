@@ -72,29 +72,9 @@ const outputOptions: any = {
         umd – 通用模块定义，以amd，cjs 和 iife 为一体
         system - SystemJS 加载器格式
      */
-    format: 'esm',
-    exports: 'default',
+    format: 'umd',
+    // exports: 'default',
     sourcemap: false,
-    /** 注入的内容 */
-    banner: `
-
-/** 注入预制内容 */
-
-//* 注入process
-var process = {
-    env: {
-        NODE_ENV: 'production'
-    }
-};
-//* 注入global
-var global = (
-        typeof global !== "undefined" ? global :
-        typeof self !== "undefined" ? self :
-        typeof window !== "undefined" ? window : {}
-    );
-
-/** 正式内容 */
-    `,
 };
 
 /**
@@ -140,27 +120,45 @@ export function server(): Promise<void> {
                         .then((bundle) => {
                             return bundle.generate({
                                 ...outputOptions,
-                                banner: `
-//!注意这个文件是动态编译的，但是会被缓存起来。
-//包入口文件路径@${_url}
-${outputOptions.banner}
-                                `,
                                 name: _name,
                             });
                         })
                         .then(({ output }) => {
                             //获取打包后的代码
                             let _code: string = `
-${output[0].code}
+//!注意这个文件是动态编译的，但是会被缓存起来。
+//包入口文件路径@${_url}
 
+//* 注入process
+var process = {
+    env: {
+        NODE_ENV: 'production'
+    }
+};
+//* 注入global
+var global = (
+        typeof global !== "undefined" ? global :
+        typeof self !== "undefined" ? self :
+        typeof window !== "undefined" ? window :
+        typeof globalThis !== "undefined" ? globalThis : {}
+    );
+
+/** 🚩🚩🚩正式内容，如果有问题请反馈到仓库讨论区，https://github.com/yayaluoya/layaBoxEsBuild.git，谢谢啦，😀😀😀😀😀😀 */
+let _npmPageages = (global._$lebNpmPackages || (global._$lebNpmPackages = []));
+(!_npmPageages.includes('${_name}') && function(){
+_npmPageages.push('${_name}');
+${output[0].code}
 /** 提示 */
 try{
     console.log(
         ...esbuildTool.consoleEx.textPack(
-            esbuildTool.consoleEx.getStyle('#d32e2d', '#ffffff'),
-            \`从入口 ${_url.replace(/\\/g, '/')} 编译npm包 ${_name}\`)
-    );
+            esbuildTool.consoleEx.getStyle('#d32e2d', '#f4f4f4'),
+            \`⚡ 导入npm包 ${_name} 编译入口 @${_url.replace(/\\/g, '/')}\`)
+            );
 }catch{}
+}());
+/** 导出 */
+export default global['${_name}'];
                             `;
                             //把改代码存入缓存
                             (_npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})).code = _code;
