@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import MainConfig from "../../config/MainConfig";
 import { getNMIndexURL } from "./NodeModulesT";
+import randomstring from 'randomstring';
 
 /** 匹配代码中的导入语句 */
 const importReg: RegExp = /([\s])?import\s*([\w{}\s,\.\[\]\*]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
@@ -31,13 +32,16 @@ function getImportURL(_, $_, $0, $1): string {
 };
 let _asReg: RegExp = /^\*\s+as\s*/;
 let __absolutePath: string = '';
-let __getImportURL_: number = 0;
+let __getImportURLNumber_: number = 0;
 /** 返回最终的模块导入地址 */
 function _getImportURL($_: string, $0: string, $1: string, _packageName: string, _ifNmpPackage: boolean = false): string {
     if (_ifNmpPackage) {
-        let _name: string = `_____${Date.now()}_____${__getImportURL_++}_____`;
+        let _name: string = `__${randomstring.generate({
+            length: 12,
+            charset: 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
+        })}__${__getImportURLNumber_++}`;
         let _ifAs: boolean = _asReg.test($0);
-        _ifAs && (console.log(chalk.yellow(`检测到文件@ ${__absolutePath} 导入npm包 ${_packageName} 时用到了as语法，本工具暂不支持该语法导入npm包呢，请改成常规语法导入。`)));
+        _ifAs && (console.log(chalk.yellow(`\n检测到文件@ ${__absolutePath} 导入npm包 ${_packageName} 时用到了as语法，本工具暂不支持该语法导入npm包呢，请改成常规语法导入。\n`)));
         $0 = $0.replace(_asReg, '').replace(/\s/g, '');
         if ($0) {
             //没有被{}包裹且带有,则需要拆分开

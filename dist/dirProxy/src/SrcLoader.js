@@ -43,6 +43,7 @@ exports.LoaderHandle = void 0;
 var chalk_1 = __importDefault(require("chalk"));
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var NodeModulesT_1 = require("./NodeModulesT");
+var randomstring_1 = __importDefault(require("randomstring"));
 /** 匹配代码中的导入语句 */
 var importReg = /([\s])?import\s*([\w{}\s,\.\[\]\*]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
 var requireReg = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,\.\[\]\*]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
@@ -73,14 +74,17 @@ function getImportURL(_, $_, $0, $1) {
 ;
 var _asReg = /^\*\s+as\s*/;
 var __absolutePath = '';
-var __getImportURL_ = 0;
+var __getImportURLNumber_ = 0;
 /** 返回最终的模块导入地址 */
 function _getImportURL($_, $0, $1, _packageName, _ifNmpPackage) {
     if (_ifNmpPackage === void 0) { _ifNmpPackage = false; }
     if (_ifNmpPackage) {
-        var _name_1 = "_____" + Date.now() + "_____" + __getImportURL_++ + "_____";
+        var _name_1 = "__" + randomstring_1.default.generate({
+            length: 12,
+            charset: 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
+        }) + "__" + __getImportURLNumber_++;
         var _ifAs = _asReg.test($0);
-        _ifAs && (console.log(chalk_1.default.yellow("\u68C0\u6D4B\u5230\u6587\u4EF6@ " + __absolutePath + " \u5BFC\u5165npm\u5305 " + _packageName + " \u65F6\u7528\u5230\u4E86as\u8BED\u6CD5\uFF0C\u672C\u5DE5\u5177\u6682\u4E0D\u652F\u6301\u8BE5\u8BED\u6CD5\u5BFC\u5165npm\u5305\u5462\uFF0C\u8BF7\u6539\u6210\u5E38\u89C4\u8BED\u6CD5\u5BFC\u5165\u3002")));
+        _ifAs && (console.log(chalk_1.default.yellow("\n\u68C0\u6D4B\u5230\u6587\u4EF6@ " + __absolutePath + " \u5BFC\u5165npm\u5305 " + _packageName + " \u65F6\u7528\u5230\u4E86as\u8BED\u6CD5\uFF0C\u672C\u5DE5\u5177\u6682\u4E0D\u652F\u6301\u8BE5\u8BED\u6CD5\u5BFC\u5165npm\u5305\u5462\uFF0C\u8BF7\u6539\u6210\u5E38\u89C4\u8BED\u6CD5\u5BFC\u5165\u3002\n")));
         $0 = $0.replace(_asReg, '').replace(/\s/g, '');
         if ($0) {
             //没有被{}包裹且带有,则需要拆分开
