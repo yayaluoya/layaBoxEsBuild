@@ -39,7 +39,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoaderHandle = void 0;
 var chalk_1 = __importDefault(require("chalk"));
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var NodeModulesT_1 = require("./NodeModulesT");
@@ -149,8 +148,8 @@ function LoaderHandle(_loaders, _content, _absolutePath, _suffix) {
                     if (!_loaderConfig.include.test(_absolutePath)) return [3 /*break*/, 5];
                     _loop_1 = function (_loader) {
                         var __loaderF;
-                        return __generator(this, function (_e) {
-                            switch (_e.label) {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
                                 case 0:
                                     __loaderF = (typeof _loader == 'string') ? (_names.push(_loader), Loaders[_loader]) : _loader;
                                     if (!__loaderF) {
@@ -183,7 +182,7 @@ function LoaderHandle(_loaders, _content, _absolutePath, _suffix) {
                                     return [4 /*yield*/, _loaderF(_content, _absolutePath, _suffix)];
                                 case 1:
                                     //处理正真结果
-                                    _content = _e.sent();
+                                    _content = _a.sent();
                                     return [2 /*return*/];
                             }
                         });

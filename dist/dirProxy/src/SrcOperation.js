@@ -27,9 +27,9 @@ var SrcOperation = /** @class */ (function () {
             }
             //
             SrcCache_1.default.getModule(_url).task.then(function (module) {
-                var _a;
+                var _a, _b;
                 //读取请求头中带有的协商缓存信息
-                var _etag = (_a = req === null || req === void 0 ? void 0 : req.headers) === null || _a === void 0 ? void 0 : _a['if-none-match'];
+                var _etag = (_b = (_a = req) === null || _a === void 0 ? void 0 : _a.headers) === null || _b === void 0 ? void 0 : _b['if-none-match'];
                 //
                 var _fileData = {
                     content: BufferT_1.default.nullBuffer,

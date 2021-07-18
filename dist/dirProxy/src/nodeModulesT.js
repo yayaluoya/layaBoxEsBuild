@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.nmHost = exports.getNMIndexURL = exports.server = exports.getNMIndexPath = exports.getNMUrl = void 0;
 var path_1 = __importDefault(require("path"));
 var chalk_1 = __importDefault(require("chalk"));
 var portfinder_1 = __importDefault(require("portfinder"));
@@ -25,7 +24,7 @@ var HttpTool_1 = __importDefault(require("../../http/HttpTool"));
 var ResHead_1 = require("../../com/ResHead");
 var rollup_1 = require("rollup");
 var plugin_node_resolve_1 = __importDefault(require("@rollup/plugin-node-resolve"));
-var rollup_plugin_commonjs_1 = __importDefault(require("rollup-plugin-commonjs"));
+var plugin_commonjs_1 = __importDefault(require("@rollup/plugin-commonjs"));
 var rollup_plugin_node_polyfills_1 = __importDefault(require("rollup-plugin-node-polyfills"));
 var plugin_json_1 = __importDefault(require("@rollup/plugin-json"));
 /** nm路径 */
@@ -64,7 +63,7 @@ var inputOptions = {
     input: '',
     // 打包插件
     plugins: [
-        rollup_plugin_commonjs_1.default(),
+        plugin_commonjs_1.default(),
         plugin_json_1.default(),
         rollup_plugin_node_polyfills_1.default(),
         plugin_node_resolve_1.default(),

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EWebSocketMesType = void 0;
 /**
  * webSocket消息类型
  */

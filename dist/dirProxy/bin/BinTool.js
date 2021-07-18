@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var MyConfig_1 = __importDefault(require("../../config/MyConfig"));
-var PackageJson_1 = __importDefault(require("../../config/PackageJson"));
 var HttpTool_1 = __importDefault(require("../../http/HttpTool"));
 var ResURL_1 = __importDefault(require("../../_T/ResURL"));
 var VersionsT_1 = __importDefault(require("../../_T/VersionsT"));
@@ -13,6 +12,7 @@ var path_1 = require("path");
 var fs_1 = require("fs");
 var TemplateT_1 = __importDefault(require("../../_T/TemplateT"));
 var SwT_1 = __importDefault(require("../../sw/SwT"));
+var PackageConfig_1 = __importDefault(require("../../config/PackageConfig"));
 /**
  * bin目录工具
  */
@@ -51,12 +51,13 @@ var BinTool = /** @class */ (function () {
                             webSocketUrl: "ws://" + HttpTool_1.default.getHostname + ":" + MyConfig_1.default.webSocketPort,
                             ifUpdateNow: Boolean(MainConfig_1.default.config.ifUpdateNow).toString(),
                             packageJson: JSON.stringify({
-                                name: PackageJson_1.default['name'],
-                                version: PackageJson_1.default['version'],
-                                authorName: PackageJson_1.default['authorName'],
-                                description: PackageJson_1.default['description'],
-                                repository: PackageJson_1.default['repository'],
-                                remotePackgeFileUrl: PackageJson_1.default['remotePackgeFileUrl'],
+                                name: PackageConfig_1.default.package.name,
+                                version: PackageConfig_1.default.package.version,
+                                authorName: PackageConfig_1.default.package.authorName,
+                                description: PackageConfig_1.default.package.description,
+                                repository: PackageConfig_1.default.package.repository,
+                                remotePackgeJsonFileUrl: PackageConfig_1.default.package.remotePackgeJsonFileUrl,
+                                remotePackgeVersionJsonFileUrl: PackageConfig_1.default.package.remotePackgeVersionJsonFileUrl,
                             }).replace(/"/g, '\\"'),
                         });
                         break;

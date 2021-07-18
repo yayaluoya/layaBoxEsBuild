@@ -1,25 +1,27 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.1.46",
+  "version": "1.1.47-beta",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
   "bin": {
-    "layabox-esbuild": "./bin/index.js",
-    "leb": "./bin/index.js"
+    "layabox-esbuild": "./dist/__bin/index.js",
+    "leb": "./dist/__bin/index.js"
   },
   "repository": "https://github.com/yayaluoya/layaBoxEsBuild.git",
-  "remotePackgeFileUrl": "https://ghproxy.com/https://raw.githubusercontent.com/yayaluoya/layaBoxEsBuild/master/package.json",
+  "remotePackgeJsonFileUrl": "package.json",
+  "remotePackgeVersionJsonFileUrl": "packgeVersion.json",
   "scripts": {
     "install": "node ./pack/i.js",
     "uninstall": "node ./pack/uni.js",
     "npm-publish": "npm publish",
     "ts-build": "tsc -w",
-    "test": "node ./bin/index.js"
+    "test": "node ./dist/__bin/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@rollup/plugin-commonjs": "^19.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "chalk": "^4.1.0",
@@ -29,10 +31,10 @@
     "internal-ip": "^6.2.0",
     "mime": "^2.5.2",
     "moment": "^2.29.1",
+    "needle": "^2.8.0",
     "portfinder": "^1.0.28",
     "randomstring": "^1.2.1",
     "rollup": "^2.53.1",
-    "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "ws": "^7.4.4"
   },
@@ -41,215 +43,5 @@
     "@types/node": "^15.0.2",
     "typescript": "^4.2.4"
   },
-  "version-log": [
-    {
-      "v": "1.0.20",
-      "log": "把sourcemap从内联转移到外部文件的形式，修复谷歌浏览器断点调试的不稳定的bug。",
-      "type": "bug"
-    },
-    {
-      "v": "1.0.22",
-      "log": "新增一个查看对比版本的命令 -vl",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.24",
-      "log": "优化命令行提示，删除多余的提示，优化sw，修复导入其他文件时的反引号没转义的漏洞",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.25",
-      "log": "完善package.json文件的配置，简化操作，直接执行 layabox-esbuild 就可以运行项目了，新加一个快捷命令，laya-eb",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.26",
-      "log": "修复部分文件监听不到的bug -废弃",
-      "type": "bug"
-    },
-    {
-      "v": "1.0.28",
-      "log": "紧急修复文件监听bug，所有配置的端口都采用自动分配，也可配置为固定的端口 -废弃",
-      "type": "bug"
-    },
-    {
-      "v": "1.0.29",
-      "log": "修复某个包找不到的bug",
-      "type": "bug"
-    },
-    {
-      "v": "1.0.30",
-      "log": "通过Buffer优化访问速度",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.31",
-      "log": "新添一些提示信息，修复bin目录文件修改监听部分监听不到的bug，影响不大，因为bin目录下的文件没有加任何缓存。 -废弃",
-      "type": "bug"
-    },
-    {
-      "v": "1.0.32",
-      "log": "修复一个细节上的bug。 -废弃",
-      "type": "bug"
-    },
-    {
-      "v": "1.0.34",
-      "log": "修复一个细节上的bug。",
-      "type": "bug"
-    },
-    {
-      "v": "1.0.35",
-      "log": "优化工具的使用提示。",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.36",
-      "log": "优化包体大小。",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.37",
-      "log": "sw速度优化。",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.38",
-      "log": "优化提示。",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.40",
-      "log": "修复一个影响提示的bug。",
-      "type": "bug"
-    },
-    {
-      "v": "1.0.44",
-      "log": "工具脚本做浏览器兼容处理。",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.45",
-      "log": "优化资源文件显示",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.46",
-      "log": "小优化，增加bug提示功能",
-      "type": "opt"
-    },
-    {
-      "v": "1.0.48",
-      "log": "优化esbuild打包错误提示",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.0.50",
-      "log": "新增快捷命令 leb 取消 快捷命令laya-eb",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.1",
-      "log": "优化正式版",
-      "type": "opt",
-      "degree": 3
-    },
-    {
-      "v": "1.1.2",
-      "log": "node代码转es5处理",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.5",
-      "log": "优化node代码写法和一些库的引用",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.8",
-      "log": "紧急修复一个sw查找缓存请求的bug",
-      "type": "bug",
-      "degree": 3
-    },
-    {
-      "v": "1.1.10",
-      "log": "同步esbuild新版本",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.11",
-      "log": "小优化，修改了文件监听机制，bin目录采用node自带文件监听，src目录采用chokidar监听",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.12",
-      "log": "小优化，重构文件监听机制",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.18",
-      "log": "把监听文件的配置转到配置文件中，方便用户按需配置，修复请求资源时url会带上search和hash参数的问题。--废弃",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.20",
-      "log": "修复上一个版本的改动bug",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.24",
-      "log": "在sw中用webSocket模拟http请求，绕过浏览器请求并发限制，提升初始访问速度，还有一些优化。",
-      "type": "opt",
-      "degree": 2
-    },
-    {
-      "v": "1.1.26",
-      "log": "修复上一个版本的一个小瑕疵",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.28",
-      "log": "删除一些多余的功能",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.30",
-      "log": "添加导入其它任意文件，外置其它类型文件处理loader，同步esbuild版本",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.31",
-      "log": "关于loader异常的处理",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.34",
-      "log": "关于npm包的导入处理，和amd格式的导入",
-      "type": "opt",
-      "degree": 2
-    },
-    {
-      "v": "1.1.36",
-      "log": "对上一个版本1.1.34的修复。",
-      "type": "opt",
-      "degree": 1
-    },
-    {
-      "v": "1.1.42",
-      "log": "对上一个版本1.1.36的修复。",
-      "type": "opt",
-      "degree": 1
-    }
-  ]
+  "version-log": []
 }

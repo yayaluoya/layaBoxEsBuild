@@ -1,0 +1,1 @@
+{"version":3,"file":"bugLog.js","sourceRoot":"","sources":["../../src/__bin/bugLog.ts"],"names":[],"mappings":";;AAAA,YAAY;AACZ,kBAAe;IACX;QACI,UAAU,EAAE,kDAAkD;QAC9D,SAAS,EAAE,oDAAoD;KAClE;IACD;QACI,UAAU,EAAE,kBAAkB;QAC9B,SAAS,EAAE,sCAAsC;KACpD;IACD;QACI,UAAU,EAAE,MAAM;QAClB,SAAS,EAAE,oEAAoE;KAClF;CAMF,CAAC"}

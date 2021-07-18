@@ -7,8 +7,7 @@
     "test": "index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "rollup-compile": "rollup -c --watch"
+    "node-test": "node ./node/test.js"
   },
   "author": "",
   "license": "ISC",

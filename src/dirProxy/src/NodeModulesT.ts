@@ -8,7 +8,7 @@ import HttpTool from "../../http/HttpTool";
 import { crossDomainHead } from "../../com/ResHead";
 import { rollup } from 'rollup';
 import nodeResolve from '@rollup/plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
+import commonjs from '@rollup/plugin-commonjs';
 import node_polyfills from 'rollup-plugin-node-polyfills';
 import plugin_josn from '@rollup/plugin-json';
 

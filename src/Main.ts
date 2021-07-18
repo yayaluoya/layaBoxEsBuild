@@ -3,9 +3,9 @@ import IConfig from "./config/IConfig";
 import MainConfig from "./config/MainConfig";
 import Init from "./Init";
 import SrcProxy from "./dirProxy/src/SrcProxy";
-import PackageJson from "./config/PackageJson";
 import chalk from "chalk";
 import TestMain from "./_test/TestMain";
+import PackageConfig from "./config/PackageConfig";
 
 /**
  * layaboxEsbuild构建实例
@@ -30,7 +30,7 @@ export default class layaboxEsbuild {
 			console.log(chalk.gray('---->'));
 			console.log(chalk.magenta('本地主页:'), chalk.blue(BinProxy.getLocalHomePage()), chalk.green('推荐>更快⚡'));
 			console.log(chalk.magenta('局域网主页:'), chalk.blue(BinProxy.getHomePage()));
-			console.log(chalk.gray(`> ${PackageJson.name}@${PackageJson.version} 快捷命令:leb`));
+			console.log(chalk.gray(`> ${PackageConfig.package.name}@${PackageConfig.package.version} 快捷命令:leb`));
 			console.log(chalk.gray('执行 leb -h 查看帮助或解决bug'));
 			console.log(chalk.gray('...'));
 			//测试

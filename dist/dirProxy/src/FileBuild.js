@@ -39,7 +39,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FileBuild = void 0;
 var chalk_1 = __importDefault(require("chalk"));
 var path_1 = __importDefault(require("path"));
 var esbuild_1 = require("esbuild");
@@ -115,7 +114,6 @@ var _esbuildTransformOptions = {
     sourcefile: null,
     //字符集
     charset: 'utf8',
-    //
 };
 /**
  * 配合打包

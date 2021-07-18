@@ -1,6 +1,5 @@
 import MainConfig from "../../config/MainConfig";
 import MyConfig from "../../config/MyConfig";
-import PackageJson from "../../config/PackageJson";
 import HttpTool from "../../http/HttpTool";
 import ResURL from "../../_T/ResURL";
 import VersionsT from "../../_T/VersionsT";
@@ -8,6 +7,7 @@ import { join } from "path";
 import { readFile } from "fs";
 import TemplateT from "../../_T/TemplateT";
 import SwT from "../../sw/SwT";
+import PackageConfig from "../../config/PackageConfig";
 
 /**
  * bin目录工具
@@ -49,12 +49,13 @@ export default class BinTool {
                             webSocketUrl: `ws://${HttpTool.getHostname}:${MyConfig.webSocketPort}`,
                             ifUpdateNow: Boolean(MainConfig.config.ifUpdateNow).toString(),
                             packageJson: JSON.stringify({
-                                name: PackageJson['name'],
-                                version: PackageJson['version'],
-                                authorName: PackageJson['authorName'],
-                                description: PackageJson['description'],
-                                repository: PackageJson['repository'],
-                                remotePackgeFileUrl: PackageJson['remotePackgeFileUrl'],
+                                name: PackageConfig.package.name,
+                                version: PackageConfig.package.version,
+                                authorName: PackageConfig.package.authorName,
+                                description: PackageConfig.package.description,
+                                repository: PackageConfig.package.repository,
+                                remotePackgeJsonFileUrl: PackageConfig.package.remotePackgeJsonFileUrl,
+                                remotePackgeVersionJsonFileUrl: PackageConfig.package.remotePackgeVersionJsonFileUrl,
                             }).replace(/"/g, '\\"'),
                         });
                         break;
