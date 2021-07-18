@@ -18,7 +18,7 @@ var WebSocket = /** @class */ (function () {
         get: function () {
             return this.m_wss;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

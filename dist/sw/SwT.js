@@ -18,7 +18,7 @@ var SwT = /** @class */ (function () {
             }
             return this.m_swURL;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return SwT;

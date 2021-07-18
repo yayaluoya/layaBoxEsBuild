@@ -26,7 +26,7 @@ var MainConfig = /** @class */ (function () {
             //
             this.m_config = _c;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return MainConfig;

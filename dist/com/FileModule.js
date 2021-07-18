@@ -45,7 +45,7 @@ var FileModule = /** @class */ (function () {
         get: function () {
             return this.m_key;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(FileModule.prototype, "modifyKey", {
@@ -53,7 +53,7 @@ var FileModule = /** @class */ (function () {
         get: function () {
             return this.m_key + '_' + this.m_modifyV;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(FileModule.prototype, "updateNumber", {
@@ -61,7 +61,7 @@ var FileModule = /** @class */ (function () {
         get: function () {
             return this.m_updateNumber;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(FileModule.prototype, "url", {
@@ -69,7 +69,7 @@ var FileModule = /** @class */ (function () {
         get: function () {
             return this.m_url;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(FileModule.prototype, "absolutePath", {
@@ -77,7 +77,7 @@ var FileModule = /** @class */ (function () {
         get: function () {
             return this.m_absolutePath;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(FileModule.prototype, "normPath", {
@@ -85,7 +85,7 @@ var FileModule = /** @class */ (function () {
         get: function () {
             return this.m_normPath;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(FileModule.prototype, "task", {
@@ -98,7 +98,7 @@ var FileModule = /** @class */ (function () {
             //
             return this.m_task;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(FileModule.prototype, "content", {
@@ -106,7 +106,7 @@ var FileModule = /** @class */ (function () {
         get: function () {
             return this.m_content;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /** 初始化 */

@@ -47,7 +47,7 @@ var HttpTool = /** @class */ (function () {
             }
             return this.m_hostName;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return HttpTool;

@@ -12,7 +12,7 @@ var ResURL = /** @class */ (function () {
         get: function () {
             return path_1.resolve(__dirname, '../../');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ResURL, "publicURL", {
@@ -20,7 +20,7 @@ var ResURL = /** @class */ (function () {
         get: function () {
             return path_1.join(this.rootURL, '/public/');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ResURL, "cwdUrl", {
@@ -28,7 +28,7 @@ var ResURL = /** @class */ (function () {
         get: function () {
             return process.cwd();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ResURL, "publicSrcURL", {
@@ -36,7 +36,7 @@ var ResURL = /** @class */ (function () {
         get: function () {
             return path_1.join(this.publicDirName, "/" + this.publicSrcDirName + "/");
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ResURL, "publicResURL", {
@@ -44,7 +44,7 @@ var ResURL = /** @class */ (function () {
         get: function () {
             return path_1.join(this.publicDirName, '/res/');
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ResURL, "publicDirName", {
@@ -55,7 +55,7 @@ var ResURL = /** @class */ (function () {
             }
             return this.m_publicDirName;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /** 获取public目录下代码目录名字 */

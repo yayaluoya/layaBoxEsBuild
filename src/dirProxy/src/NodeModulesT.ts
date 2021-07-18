@@ -132,8 +132,13 @@ export function server(): Promise<void> {
 //* 注入process
 var process = {
     env: {
-        NODE_ENV: 'production'
-    }
+        NODE_ENV: 'production',
+    },
+    arch: '${process.arch}',
+    argv: [],
+    argv0: '',
+    version: '${process.version}',
+    versions: JSON.parse(\`${JSON.stringify(process.versions).replace(/\\/g, '/')}\`),
 };
 //* 注入global
 var global = (
