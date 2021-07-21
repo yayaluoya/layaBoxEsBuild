@@ -24,6 +24,8 @@ var PackageConfig_1 = __importDefault(require("../config/PackageConfig"));
 var bugLog_1 = __importDefault(require("./bugLog"));
 var Main_1 = __importDefault(require("../Main"));
 var giteeTool_1 = __importDefault(require("./giteeTool"));
+/** 默认配置文件地址 */
+var defaultConfigFilePath = path_1.default.join(__dirname, '../../config.js');
 /** 配置文件名字 */
 var configName = "ayabox_esbuild_config@" + PackageConfig_1.default.package.version.replace(/\./g, '-') + ".js";
 //
@@ -52,7 +54,6 @@ var _config = {};
 switch (true) {
     //初始化
     case Boolean(options.init):
-        var _defaultConfigUrl_1 = path_1.default.join(__dirname, '../config.js');
         var _configUrl_1 = path_1.default.join(_cwdUrl, configName);
         //先查看是否有该文件
         fs_1.default.stat(_configUrl_1, function (err, stats) {
@@ -61,7 +62,7 @@ switch (true) {
                 return;
             }
             //
-            var stream = fs_1.default.createReadStream(_defaultConfigUrl_1).pipe(fs_1.default.createWriteStream(_configUrl_1));
+            var stream = fs_1.default.createReadStream(defaultConfigFilePath).pipe(fs_1.default.createWriteStream(_configUrl_1));
             stream.on('close', function () {
                 console.log(chalk_1.default.green('配置文件初始化完成。', PackageConfig_1.default.package.version));
             });

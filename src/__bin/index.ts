@@ -10,6 +10,8 @@ import layaboxEsbuild from "../Main";
 import IConfig from "../config/IConfig";
 import GiteeTool from "./giteeTool";
 
+/** 默认配置文件地址 */
+const defaultConfigFilePath = path.join(__dirname, '../../config.js');
 /** 配置文件名字 */
 const configName = `ayabox_esbuild_config@${PackageConfig.package.version.replace(/\./g, '-')}.js`;
 //
@@ -43,7 +45,6 @@ let _config: IConfig = {};
 switch (true) {
     //初始化
     case Boolean(options.init):
-        let _defaultConfigUrl = path.join(__dirname, '../config.js');
         let _configUrl = path.join(_cwdUrl, configName);
         //先查看是否有该文件
         fs.stat(_configUrl, (err, stats) => {
@@ -52,7 +53,7 @@ switch (true) {
                 return;
             }
             //
-            let stream = fs.createReadStream(_defaultConfigUrl).pipe(fs.createWriteStream(_configUrl));
+            let stream = fs.createReadStream(defaultConfigFilePath).pipe(fs.createWriteStream(_configUrl));
             stream.on('close', () => {
                 console.log(chalk.green('配置文件初始化完成。', PackageConfig.package.version));
             });
