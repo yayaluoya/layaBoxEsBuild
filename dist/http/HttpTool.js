@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = __importDefault(require("http"));
-var portfinder_1 = __importDefault(require("portfinder"));
 var internal_ip_1 = __importDefault(require("internal-ip"));
+var PortTool_1 = __importDefault(require("./PortTool"));
 /**
  * http工具
  */
@@ -22,7 +22,7 @@ var HttpTool = /** @class */ (function () {
         var _portP;
         //端口为0则自动分配端口
         if (_port == 0) {
-            _portP = portfinder_1.default.getPortPromise();
+            _portP = PortTool_1.default.getPool('http服务');
         }
         else {
             _portP = Promise.resolve(_port);

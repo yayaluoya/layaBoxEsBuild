@@ -17,7 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.nmHost = exports.getNMIndexURL = exports.server = exports.getNMIndexPath = exports.getNMUrl = void 0;
 var path_1 = __importDefault(require("path"));
 var chalk_1 = __importDefault(require("chalk"));
-var portfinder_1 = __importDefault(require("portfinder"));
 var http_1 = __importDefault(require("http"));
 var mime_1 = __importDefault(require("mime"));
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
@@ -28,6 +27,7 @@ var plugin_node_resolve_1 = __importDefault(require("@rollup/plugin-node-resolve
 var plugin_commonjs_1 = __importDefault(require("@rollup/plugin-commonjs"));
 var rollup_plugin_node_polyfills_1 = __importDefault(require("rollup-plugin-node-polyfills"));
 var plugin_json_1 = __importDefault(require("@rollup/plugin-json"));
+var PortTool_1 = __importDefault(require("../../http/PortTool"));
 /** nm路径 */
 var _NMUrl;
 /**
@@ -90,7 +90,7 @@ var outputOptions = {
  */
 function server() {
     //
-    return portfinder_1.default.getPortPromise().then(function (port) {
+    return PortTool_1.default.getPool('打包node_modules的服务').then(function (port) {
         //开启一个局域网服务
         http_1.default.createServer(function (rep, res) {
             //获取包名

@@ -4,6 +4,8 @@ module.exports = {
     src: './test/src/',
     /** 代理bin目录，可以是绝对路径或者相对路径 */
     bin: './test/bin/',
+    /** 是否打印log */
+    // ifLog: true,
     //
     // src: 'F:/word/LayaMiniGame/src/',
     // bin: 'F:/word/LayaMiniGame/bin/',

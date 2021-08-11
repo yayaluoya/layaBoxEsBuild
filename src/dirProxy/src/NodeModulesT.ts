@@ -1,6 +1,5 @@
 import path from "path";
 import chalk from "chalk";
-import portfinder from "portfinder";
 import http from "http";
 import mime from "mime";
 import MainConfig from "../../config/MainConfig";
@@ -11,6 +10,7 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import node_polyfills from 'rollup-plugin-node-polyfills';
 import plugin_josn from '@rollup/plugin-json';
+import PortTool from "../../http/PortTool";
 
 /** nm路径 */
 let _NMUrl: string;
@@ -82,7 +82,7 @@ const outputOptions: any = {
  */
 export function server(): Promise<void> {
     //
-    return portfinder.getPortPromise().then((port) => {
+    return PortTool.getPool('打包node_modules的服务').then((port) => {
         //开启一个局域网服务
         http.createServer((rep, res) => {
             //获取包名

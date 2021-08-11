@@ -1,6 +1,6 @@
 import http from "http";
-import portfinder from "portfinder";
 import internalIp from "internal-ip";
+import PortTool from "./PortTool";
 
 /**
  * http工具
@@ -15,7 +15,7 @@ export default class HttpTool {
         let _portP: Promise<number>;
         //端口为0则自动分配端口
         if (_port == 0) {
-            _portP = portfinder.getPortPromise();
+            _portP = PortTool.getPool('http服务');
         } else {
             _portP = Promise.resolve(_port);
         }

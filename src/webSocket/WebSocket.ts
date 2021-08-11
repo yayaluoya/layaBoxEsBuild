@@ -1,7 +1,7 @@
 import MyConfig from "../config/MyConfig";
 import HttpTool from "../http/HttpTool";
 import webSocket from 'ws';
-import portfinder from 'portfinder';
+import PortTool from "../http/PortTool";
 
 /**
  * webSocket模块
@@ -27,7 +27,7 @@ export default class WebSocket {
      */
     public static start(): Promise<void> {
         //自动分配端口
-        return portfinder.getPortPromise()
+        return PortTool.getPool('webSocket')
             .then((port) => {
                 MyConfig.webSocketPort = port;
                 // 实例化:
