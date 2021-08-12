@@ -18,6 +18,8 @@ export default interface IConfig {
         src: number,
         bin: number,
     },
+    /** 主机地址，当有任何原因没有自动获取到主机地址时将采用这个地址 */
+    hostName?: string,
     /** src目录文件默认后缀，当导入的文件不带后缀时会以这个数组依次寻找，知道找到匹配的，全部找不到的话就报错  */
     srcFileDefaultSuffixs?: string[],
     /** 入口文件名，地址相对于src目录 */

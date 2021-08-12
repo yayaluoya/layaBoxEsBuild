@@ -8,7 +8,7 @@ export default class PortTool {
     private static onGetPortTask: Promise<any> = Promise.resolve();
 
     /**
-     * 获取端口
+     * 获取一个未使用的端口
      * @param name 使用端口的描述
      */
     public static getPool(describe: string): Promise<number> {

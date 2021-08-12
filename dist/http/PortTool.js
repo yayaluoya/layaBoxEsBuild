@@ -12,7 +12,7 @@ var PortTool = /** @class */ (function () {
     function PortTool() {
     }
     /**
-     * 获取端口
+     * 获取一个未使用的端口
      * @param name 使用端口的描述
      */
     PortTool.getPool = function (describe) {

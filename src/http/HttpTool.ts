@@ -1,6 +1,8 @@
 import http from "http";
 import internalIp from "internal-ip";
+import MainConfig from "../config/MainConfig";
 import PortTool from "./PortTool";
+import chalk from "chalk";
 
 /**
  * http工具
@@ -23,8 +25,6 @@ export default class HttpTool {
         return _portP.then((port) => {
             //开启一个本地服务
             let server = http.createServer(_f).listen(port);
-            //开启一个局域网服务
-            http.createServer(_f).listen(port, this.getHostname);
             //
             return server;
         });
@@ -38,7 +38,16 @@ export default class HttpTool {
     public static get getHostname(): string {
         if (!this.m_hostName) {
             this.m_hostName = internalIp.v4.sync();
+            if (!this.m_hostName) {
+                this.m_hostName = MainConfig.config.hostName;
+                if (!this.m_hostName) {
+                    console.log(chalk.red(`自动获取主机地址失败！请在配置文件中配置正确的主机地址。当前得到的配置为->${this.m_hostName}`));
+                }
+            }
         }
+        //
+        MainConfig.config.ifLog && console.log(`当前获取的主机地址为:${this.m_hostName}`);
+        //
         return this.m_hostName;
     }
 }
