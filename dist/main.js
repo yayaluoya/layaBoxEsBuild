@@ -46,6 +46,7 @@ var SrcProxy_1 = __importDefault(require("./dirProxy/src/SrcProxy"));
 var chalk_1 = __importDefault(require("chalk"));
 var TestMain_1 = __importDefault(require("./_test/TestMain"));
 var PackageConfig_1 = __importDefault(require("./config/PackageConfig"));
+var openUrl_1 = require("./alert/openUrl");
 /**
  * layaboxEsbuild构建实例
  */
@@ -83,6 +84,8 @@ var layaboxEsbuild = /** @class */ (function () {
                         console.log(chalk_1.default.gray("> " + PackageConfig_1.default.package.name + "@" + PackageConfig_1.default.package.version + " \u5FEB\u6377\u547D\u4EE4:leb"));
                         console.log(chalk_1.default.gray('执行 leb -h 查看帮助或解决bug'));
                         console.log(chalk_1.default.gray('...'));
+                        //打开本地主页
+                        MainConfig_1.default.config.ifOpenHome && openUrl_1.openUrl(BinProxy_1.default.getLocalHomePage());
                         //测试
                         TestMain_1.default.start();
                         return [2 /*return*/];

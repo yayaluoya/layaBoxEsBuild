@@ -60,6 +60,8 @@ module.exports = {
     ifLog: false,
     /** 是否启用webSocket工具 */
     ifOpenWebSocketTool: true,
+    /** 是否在启动时打开主页 */
+    ifOpenHome: true,
     /** 是否立即刷新浏览器 */
     ifUpdateNow: true,
     /** 文件监听 */

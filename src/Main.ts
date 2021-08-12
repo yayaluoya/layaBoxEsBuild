@@ -6,6 +6,7 @@ import SrcProxy from "./dirProxy/src/SrcProxy";
 import chalk from "chalk";
 import TestMain from "./_test/TestMain";
 import PackageConfig from "./config/PackageConfig";
+import { openUrl } from "./alert/openUrl";
 
 /**
  * layaboxEsbuild构建实例
@@ -33,6 +34,8 @@ export default class layaboxEsbuild {
 			console.log(chalk.gray(`> ${PackageConfig.package.name}@${PackageConfig.package.version} 快捷命令:leb`));
 			console.log(chalk.gray('执行 leb -h 查看帮助或解决bug'));
 			console.log(chalk.gray('...'));
+			//打开本地主页
+			MainConfig.config.ifOpenHome && openUrl(BinProxy.getLocalHomePage());
 			//测试
 			TestMain.start();
 		});

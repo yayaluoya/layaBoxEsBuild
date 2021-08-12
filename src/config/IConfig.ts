@@ -36,6 +36,8 @@ export default interface IConfig {
     ifLog?: boolean,
     /** 是否启用webSocket工具 */
     ifOpenWebSocketTool?: boolean,
+    /** 是否在启动时打开主页 */
+    ifOpenHome?: boolean,
     /** 是否立即刷新浏览器 */
     ifUpdateNow?: boolean,
     /** 文件监听 */

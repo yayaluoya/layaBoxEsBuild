@@ -57,11 +57,20 @@ const consoleEx = (function () {
     };
     //
     window.esbuildTool = esbuildTool;
-    //打印提示
+    //打印工具提示
     console.log(
         ...esbuildTool.consoleEx.textPack(
             esbuildTool.consoleEx.getStyle('#8785a2', 'rgb(138 255 185 / 20%)'),
             `欢迎使用layabox-esbuild构建工具，该工具只是个外壳不会修改项目任何内容🌝。\n当前版本 @${esbuildTool.config.packageJson.version} 最新版本请查看 https://github.com/yayaluoya/layaBoxEsBuild.git`
         )
     );
+    //打印浏览器提示
+    if (!/Chrome/i.test(navigator.userAgent)) {
+        console.log(
+            ...esbuildTool.consoleEx.textPack(
+                esbuildTool.consoleEx.getStyle('#FFFF', '#ff746d'),
+                `建议使用谷歌浏览器或者谷歌浏览器开发者版本，并把它设置为默认浏览器，下载地址:https://www.google.cn/chrome/dev/`
+            )
+        );
+    }
 })();
