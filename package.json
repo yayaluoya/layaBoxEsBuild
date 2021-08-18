@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.1.55",
+  "version": "1.2.0",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
   "main": "./index.js",
@@ -9,6 +9,7 @@
     "leb": "./dist/__bin/index.js"
   },
   "repository": "https://github.com/yayaluoya/layaBoxEsBuild.git",
+  "npmPackURL": "https://www.npmjs.com/package/layabox-esbuild",
   "remotePackgeJsonFileUrl": "package.json",
   "remotePackgeVersionJsonFileUrl": "packgeVersion.json",
   "scripts": {
