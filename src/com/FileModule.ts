@@ -2,6 +2,7 @@ import MainConfig from "../config/MainConfig";
 import BufferT from "../_T/BufferT";
 import crypto from "crypto";
 import { join } from "path";
+import Tool from "../_T/Tool";
 
 /**
  * 文件模块
@@ -33,11 +34,6 @@ export default class FileModule {
     /** 获取唯一标识符 */
     public get key(): string {
         return this.m_key;
-    }
-
-    /** 获取修改标识符 */
-    public get modifyKey(): string {
-        return this.m_key + '_' + this.m_modifyV;
     }
 
     /** 获取更新次数 */
@@ -86,7 +82,7 @@ export default class FileModule {
         this.m_absolutePath = join(MainConfig.config.src, this.m_url);
         this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
         //通过url生成唯一标识符
-        this.m_key = crypto.createHash('md5').update(this.m_absolutePath).digest('hex');
+        this.m_key = crypto.createHash('md5').update(`${this.m_absolutePath}_${Tool.getRandomStr()}`).digest('hex');
         //更新修改版本
         this.updateModifyV();
         //
@@ -100,7 +96,7 @@ export default class FileModule {
 
     /** 更新修改版本 */
     private updateModifyV() {
-        this.m_modifyV = Date.now() + '_' + this.m_updateNumber;
+        this.m_modifyV = `${Date.now()}_${this.m_updateNumber}_${Tool.getRandomStr()}`;
     }
 
     /**

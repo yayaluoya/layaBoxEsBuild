@@ -49,7 +49,6 @@ const consoleEx = (function () {
         config: {
             version: '$$version',
             mainURL: '$$mainURL',
-            swURL: '$$swURL',
             webSocketUrl: '$$webSocketUrl',
             ifUpdateNow: $$ifUpdateNow,
             packageJson: JSON.parse('$$packageJson'),
@@ -65,7 +64,7 @@ const consoleEx = (function () {
         )
     );
     //打印浏览器提示
-    if (!/Chrome/i.test(navigator.userAgent)) {
+    if (!/google/i.test(navigator.vendor)) {
         console.log(
             ...esbuildTool.consoleEx.textPack(
                 esbuildTool.consoleEx.getStyle('#FFFF', '#ff746d'),

@@ -15,14 +15,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
-var MyConfig_1 = __importDefault(require("../../config/MyConfig"));
 var HttpTool_1 = __importDefault(require("../../http/HttpTool"));
 var ResURL_1 = __importDefault(require("../../_T/ResURL"));
 var BinTool_1 = __importDefault(require("./BinTool"));
 var path_1 = require("path");
 var fs_1 = require("fs");
 var mime_1 = __importDefault(require("mime"));
-var SwT_1 = __importDefault(require("../../sw/SwT"));
 var ResHead_1 = require("../../com/ResHead");
 /**
  * bin目录代理
@@ -42,17 +40,9 @@ var BinProxy = /** @class */ (function () {
             switch (req.method) {
                 //get请求
                 case 'GET':
-                    //sw文件
-                    if (new RegExp("^/" + SwT_1.default.swURL + "$").test(url)) {
-                        res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType('js') }));
-                        //提取出相对目录并取出内容
-                        BinTool_1.default.getWebTool(path_1.join(ResURL_1.default.publicSrcDirName, "/" + MyConfig_1.default.webToolJsName.sw)).then(function (_js) {
-                            res.end(_js);
-                        });
-                    }
                     //web工具脚本
-                    else if (new RegExp("^/" + ResURL_1.default.publicDirName).test(url)) {
-                        res.writeHead(200, __assign(__assign({}, ResHead_1.crossDomainHead), { 'Content-Type': mime_1.default.getType(path_1.extname(url)) || '' }));
+                    if (new RegExp("^/" + ResURL_1.default.publicDirName).test(url)) {
+                        res.writeHead(200, __assign(__assign({}, ResHead_1.cacheOneDayHead), { 'Content-Type': mime_1.default.getType(path_1.extname(url)) || '' }));
                         //提取出相对目录并取出内容
                         BinTool_1.default.getWebTool(url.replace(new RegExp("^/" + ResURL_1.default.publicDirName), '')).then(function (_js) {
                             res.end(_js);

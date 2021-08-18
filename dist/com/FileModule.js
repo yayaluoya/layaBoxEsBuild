@@ -7,6 +7,7 @@ var MainConfig_1 = __importDefault(require("../config/MainConfig"));
 var BufferT_1 = __importDefault(require("../_T/BufferT"));
 var crypto_1 = __importDefault(require("crypto"));
 var path_1 = require("path");
+var Tool_1 = __importDefault(require("../_T/Tool"));
 /**
  * 文件模块
  * * 会把目标模块内容读取到内存中，方便下次访问，并在该文件被修改时自动更新
@@ -32,7 +33,7 @@ var FileModule = /** @class */ (function () {
         this.m_absolutePath = path_1.join(MainConfig_1.default.config.src, this.m_url);
         this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
         //通过url生成唯一标识符
-        this.m_key = crypto_1.default.createHash('md5').update(this.m_absolutePath).digest('hex');
+        this.m_key = crypto_1.default.createHash('md5').update(this.m_absolutePath + "_" + Tool_1.default.getRandomStr()).digest('hex');
         //更新修改版本
         this.updateModifyV();
         //
@@ -44,14 +45,6 @@ var FileModule = /** @class */ (function () {
         /** 获取唯一标识符 */
         get: function () {
             return this.m_key;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(FileModule.prototype, "modifyKey", {
-        /** 获取修改标识符 */
-        get: function () {
-            return this.m_key + '_' + this.m_modifyV;
         },
         enumerable: false,
         configurable: true
@@ -113,7 +106,7 @@ var FileModule = /** @class */ (function () {
     FileModule.prototype._init = function () { };
     /** 更新修改版本 */
     FileModule.prototype.updateModifyV = function () {
-        this.m_modifyV = Date.now() + '_' + this.m_updateNumber;
+        this.m_modifyV = Date.now() + "_" + this.m_updateNumber + "_" + Tool_1.default.getRandomStr();
     };
     /**
      * 更新内容

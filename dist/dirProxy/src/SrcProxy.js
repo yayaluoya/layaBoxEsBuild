@@ -58,9 +58,6 @@ var NodeModulesT_1 = require("./NodeModulesT");
 /**
  * src代理
  */
-//head
-/** 公共头部 */
-var _head = __assign(__assign({}, ResHead_1.crossDomainHead), { 'cache-control': 'no-cache' });
 var SrcProxy = /** @class */ (function () {
     function SrcProxy() {
     }
@@ -85,7 +82,7 @@ var SrcProxy = /** @class */ (function () {
                                         //
                                         SrcOperation_1.default.getFile(req).then(function (_fileData) {
                                             //
-                                            res.writeHead(_fileData.stateCode, __assign(__assign({}, _head), _fileData.resHead));
+                                            res.writeHead(_fileData.stateCode, __assign(__assign({}, ResHead_1.cacheOneDayHead), _fileData.resHead));
                                             //返回数据
                                             res.end(_fileData.content);
                                         });

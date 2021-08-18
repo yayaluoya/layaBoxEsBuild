@@ -28,6 +28,7 @@ var plugin_commonjs_1 = __importDefault(require("@rollup/plugin-commonjs"));
 var rollup_plugin_node_polyfills_1 = __importDefault(require("rollup-plugin-node-polyfills"));
 var plugin_json_1 = __importDefault(require("@rollup/plugin-json"));
 var PortTool_1 = __importDefault(require("../../http/PortTool"));
+var Tool_1 = __importDefault(require("../../_T/Tool"));
 /** nm路径 */
 var _NMUrl;
 /**
@@ -153,7 +154,7 @@ function getNMIndexURL(_name) {
         return _npmPackageCatch[_name].url;
     }
     //获取一带唯一字符串的临时路径
-    var _url = _nmHost + "/" + _name + "?q=" + Date.now() + "_" + _getNMIndexURLRKey++;
+    var _url = _nmHost + "/" + _name + "?q=" + Date.now() + "_" + _getNMIndexURLRKey++ + "_" + Tool_1.default.getRandomStr();
     //添加到缓存
     (_npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})).url = _url;
     //

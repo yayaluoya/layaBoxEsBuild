@@ -34,7 +34,7 @@ var ResURL = /** @class */ (function () {
     Object.defineProperty(ResURL, "publicSrcURL", {
         /** 获取public路径下代码的路径 */
         get: function () {
-            return path_1.join(this.publicDirName, "/" + this.publicSrcDirName + "/");
+            return path_1.join(this.publicDirName, "/dist/");
         },
         enumerable: false,
         configurable: true
@@ -58,8 +58,6 @@ var ResURL = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    /** 获取public目录下代码目录名字 */
-    ResURL.publicSrcDirName = 'dist';
     return ResURL;
 }());
 exports.default = ResURL;

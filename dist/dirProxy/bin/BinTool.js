@@ -11,7 +11,6 @@ var VersionsT_1 = __importDefault(require("../../_T/VersionsT"));
 var path_1 = require("path");
 var fs_1 = require("fs");
 var TemplateT_1 = __importDefault(require("../../_T/TemplateT"));
-var SwT_1 = __importDefault(require("../../sw/SwT"));
 var PackageConfig_1 = __importDefault(require("../../config/PackageConfig"));
 /**
  * bin目录工具
@@ -47,7 +46,6 @@ var BinTool = /** @class */ (function () {
                         _content = TemplateT_1.default.ReplaceVariable(_content, {
                             version: VersionsT_1.default.getV(),
                             mainURL: "http://" + HttpTool_1.default.getHostname + ":" + MainConfig_1.default.config.port.src,
-                            swURL: SwT_1.default.swURL,
                             webSocketUrl: "ws://" + HttpTool_1.default.getHostname + ":" + MyConfig_1.default.webSocketPort,
                             ifUpdateNow: Boolean(MainConfig_1.default.config.ifUpdateNow).toString(),
                             packageJson: JSON.stringify({
@@ -84,9 +82,14 @@ var BinTool = /** @class */ (function () {
                 }
                 _html = data.toString();
                 //在头部结束时加上css样式表和serviceWorkers工具脚本
-                _html = _html.replace(/\<\/head\>/, "\n<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResURL_1.default.publicResURL + MyConfig_1.default.webToolJsName.css + "\">\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.main + "\"></script>\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.swTool + "\"></script>\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.webSocket + "\"></script>\n" + (MainConfig_1.default.config.ifOpenWebSocketTool ? "<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.alert + "\"></script>" : '') + "\n</head>\n                ");
+                _html = _html.replace(/\<\/head\>/, "\n<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResURL_1.default.publicResURL + MyConfig_1.default.webToolJsName.css + "?q=" + MyConfig_1.default
+                    .webToolJsOnlyKey.css + "\">\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.main + "?q=" + MyConfig_1.default
+                    .webToolJsOnlyKey.main + "\"></script>\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.webSocket + "?q=" + MyConfig_1.default
+                    .webToolJsOnlyKey.webSocket + "\"></script>\n" + (MainConfig_1.default.config.ifOpenWebSocketTool ? "<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.alert + "?q=" + MyConfig_1.default
+                    .webToolJsOnlyKey.alert + "\"></script>" : '') + "\n</head>\n                ");
                 //在所有脚本前加上webload脚本
-                _html = _html.replace(/\<body\>/, "<body>\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.load + "\"></script>\n                ");
+                _html = _html.replace(/\<body\>/, "<body>\n<script type=\"text/javascript\" src=\"" + ResURL_1.default.publicSrcURL + MyConfig_1.default.webToolJsName.load + "?q=" + MyConfig_1.default
+                    .webToolJsOnlyKey.load + "\"></script>\n                ");
                 //包装loadLib函数内容，加一个模块的参数
                 _html = _html.replace(/function loadLib\([\s\S]*?\)[\s]\{[\s\S]*?\}/, "\n    function loadLib(url) {\n        var type = arguments.length <= 1 || arguments[1] === undefined ? 'text/javascript' : arguments[1];\n        var script = document.createElement(\"script\");\n        script.async = false;\n        script.src = url;\n        script.type = type;\n        document.body.appendChild(script);\n    }\n                    ");
                 //添加提示

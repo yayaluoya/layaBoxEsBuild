@@ -2,18 +2,12 @@ import MainConfig from "../../config/MainConfig";
 import HttpTool from "../../http/HttpTool";
 import SrcOperation from "./SrcOperation";
 import { AddressInfo } from "net";
-import { crossDomainHead } from "../../com/ResHead";
+import { cacheOneDayHead } from "../../com/ResHead";
 import { server } from "./NodeModulesT";
 
 /**
  * src代理
  */
-//head
-/** 公共头部 */
-const _head = {
-    ...crossDomainHead,
-    'cache-control': 'no-cache',//协商缓存
-};
 
 export default class SrcProxy {
     /**
@@ -31,7 +25,7 @@ export default class SrcProxy {
                     SrcOperation.getFile(req).then((_fileData) => {
                         //
                         res.writeHead(_fileData.stateCode, {
-                            ..._head,
+                            ...cacheOneDayHead,
                             ..._fileData.resHead
                         });
                         //返回数据

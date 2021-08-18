@@ -11,6 +11,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import node_polyfills from 'rollup-plugin-node-polyfills';
 import plugin_josn from '@rollup/plugin-json';
 import PortTool from "../../http/PortTool";
+import Tool from "../../_T/Tool";
 
 /** nm路径 */
 let _NMUrl: string;
@@ -197,7 +198,7 @@ export function getNMIndexURL(_name: string): string {
         return _npmPackageCatch[_name].url;
     }
     //获取一带唯一字符串的临时路径
-    let _url: string = `${_nmHost}/${_name}?q=${Date.now()}_${_getNMIndexURLRKey++}`;
+    let _url: string = `${_nmHost}/${_name}?q=${Date.now()}_${_getNMIndexURLRKey++}_${Tool.getRandomStr()}`;
     //添加到缓存
     (_npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})).url = _url;
     //

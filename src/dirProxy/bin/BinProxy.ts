@@ -1,5 +1,4 @@
 import MainConfig from "../../config/MainConfig";
-import MyConfig from "../../config/MyConfig";
 import HttpTool from "../../http/HttpTool";
 import ResURL from "../../_T/ResURL";
 import BinTool from "./BinTool";
@@ -7,8 +6,7 @@ import { join, extname } from "path";
 import { createReadStream, stat } from "fs";
 import mime from "mime";
 import { AddressInfo } from "net";
-import SwT from "../../sw/SwT";
-import { crossDomainHead } from "../../com/ResHead";
+import { crossDomainHead, cacheOneDayHead } from "../../com/ResHead";
 
 /**
  * bin目录代理
@@ -26,21 +24,10 @@ export default class BinProxy {
             switch (req.method) {
                 //get请求
                 case 'GET':
-                    //sw文件
-                    if (new RegExp(`^/${SwT.swURL}$`).test(url)) {
-                        res.writeHead(200, {
-                            ...crossDomainHead,
-                            'Content-Type': mime.getType('js'),
-                        });
-                        //提取出相对目录并取出内容
-                        BinTool.getWebTool(join(ResURL.publicSrcDirName, `/${MyConfig.webToolJsName.sw}`)).then((_js) => {
-                            res.end(_js);
-                        });
-                    }
                     //web工具脚本
-                    else if (new RegExp(`^/${ResURL.publicDirName}`).test(url)) {
+                    if (new RegExp(`^/${ResURL.publicDirName}`).test(url)) {
                         res.writeHead(200, {
-                            ...crossDomainHead,
+                            ...cacheOneDayHead,
                             'Content-Type': mime.getType(extname(url)) || '',
                         });
                         //提取出相对目录并取出内容

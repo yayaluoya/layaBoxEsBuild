@@ -6,7 +6,6 @@ import VersionsT from "../../_T/VersionsT";
 import { join } from "path";
 import { readFile } from "fs";
 import TemplateT from "../../_T/TemplateT";
-import SwT from "../../sw/SwT";
 import PackageConfig from "../../config/PackageConfig";
 
 /**
@@ -45,7 +44,6 @@ export default class BinTool {
                         _content = TemplateT.ReplaceVariable(_content, {
                             version: VersionsT.getV(),
                             mainURL: `http://${HttpTool.getHostname}:${MainConfig.config.port.src}`,
-                            swURL: SwT.swURL,
                             webSocketUrl: `ws://${HttpTool.getHostname}:${MyConfig.webSocketPort}`,
                             ifUpdateNow: Boolean(MainConfig.config.ifUpdateNow).toString(),
                             packageJson: JSON.stringify({
@@ -84,16 +82,20 @@ export default class BinTool {
                 _html = data.toString();
                 //在头部结束时加上css样式表和serviceWorkers工具脚本
                 _html = _html.replace(/\<\/head\>/, `
-<link rel="stylesheet" type="text/css" href="${ResURL.publicResURL}${MyConfig.webToolJsName.css}">
-<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.main}"></script>
-<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.swTool}"></script>
-<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.webSocket}"></script>
-${MainConfig.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.alert}"></script>` : ''}
+<link rel="stylesheet" type="text/css" href="${ResURL.publicResURL}${MyConfig.webToolJsName.css}?q=${MyConfig
+                        .webToolJsOnlyKey.css}">
+<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.main}?q=${MyConfig
+                        .webToolJsOnlyKey.main}"></script>
+<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.webSocket}?q=${MyConfig
+                        .webToolJsOnlyKey.webSocket}"></script>
+${MainConfig.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.alert}?q=${MyConfig
+                        .webToolJsOnlyKey.alert}"></script>` : ''}
 </head>
                 `);
                 //在所有脚本前加上webload脚本
                 _html = _html.replace(/\<body\>/, `<body>
-<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.load}"></script>
+<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.load}?q=${MyConfig
+                        .webToolJsOnlyKey.load}"></script>
                 `);
                 //包装loadLib函数内容，加一个模块的参数
                 _html = _html.replace(/function loadLib\([\s\S]*?\)[\s]\{[\s\S]*?\}/, `
