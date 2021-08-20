@@ -7,6 +7,9 @@ import SrcModule from "./SrcModule";
  * 文件操作
  */
 export default class SrcOperation {
+    /** 匹配map的正则 */
+    private static mapReg = /\.map$/;
+
     /**
      * 获取文件
      * @param req 请求
@@ -17,9 +20,9 @@ export default class SrcOperation {
             // console.log(_url);
             let _ifMap: boolean = false;
             //提取模块目录
-            if (/\.map/.test(_url)) {
+            if (this.mapReg.test(_url)) {
                 _ifMap = true;
-                _url = _url.replace(/\.map/, '');
+                _url = _url.replace(this.mapReg, '');
             }
             //
             SrcCache.getModule(_url).task.then((module: SrcModule) => {

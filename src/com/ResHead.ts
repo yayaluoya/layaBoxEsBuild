@@ -14,5 +14,5 @@ export const crossDomainHead = {
 export const cacheOneDayHead = {
     ...crossDomainHead,
     //缓存一天的时间
-    'Cache-Control': 'max-age=86400',
+    // 'Cache-Control': 'max-age=86400',
 };

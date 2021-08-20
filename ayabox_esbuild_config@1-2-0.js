@@ -9,6 +9,6 @@ module.exports = {
     /** 是否打印log */
     // ifLog: true,
     //
-    // src: 'F:/word/LayaMiniGame/src/',
-    // bin: 'F:/word/LayaMiniGame/bin/',
+    src: 'F:/word/LayaMiniGame/src/',
+    bin: 'F:/word/LayaMiniGame/bin/',
 };

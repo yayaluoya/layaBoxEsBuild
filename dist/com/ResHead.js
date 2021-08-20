@@ -24,7 +24,5 @@ exports.crossDomainHead = {
 /**
  * 缓存一天的响应头
  */
-exports.cacheOneDayHead = __assign(__assign({}, exports.crossDomainHead), { 
-    //缓存一天的时间
-    'Cache-Control': 'max-age=86400' });
+exports.cacheOneDayHead = __assign({}, exports.crossDomainHead);
 //# sourceMappingURL=ResHead.js.map

@@ -16,14 +16,15 @@ var SrcOperation = /** @class */ (function () {
      * @param req 请求
      */
     SrcOperation.getFile = function (req) {
+        var _this = this;
         return new Promise(function (r) {
             var _url = req.url;
             // console.log(_url);
             var _ifMap = false;
             //提取模块目录
-            if (/\.map/.test(_url)) {
+            if (_this.mapReg.test(_url)) {
                 _ifMap = true;
-                _url = _url.replace(/\.map/, '');
+                _url = _url.replace(_this.mapReg, '');
             }
             //
             SrcCache_1.default.getModule(_url).task.then(function (module) {
@@ -46,6 +47,8 @@ var SrcOperation = /** @class */ (function () {
             });
         });
     };
+    /** 匹配map的正则 */
+    SrcOperation.mapReg = /\.map$/;
     return SrcOperation;
 }());
 exports.default = SrcOperation;
