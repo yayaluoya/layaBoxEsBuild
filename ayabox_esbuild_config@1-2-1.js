@@ -8,7 +8,8 @@ module.exports = {
     ifOpenHome: false,
     /** 是否打印log */
     // ifLog: true,
+    // breakpointType: 'vscode',
     //
-    src: 'F:/word/LayaMiniGame/src/',
-    bin: 'F:/word/LayaMiniGame/bin/',
+    // src: 'F:/word/LayaMiniGame/src/',
+    // bin: 'F:/word/LayaMiniGame/bin/',
 };

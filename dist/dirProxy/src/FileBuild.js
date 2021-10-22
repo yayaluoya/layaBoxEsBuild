@@ -135,7 +135,17 @@ function _fileBuild(_url, _suffix, _code) {
         if (/^(ts|js)$/.test(_suffix)) {
             //设置tuansform选项内容
             _esbuildTransformOptions.loader = _suffix;
-            _esbuildTransformOptions.sourcefile = "webpack://\uD83D\uDDC2\uFE0Fsrc\u2714\uFE0F/" + _relativeUrl + " \u2714";
+            var sourcefile = '';
+            switch (MainConfig_1.default.config.breakpointType) {
+                case 'vscode':
+                    sourcefile = _url;
+                    break;
+                case 'browser':
+                    sourcefile = "webpack://\uD83D\uDDC2\uFE0Fsrc\u2714\uFE0F/" + _relativeUrl + " \u2714";
+                    break;
+            }
+            //根据全局配置来定
+            _esbuildTransformOptions.sourcefile = sourcefile;
             //使用esbuild编译
             esbuild_1.transform(_code, _esbuildTransformOptions)
                 .then(function (_a) {

@@ -116,6 +116,8 @@ export default interface IConfig {
     autoUpdateTaskTime?: number,
     /** 是否打印日志 */
     ifLog?: boolean,
+    /** 断点类型 */
+    breakpointType?: 'vscode' | 'browser',
     /** 是否启用webSocket工具 */
     ifOpenWebSocketTool?: boolean,
     /** 是否在启动时打开主页 */

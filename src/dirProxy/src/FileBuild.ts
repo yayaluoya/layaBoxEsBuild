@@ -81,7 +81,17 @@ function _fileBuild(_url: string, _suffix: string, _code: string): Promise<IFile
         if (/^(ts|js)$/.test(_suffix)) {
             //设置tuansform选项内容
             _esbuildTransformOptions.loader = _suffix as any;
-            _esbuildTransformOptions.sourcefile = `webpack://🗂️src✔️/${_relativeUrl} ✔`;
+            let sourcefile = '';
+            switch (MainConfig.config.breakpointType) {
+                case 'vscode':
+                    sourcefile = _url;
+                    break;
+                case 'browser':
+                    sourcefile = `webpack://🗂️src✔️/${_relativeUrl} ✔`;
+                    break;
+            }
+            //根据全局配置来定
+            _esbuildTransformOptions.sourcefile = sourcefile;
             //使用esbuild编译
             transform(_code, _esbuildTransformOptions)
                 .then(({ code, map, warnings }: TransformResult) => {
