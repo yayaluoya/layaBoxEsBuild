@@ -54,9 +54,9 @@ export default interface IConfig {
     /** 
      * 文件读取后门
      * 系统读取不到目标文件时将会调用该方法
-     * 使用该方法读取到的模块不会被缓存到内存中，故而不会有监听
+     * 使用该方法读取到的模块不会被缓存到内存中，故而不会有监听，如果有需要可以自行实现缓存和监听，然后调用_update方法更新页面就行了
      */
-    fileReadBackDoor?: (_src: string) => Promise<{
+    fileReadBackDoor?: (_src: string, _update: (_url?: string) => void) => Promise<{
         /** 真实路径 */
         url?: string;
         /** 后缀 */

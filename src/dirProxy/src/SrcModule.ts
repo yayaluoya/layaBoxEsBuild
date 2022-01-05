@@ -14,6 +14,22 @@ export default class SrcModule extends FileModule {
     /** 更新总数 */
     private static m_updateSum: number = 0;
 
+    protected _updateH: (url?: string) => void;
+    /**
+     * update方法
+     */
+    public get updateH() {
+        if (!this._updateH) {
+            this._updateH = (_url?: string) => {
+                //发送webSocket消息
+                WebSocket.send(`src代码@${_url || this.url}✔️`, EWebSocketMesType.contentUpdate);
+                //
+                this.update();
+            }
+        }
+        return this._updateH;
+    }
+
     /** 初始化回调 */
     protected _init() {
         //
@@ -26,7 +42,7 @@ export default class SrcModule extends FileModule {
     /**
      * 更新回调
      */
-    public _update() {
+    protected _update() {
         SrcModule.m_updateSum++;
         //
         if (MainConfig.config.ifLog) {
@@ -41,7 +57,7 @@ export default class SrcModule extends FileModule {
     /** 更新内容 */
     protected _updateContent(): Promise<IFileModuleContent> {
         //返回一个esbuild的任务
-        return FileBuild(this.absolutePath, this.url);
+        return FileBuild(this.absolutePath, this.url, this.updateH);
     }
 
     /** 处理错误回调 */

@@ -102,6 +102,19 @@ export default class FileModule {
         this.m_modifyV = `${Date.now()}_${this.m_updateNumber}_${Tool.getRandomStr()}`;
     }
 
+    protected _updateH: Function;
+    /**
+     * update方法
+     */
+    public get updateH() {
+        if (!this._updateH) {
+            this._updateH = () => {
+                this.update();
+            }
+        }
+        return this._updateH;
+    }
+
     /**
      * 更新内容
      */

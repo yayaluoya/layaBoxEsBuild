@@ -33,6 +33,25 @@ var SrcModule = /** @class */ (function (_super) {
     function SrcModule() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    Object.defineProperty(SrcModule.prototype, "updateH", {
+        /**
+         * update方法
+         */
+        get: function () {
+            var _this = this;
+            if (!this._updateH) {
+                this._updateH = function (_url) {
+                    //发送webSocket消息
+                    WebSocket_1.default.send("src\u4EE3\u7801@" + (_url || _this.url) + "\u2714\uFE0F", EWebSocketMesType_1.EWebSocketMesType.contentUpdate);
+                    //
+                    _this.update();
+                };
+            }
+            return this._updateH;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /** 初始化回调 */
     SrcModule.prototype._init = function () {
         //
@@ -58,7 +77,7 @@ var SrcModule = /** @class */ (function (_super) {
     /** 更新内容 */
     SrcModule.prototype._updateContent = function () {
         //返回一个esbuild的任务
-        return FileBuild_1.FileBuild(this.absolutePath, this.url);
+        return FileBuild_1.FileBuild(this.absolutePath, this.url, this.updateH);
     };
     /** 处理错误回调 */
     SrcModule.prototype._mismanage = function (_e) {

@@ -15,7 +15,7 @@ module.exports = {
     //
     // src: 'F:/word/LayaMiniGame/src/',
     // bin: 'F:/word/LayaMiniGame/bin/',
-    async fileReadBackDoor(_path) {
+    async fileReadBackDoor(_path, _update) {
         let _url = join(__dirname, 'test', _path) + '.ts';
         let _data = readFileSync(_url);
         return {

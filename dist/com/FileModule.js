@@ -110,6 +110,22 @@ var FileModule = /** @class */ (function () {
     FileModule.prototype.updateModifyV = function () {
         this.m_modifyV = Date.now() + "_" + this.m_updateNumber + "_" + Tool_1.default.getRandomStr();
     };
+    Object.defineProperty(FileModule.prototype, "updateH", {
+        /**
+         * update方法
+         */
+        get: function () {
+            var _this = this;
+            if (!this._updateH) {
+                this._updateH = function () {
+                    _this.update();
+                };
+            }
+            return this._updateH;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      * 更新内容
      */

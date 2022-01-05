@@ -1,4 +1,4 @@
-import { IFileModuleContent } from "../../com/FileModule";
+import FileModule, { IFileModuleContent } from "../../com/FileModule";
 import chalk from "chalk";
 import path from "path";
 import { transform, TransformOptions, TransformResult } from "esbuild";
@@ -16,8 +16,9 @@ const extractSu: RegExp = /^\./;
  * 读取目标文件，然后按照配置的打包规则一步一步获取到最终结果
  * @param _url 模块路径，绝对路径
  * @param resUrl 请求路径，浏览器请求用的路径
+ * @param _updateH 模块更新方法
  */
-export async function FileBuild(_url: string, resUrl: string): Promise<IFileModuleContent> {
+export async function FileBuild(_url: string, resUrl: string, _updateH: (_url?: string) => void): Promise<IFileModuleContent> {
     let _data: { err?: any, data?: any };
     let __url: string;
     let _sus: string[] = [...MainConfig.config.srcFileDefaultSuffixs];
@@ -49,7 +50,7 @@ export async function FileBuild(_url: string, resUrl: string): Promise<IFileModu
             }
             //实在读取不到就判断用户是否还定义了文件读取后门
             if (MainConfig.config.fileReadBackDoor) {
-                let backDoorData = await MainConfig.config.fileReadBackDoor(resUrl);
+                let backDoorData = await MainConfig.config.fileReadBackDoor(resUrl, _updateH);
                 if (backDoorData.data) {
                     //打包
                     let result = await _fileBuild(backDoorData.url || __url, backDoorData.su || _su, backDoorData.data.toString());

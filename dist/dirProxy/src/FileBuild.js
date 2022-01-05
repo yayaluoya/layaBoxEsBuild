@@ -60,8 +60,9 @@ var extractSu = /^\./;
  * 读取目标文件，然后按照配置的打包规则一步一步获取到最终结果
  * @param _url 模块路径，绝对路径
  * @param resUrl 请求路径，浏览器请求用的路径
+ * @param _updateH 模块更新方法
  */
-function FileBuild(_url, resUrl) {
+function FileBuild(_url, resUrl, _updateH) {
     return __awaiter(this, void 0, void 0, function () {
         var _data, __url, _sus, _su, _a, _b, _c, _i, result, backDoorData, result;
         return __generator(this, function (_d) {
@@ -103,7 +104,7 @@ function FileBuild(_url, resUrl) {
                         return [3 /*break*/, 8];
                     }
                     if (!MainConfig_1.default.config.fileReadBackDoor) return [3 /*break*/, 7];
-                    return [4 /*yield*/, MainConfig_1.default.config.fileReadBackDoor(resUrl)];
+                    return [4 /*yield*/, MainConfig_1.default.config.fileReadBackDoor(resUrl, _updateH)];
                 case 5:
                     backDoorData = _d.sent();
                     if (!backDoorData.data) return [3 /*break*/, 7];
