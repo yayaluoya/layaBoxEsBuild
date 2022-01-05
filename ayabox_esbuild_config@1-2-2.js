@@ -1,3 +1,6 @@
+const { readFileSync } = require("fs");
+const { join } = require("path");
+
 /** 配置数据 */
 module.exports = {
     /** 代理src目录，可以是绝对路径或者相对路径 */
@@ -12,4 +15,14 @@ module.exports = {
     //
     // src: 'F:/word/LayaMiniGame/src/',
     // bin: 'F:/word/LayaMiniGame/bin/',
+    async fileReadBackDoor(_path) {
+        let _url = join(__dirname, 'test', _path) + '.ts';
+        let _data = readFileSync(_url);
+        return {
+            // url: _url,
+            //su: 'ts',
+            err: '哈哈哈',
+            data: _data,
+        };
+    },
 };

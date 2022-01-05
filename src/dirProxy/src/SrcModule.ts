@@ -41,7 +41,7 @@ export default class SrcModule extends FileModule {
     /** 更新内容 */
     protected _updateContent(): Promise<IFileModuleContent> {
         //返回一个esbuild的任务
-        return FileBuild(this.absolutePath);
+        return FileBuild(this.absolutePath, this.url);
     }
 
     /** 处理错误回调 */

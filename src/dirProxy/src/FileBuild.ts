@@ -15,11 +15,12 @@ const extractSu: RegExp = /^\./;
  * 文件打包
  * 读取目标文件，然后按照配置的打包规则一步一步获取到最终结果
  * @param _url 模块路径，绝对路径
+ * @param resUrl 请求路径，浏览器请求用的路径
  */
-export async function FileBuild(_url: string): Promise<IFileModuleContent> {
+export async function FileBuild(_url: string, resUrl: string): Promise<IFileModuleContent> {
     let _data: { err?: any, data?: any };
     let __url: string;
-    let _sus: string[] = MainConfig.config.srcFileDefaultSuffixs;
+    let _sus: string[] = [...MainConfig.config.srcFileDefaultSuffixs];
     let _su: string;
     //按照默认的后缀依次读取文件，直到读取到目标文件
     for (let _i in _sus) {
@@ -34,18 +35,30 @@ export async function FileBuild(_url: string): Promise<IFileModuleContent> {
             _su = path.extname(__url).replace(extractSu, '');
         }
         //获取文件
-        _data = await _readFile(__url);
-        //判断是否有错误发生
-        if (_data.err) {
+        _data = await _readFile(__url, resUrl);
+        if (_data.data) {
+            //打包
+            let result = await _fileBuild(__url, _su, _data.data.toString());
+            result.ifCache = true;
+            return result;
+        }
+        else {
             //如果没有遍历完成则再次遍历
             if (Number(_i) < _sus.length - 1) {
                 continue;
             }
+            //实在读取不到就判断用户是否还定义了文件读取后门
+            if (MainConfig.config.fileReadBackDoor) {
+                let backDoorData = await MainConfig.config.fileReadBackDoor(resUrl);
+                if (backDoorData.data) {
+                    //打包
+                    let result = await _fileBuild(backDoorData.url || __url, backDoorData.su || _su, backDoorData.data.toString());
+                    result.ifCache = false;
+                    return result;
+                }
+            }
             //去不后缀都没匹配到目标文件，则直接报错
-            throw `读取文件失败！@${__url}`;
-        } else {
-            //获取目标文件内容，开始打包
-            return await _fileBuild(__url, _su, _data.data.toString());
+            throw `读取文件失败！@${__url}，可以尝试配置fileReadBackDoor来读取自定义的文件`;
         }
     }
 }
@@ -155,10 +168,11 @@ function _fileBuildRProxy(_r: (_: IFileModuleContent) => void, _url: string, _su
 /**
  * 读取文件，结果会全部成功，并返回一个包含错误或者文件内容的对象
  * @param _url 文件地址
+ * @param resUrl 请求路径，浏览器请求时带的路径
  */
-function _readFile(_url: string): Promise<{ err?: any, data?: any }> {
+function _readFile(_url: string, resUrl: string): Promise<{ err?: any, data?: any }> {
     return new Promise<{ err?: any, data?: any }>((r) => {
-        // console.log('读取文件', _url);
+        // console.log('读取文件', _url, resUrl);
         //读取目标文件
         readFile(_url, (err, rootCodeBuffer) => {
             if (err) {

@@ -19,6 +19,8 @@ var FileModule = /** @class */ (function () {
      */
     function FileModule(_url) {
         var _this = this;
+        /** 是否缓存 */
+        this.m_ifCache = true;
         /** 任务 */
         this.m_task = new Promise(function (r) { r(_this); });
         /** 更新次数 */
@@ -84,8 +86,8 @@ var FileModule = /** @class */ (function () {
     Object.defineProperty(FileModule.prototype, "task", {
         /** 获取 任务 */
         get: function () {
-            //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务
-            if (this.m_onTaskModifyV != this.m_modifyV) {
+            //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务，如果不缓存的话直接更新任务
+            if (!this.m_ifCache || (this.m_onTaskModifyV != this.m_modifyV)) {
                 this.updateTask();
             }
             //
@@ -125,6 +127,10 @@ var FileModule = /** @class */ (function () {
      * 自动更新任务
      */
     FileModule.prototype.autoUpdateTask = function () {
+        //如果不缓存的话就不自动更新
+        if (!this.m_ifCache) {
+            return false;
+        }
         //判断版本
         if (this.m_onTaskModifyV == this.m_modifyV)
             return false;
@@ -156,6 +162,8 @@ var FileModule = /** @class */ (function () {
                     _this._updateContent().then(function (_content) {
                         // console.log(_content);
                         _this.m_content = _this._rightContent(_content);
+                        //设置是否缓存
+                        _this.m_ifCache = _content.ifCache;
                         // console.log(this);
                     }).catch(function (E) {
                         //把错误内容以代码的形式添加进去

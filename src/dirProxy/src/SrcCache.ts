@@ -69,7 +69,7 @@ export default class SrcCache {
             /** 不区分大小写匹配 */
             let _b: boolean = false;
             //
-            let _sus: string[] = MainConfig.config.srcFileDefaultSuffixs;
+            let _sus: string[] = [...MainConfig.config.srcFileDefaultSuffixs];
             let _su: string;
             let _susRegExp: RegExp;
             for (let _i in _sus) {

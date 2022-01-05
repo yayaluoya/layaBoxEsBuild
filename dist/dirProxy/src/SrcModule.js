@@ -58,7 +58,7 @@ var SrcModule = /** @class */ (function (_super) {
     /** 更新内容 */
     SrcModule.prototype._updateContent = function () {
         //返回一个esbuild的任务
-        return FileBuild_1.FileBuild(this.absolutePath);
+        return FileBuild_1.FileBuild(this.absolutePath, this.url);
     };
     /** 处理错误回调 */
     SrcModule.prototype._mismanage = function (_e) {

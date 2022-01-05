@@ -132,7 +132,22 @@ export default interface IConfig {
         bin: IFileWatch,
     },
     /** loader列表 */
-    loader?: ILoaderConfig[]
+    loader?: ILoaderConfig[],
+    /** 
+     * 文件读取后门
+     * 系统读取不到目标文件时将会调用该方法
+     * 使用该方法读取到的模块不会被缓存到内存中，故而不会有监听
+     */
+    fileReadBackDoor?: (_src: string) => Promise<{
+        /** 真实路径 */
+        url?: string;
+        /** 后缀 */
+        su?: string;
+        /** 异常 */
+        err?: any;
+        /** 数据 */
+        data?: any;
+    }>,
 }
 
 /**

@@ -9,6 +9,9 @@ import Tool from "../_T/Tool";
  * * 会把目标模块内容读取到内存中，方便下次访问，并在该文件被修改时自动更新
  */
 export default class FileModule {
+    /** 是否缓存 */
+    private m_ifCache: boolean = true;
+
     /** 标识符，md5生成的 */
     private m_key: string;
 
@@ -55,8 +58,8 @@ export default class FileModule {
     }
     /** 获取 任务 */
     public get task(): Promise<FileModule> {
-        //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务
-        if (this.m_onTaskModifyV != this.m_modifyV) {
+        //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务，如果不缓存的话直接更新任务
+        if (!this.m_ifCache || (this.m_onTaskModifyV != this.m_modifyV)) {
             this.updateTask();
         }
         //
@@ -118,6 +121,8 @@ export default class FileModule {
      * 自动更新任务
      */
     public autoUpdateTask(): boolean {
+        //如果不缓存的话就不自动更新
+        if (!this.m_ifCache) { return false; }
         //判断版本
         if (this.m_onTaskModifyV == this.m_modifyV) return false;
         //
@@ -149,6 +154,8 @@ export default class FileModule {
                     this._updateContent().then((_content) => {
                         // console.log(_content);
                         this.m_content = this._rightContent(_content);
+                        //设置是否缓存
+                        this.m_ifCache = _content.ifCache;
                         // console.log(this);
                     }).catch((E) => {
                         //把错误内容以代码的形式添加进去
@@ -188,7 +195,9 @@ export default class FileModule {
  */
 export interface IFileModuleContent {
     /** 代码 */
-    code: Buffer,
+    code: Buffer;
     /** map */
-    map: Buffer,
+    map: Buffer;
+    /** 是否缓存 */
+    ifCache?: boolean;
 }

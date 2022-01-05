@@ -1,8 +1,8 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "authorName": "yayaluoya",
-  "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用等编译。",
+  "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用傻傻等编译。",
   "main": "./index.js",
   "bin": {
     "layabox-esbuild": "./dist/__bin/index.js",

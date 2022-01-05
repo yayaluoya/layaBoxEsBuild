@@ -2,6 +2,7 @@ import _module from './module.txt';
 import './js.test.js';
 import './com/test';
 import 'src/ts';
+import '../_src/test';
 
 import axios from 'axios';
 const dayjs = require('dayjs');
@@ -12,7 +13,7 @@ import thenby, { firstBy } from "thenby";
 import { Test, Modle__ } from './test';
 
 console.log(_module);
-console.log('测试', 342);
+console.log('测试', 346);
 
 let a: Test = new Test();
 let b: Modle__.M = new Modle__.M();

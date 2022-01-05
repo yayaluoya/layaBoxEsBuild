@@ -35,6 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -54,21 +59,22 @@ var extractSu = /^\./;
  * 文件打包
  * 读取目标文件，然后按照配置的打包规则一步一步获取到最终结果
  * @param _url 模块路径，绝对路径
+ * @param resUrl 请求路径，浏览器请求用的路径
  */
-function FileBuild(_url) {
+function FileBuild(_url, resUrl) {
     return __awaiter(this, void 0, void 0, function () {
-        var _data, __url, _sus, _su, _a, _b, _c, _i;
+        var _data, __url, _sus, _su, _a, _b, _c, _i, result, backDoorData, result;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
-                    _sus = MainConfig_1.default.config.srcFileDefaultSuffixs;
+                    _sus = __spreadArray([], MainConfig_1.default.config.srcFileDefaultSuffixs);
                     _a = [];
                     for (_b in _sus)
                         _a.push(_b);
                     _c = 0;
                     _d.label = 1;
                 case 1:
-                    if (!(_c < _a.length)) return [3 /*break*/, 6];
+                    if (!(_c < _a.length)) return [3 /*break*/, 9];
                     _i = _a[_c];
                     _su = _sus[_i];
                     if (_su) {
@@ -81,25 +87,38 @@ function FileBuild(_url) {
                         //这里注意要去掉首字符的.符号，这里可能会出现没有后缀的情况，所以这里用系统的获取后缀的方法
                         _su = path_1.default.extname(__url).replace(extractSu, '');
                     }
-                    return [4 /*yield*/, _readFile(__url)];
+                    return [4 /*yield*/, _readFile(__url, resUrl)];
                 case 2:
                     //获取文件
                     _data = _d.sent();
-                    if (!_data.err) return [3 /*break*/, 3];
+                    if (!_data.data) return [3 /*break*/, 4];
+                    return [4 /*yield*/, _fileBuild(__url, _su, _data.data.toString())];
+                case 3:
+                    result = _d.sent();
+                    result.ifCache = true;
+                    return [2 /*return*/, result];
+                case 4:
                     //如果没有遍历完成则再次遍历
                     if (Number(_i) < _sus.length - 1) {
-                        return [3 /*break*/, 5];
+                        return [3 /*break*/, 8];
                     }
-                    //去不后缀都没匹配到目标文件，则直接报错
-                    throw "\u8BFB\u53D6\u6587\u4EF6\u5931\u8D25\uFF01@" + __url;
-                case 3: return [4 /*yield*/, _fileBuild(__url, _su, _data.data.toString())];
-                case 4: 
-                //获取目标文件内容，开始打包
-                return [2 /*return*/, _d.sent()];
+                    if (!MainConfig_1.default.config.fileReadBackDoor) return [3 /*break*/, 7];
+                    return [4 /*yield*/, MainConfig_1.default.config.fileReadBackDoor(resUrl)];
                 case 5:
+                    backDoorData = _d.sent();
+                    if (!backDoorData.data) return [3 /*break*/, 7];
+                    return [4 /*yield*/, _fileBuild(backDoorData.url || __url, backDoorData.su || _su, backDoorData.data.toString())];
+                case 6:
+                    result = _d.sent();
+                    result.ifCache = false;
+                    return [2 /*return*/, result];
+                case 7: 
+                //去不后缀都没匹配到目标文件，则直接报错
+                throw "\u8BFB\u53D6\u6587\u4EF6\u5931\u8D25\uFF01@" + __url + "\uFF0C\u53EF\u4EE5\u5C1D\u8BD5\u914D\u7F6EfileReadBackDoor\u6765\u8BFB\u53D6\u81EA\u5B9A\u4E49\u7684\u6587\u4EF6";
+                case 8:
                     _c++;
                     return [3 /*break*/, 1];
-                case 6: return [2 /*return*/];
+                case 9: return [2 /*return*/];
             }
         });
     });
@@ -209,10 +228,11 @@ function _fileBuildRProxy(_r, _url, _suffix, _code, _map) {
 /**
  * 读取文件，结果会全部成功，并返回一个包含错误或者文件内容的对象
  * @param _url 文件地址
+ * @param resUrl 请求路径，浏览器请求时带的路径
  */
-function _readFile(_url) {
+function _readFile(_url, resUrl) {
     return new Promise(function (r) {
-        // console.log('读取文件', _url);
+        // console.log('读取文件', _url, resUrl);
         //读取目标文件
         fs_1.readFile(_url, function (err, rootCodeBuffer) {
             if (err) {
