@@ -102,7 +102,7 @@ export default interface IConfig {
     },
     /** 主机地址，当有任何原因没有自动获取到主机地址时将采用这个地址 */
     hostName?: string,
-    /** src目录文件默认后缀，当导入的文件不带后缀时会以这个数组依次寻找，知道找到匹配的，全部找不到的话就报错  */
+    /** src目录文件默认后缀，当导入的文件不带后缀时会以这个数组依次寻找，直到找到匹配的，全部找不到的话就抛出异常 */
     srcFileDefaultSuffixs?: string[],
     /** 入口文件名，地址相对于src目录 */
     mainTs?: string,
@@ -128,7 +128,7 @@ export default interface IConfig {
     fileWatch?: {
         /** src目录的监听配置，enable选项无效 */
         src: IFileWatch,
-        /** bin目录的监听配置 */
+        /** bin目录的监听配置，如果项目启动很卡的话，可能就是bin目录内容过多导致文件监听上的性能消耗过大，可考虑关闭这个目录的监听 */
         bin: IFileWatch,
     },
     /** loader列表 */
