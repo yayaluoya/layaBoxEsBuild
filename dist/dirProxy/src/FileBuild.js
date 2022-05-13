@@ -52,6 +52,7 @@ var fs_1 = require("fs");
 var MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 var SrcLoader_1 = require("./SrcLoader");
 var BufferT_1 = __importDefault(require("../../_T/BufferT"));
+var ObjectUtils_1 = require("../../_T/ObjectUtils");
 /** 匹配后缀的正则 */
 var matchSu = /[a-z]*$/;
 var extractSu = /^\./;
@@ -126,7 +127,7 @@ function FileBuild(_url, resUrl, _updateH) {
 }
 exports.FileBuild = FileBuild;
 /** esbuildTransfor选项 */
-var _esbuildTransformOptions = {
+var EsbuildTransformOptions = {
     //装载器
     loader: null,
     //使用资源映射
@@ -154,6 +155,7 @@ function _fileBuild(_url, _suffix, _code) {
         // console.log('构建', _url, _suffix);
         if (/^(ts|js)$/.test(_suffix)) {
             //设置tuansform选项内容
+            var _esbuildTransformOptions = ObjectUtils_1.ObjectUtils.clone_(EsbuildTransformOptions);
             _esbuildTransformOptions.loader = _suffix;
             var sourcefile = '';
             switch (MainConfig_1.default.config.breakpointType) {
@@ -166,8 +168,8 @@ function _fileBuild(_url, _suffix, _code) {
             }
             //根据全局配置来定
             _esbuildTransformOptions.sourcefile = sourcefile;
-            //使用esbuild编译
-            esbuild_1.transform(_code, _esbuildTransformOptions)
+            //使用esbuild编译，如果配置了confing的组合方式就组合一下
+            esbuild_1.transform(_code, MainConfig_1.default.config.comEsbuildConfig ? MainConfig_1.default.config.comEsbuildConfig(_esbuildTransformOptions) : _esbuildTransformOptions)
                 .then(function (_a) {
                 var code = _a.code, map = _a.map, warnings = _a.warnings;
                 //判断是否有警告

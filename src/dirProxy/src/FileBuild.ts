@@ -6,6 +6,7 @@ import { readFile } from "fs";
 import MainConfig from "../../config/MainConfig";
 import { LoaderHandle } from "./SrcLoader";
 import BufferT from "../../_T/BufferT";
+import { ObjectUtils } from "../../_T/ObjectUtils";
 
 /** 匹配后缀的正则 */
 const matchSu: RegExp = /[a-z]*$/;
@@ -65,7 +66,7 @@ export async function FileBuild(_url: string, resUrl: string, _updateH: (_url?: 
 }
 
 /** esbuildTransfor选项 */
-let _esbuildTransformOptions: TransformOptions = {
+const EsbuildTransformOptions: TransformOptions = {
     //装载器
     loader: null,
     //使用资源映射
@@ -94,6 +95,7 @@ function _fileBuild(_url: string, _suffix: string, _code: string): Promise<IFile
         // console.log('构建', _url, _suffix);
         if (/^(ts|js)$/.test(_suffix)) {
             //设置tuansform选项内容
+            let _esbuildTransformOptions = ObjectUtils.clone_(EsbuildTransformOptions);
             _esbuildTransformOptions.loader = _suffix as any;
             let sourcefile = '';
             switch (MainConfig.config.breakpointType) {
@@ -106,8 +108,8 @@ function _fileBuild(_url: string, _suffix: string, _code: string): Promise<IFile
             }
             //根据全局配置来定
             _esbuildTransformOptions.sourcefile = sourcefile;
-            //使用esbuild编译
-            transform(_code, _esbuildTransformOptions)
+            //使用esbuild编译，如果配置了confing的组合方式就组合一下
+            transform(_code, MainConfig.config.comEsbuildConfig ? MainConfig.config.comEsbuildConfig(_esbuildTransformOptions) : _esbuildTransformOptions)
                 .then(({ code, map, warnings }: TransformResult) => {
                     //判断是否有警告
                     if (warnings.length > 0) {

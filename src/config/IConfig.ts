@@ -1,3 +1,4 @@
+import { TransformOptions } from "esbuild";
 import { ILoaderConfig } from "../dirProxy/src/SrcLoader";
 
 /**
@@ -51,6 +52,8 @@ export default interface IConfig {
     },
     /** loader列表 */
     loader?: ILoaderConfig[],
+    /** 组合esbuild的配置文件 */
+    comEsbuildConfig?: (config: TransformOptions) => TransformOptions,
     /** 
      * 文件读取后门
      * 系统读取不到目标文件时将会调用该方法
