@@ -13,7 +13,7 @@ import GiteeTool from "./giteeTool";
 /** 默认配置文件地址 */
 const defaultConfigFilePath = path.join(__dirname, '../../config.js');
 /** 配置文件名字 */
-const configName = `ayabox_esbuild_config@${PackageConfig.package.version.replace(/\./g, '-')}.js`;
+const configName = `leb_config@${PackageConfig.package.version.replace(/\./g, '-')}.js`;
 //
 const program = new Command();
 

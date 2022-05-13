@@ -27,7 +27,7 @@ var giteeTool_1 = __importDefault(require("./giteeTool"));
 /** 默认配置文件地址 */
 var defaultConfigFilePath = path_1.default.join(__dirname, '../../config.js');
 /** 配置文件名字 */
-var configName = "ayabox_esbuild_config@" + PackageConfig_1.default.package.version.replace(/\./g, '-') + ".js";
+var configName = "leb_config@" + PackageConfig_1.default.package.version.replace(/\./g, '-') + ".js";
 //
 var program = new commander_1.Command();
 //定义版本输出
