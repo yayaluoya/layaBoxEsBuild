@@ -195,7 +195,13 @@ export interface ILoaderHandleFunction {
 
 - 最好的方案是把webpack的增量编译一起打开，因为esbuild只是构建不编译，所以在补个webpack的增量编译就完美了，如果电脑卡的话就算了，最后上传代码时别忘了用laya或者webpack编译一下就行，不然bin/js/bundle.js是不会被更改的。
 
-- 本工具由于加入了多方面的缓存所以访问会很快，但这也是容易产生bug的地方，所以当出现代码没及时更新的情况，请重启工具和浏览器【目前在测试中还没有发现这方面的问题】。
+## 如果改了bin/index.html 或者bin/index.js 这两个文件的同学要注意的
+- 本工具工作流程如下
+  - 先通过配置文件中的homePage找到项目入口文件，然后静态注入一些本工具在浏览器运行需要的脚本和样式，再修改loadLib方法，为添加的脚本添加一个type类型的参数。
+  - 上面加载的入口文件会加载homeJs配置的js文件
+  - 然后把homeJs配置的js文件中的mainJs文件替换成mainTs
+  - 这样把原本的打包文件js/bundle.js替换成了mainTs了。
+  - 大功告成
 
 #### 最后奉上项目测试页面截图
 
