@@ -3,13 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var chokidar_1 = __importDefault(require("chokidar"));
+const chokidar_1 = __importDefault(require("chokidar"));
 /**
  * 文件监听
  */
-var FileWatch = /** @class */ (function () {
-    function FileWatch() {
-    }
+class FileWatch {
     /**
      * 开始监听
      * @param _path 监听路径
@@ -17,8 +15,7 @@ var FileWatch = /** @class */ (function () {
      * @param _model 监听模式，原生watch监听和chokidar监听 默认[chokidar]
      * @param _option 选项
      */
-    FileWatch.startWatch = function (_path, _back, _model, _option) {
-        if (_model === void 0) { _model = 'chokidar'; }
+    static startWatch(_path, _back, _model = 'chokidar', _option) {
         // console.log(_path, _option);
         if (!_option.enable) {
             return;
@@ -31,13 +28,12 @@ var FileWatch = /** @class */ (function () {
                     usePolling: _option.usePolling,
                     /** 轮询时间，usePolling为true时有效 */
                     interval: _option.interval,
-                }).on('all', function (evt, _url) {
+                }).on('all', (evt, _url) => {
                     _back(evt, _url);
                 });
                 break;
         }
-    };
-    return FileWatch;
-}());
+    }
+}
 exports.default = FileWatch;
 //# sourceMappingURL=FileWatch.js.map

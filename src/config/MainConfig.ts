@@ -1,5 +1,5 @@
 import IConfig from "./IConfig";
-import { resolve, isAbsolute } from "path";
+import { getAbsolute } from "../_T/getAbsolute";
 
 /**
  * 主配置文件
@@ -17,12 +17,56 @@ export default class MainConfig {
     public static set config(_c: IConfig) {
         //只能设置一次
         if (this.m_config) { return; }
-        //执行目录
-        let _cwdUrl = process.cwd();
-        //把_config中的几个关键路径转成绝对路径
-        (!isAbsolute(_c.src)) && (_c.src = resolve(_cwdUrl, _c.src));
-        (!isAbsolute(_c.bin)) && (_c.bin = resolve(_cwdUrl, _c.bin));
-        //
+        this.handleConfig(_c);
         this.m_config = _c;
     }
+
+    /**
+     * 处理配置文件
+     * @param c 
+     */
+    public static handleConfig(c: IConfig): IConfig {
+        //相对路径转绝对路径
+        c.src = getAbsolute(c.src);
+        c.bin = getAbsolute(c.bin);
+        //文件查找后缀列表加上空后缀并去重
+        c.srcFileDefaultSuffixs.push('');
+        c.srcFileDefaultSuffixs = [...new Set(c.srcFileDefaultSuffixs)];
+        //
+        return c;
+    }
+
+    /**
+     * 合并配置文件
+     * @param c 
+     * @param cs 
+     * @returns 
+     */
+    public static merge(c: IConfig, ...cs: IConfig[]): IConfig {
+        return mergeConfig(c, ...cs);
+    }
+}
+
+/**
+ * 合并配置文件
+ * @param a 
+ * @param bs 
+ * @returns 
+ */
+function mergeConfig<T>(a: any, ...bs: any): T {
+    for (let b of bs) {
+        for (let i in b) {
+            if (Array.isArray(a[i])) {
+                a[i].push(...(b[i] || []));
+                continue;
+            }
+            if (a[i] && typeof a[i] == 'object') {
+                mergeConfig(a[i], b[i] || {});
+                continue;
+            }
+            //
+            a[i] = b[i];
+        }
+    }
+    return a;
 }

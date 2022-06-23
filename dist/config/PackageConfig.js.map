@@ -1,1 +1,1 @@
-{"version":3,"file":"PackageConfig.js","sourceRoot":"","sources":["../../src/config/PackageConfig.ts"],"names":[],"mappings":";;AAAA,IAAM,QAAQ,GAAG,OAAO,CAAC,oBAAoB,CAAC,CAAC;AAC/C,IAAM,OAAO,GAAG,OAAO,CAAC,0BAA0B,CAAC,CAAC;AACpD;;GAEG;AACH,kBAAe;IACX,OAAO,EAAE,QAAQ;IACjB,UAAU,EAAE,OAAO;CAMtB,CAAC"}
+{"version":3,"file":"PackageConfig.js","sourceRoot":"","sources":["../../src/config/PackageConfig.ts"],"names":[],"mappings":";;AAAA,MAAM,QAAQ,GAAG,OAAO,CAAC,oBAAoB,CAAC,CAAC;AAC/C;;GAEG;AACH,kBAAe;IACX,OAAO,EAAE,QAAQ;CAIpB,CAAC"}

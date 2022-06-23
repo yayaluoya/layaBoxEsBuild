@@ -6,7 +6,7 @@ import { readFile } from "fs";
 import MainConfig from "../../config/MainConfig";
 import { LoaderHandle } from "./SrcLoader";
 import BufferT from "../../_T/BufferT";
-import { ObjectUtils } from "../../_T/ObjectUtils";
+import { ObjectUtils } from "yayaluoya-tool/dist/ObjectUtils";
 
 /** 匹配后缀的正则 */
 const matchSu: RegExp = /[a-z]*$/;

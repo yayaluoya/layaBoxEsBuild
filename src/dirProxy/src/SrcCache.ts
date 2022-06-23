@@ -63,7 +63,7 @@ export default class SrcCache {
      */
     private static byUrlGetModule(_url: string): SrcModule {
         //把路径转成标准路径
-        _url = _url.replace(/\\/g, '/');
+        _url = _url.replace(/\\+/g, '/');
         //查找
         return this.m_moduleCache.find((item) => {
             /** 不区分大小写匹配 */

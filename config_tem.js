@@ -32,10 +32,10 @@ module.exports = {
     bin: './bin/',
     /** 文件路径修改，会把 a 匹配的替换成 b */
     filePathModify: [
-        {
-            a: /^src\//,
-            b: '/'
-        }
+        // {
+        //     a: /^src\//,
+        //     b: '/'
+        // }
     ],
     /** 代理端口，可以随便指定，为0则自动分配，只要不冲突就行 */
     port: {
@@ -45,7 +45,7 @@ module.exports = {
     /** 主机地址，当有任何原因没有自动获取到主机地址时将采用这个地址 */
     hostName: '',
     /** src目录文件默认后缀，当导入的文件不带后缀时会以这个数组依次寻找，知道找到匹配的，全部找不到的话就报错 */
-    srcFileDefaultSuffixs: ['ts', 'd.ts', 'js'],
+    srcFileDefaultSuffixs: [],
     /** 入口文件名，地址相对于src目录 */
     mainTs: 'Main.ts',
     /** 主页， 相对于bin目录 */
@@ -77,19 +77,23 @@ module.exports = {
     loader: [
         {
             /** loader名字 */
-            name: 'src-path',
-            /** 处理ts,d.ts,js后缀文件的导入路径，对应上面配置的文件修改规则 */
-            include: /\.((d\.)?ts|js)$/,
-            /** loader */
-            loader: ['path'],
-        },
-        {
-            /** loader名字 */
-            name: 'src-txt',
-            /** 处理文本内容，.txt后缀的文件 */
-            include: /\.te?xt$/,
-            /** loader */
-            loader: ['txt'],
+            name: 'test',
+            /** 这里匹配需要包含的文件 */
+            include: /^$/,
+            /** loader，如果是字符串的话就用内置的loader，如果是函数的话就直接调用函数 */
+            loader: [
+                /**
+                 * loader处理函数示例
+                 * @param {*} _content 文件类容
+                 * @param {*} _absolutePath 文件绝对路径
+                 * @param {*} _suffix 文件后缀
+                 * @returns 一个解决结果是字符串的promise
+                 */
+                function (_content, _absolutePath, _suffix) {
+                    // console.log(_absolutePath);
+                    return Promise.resolve(_content);
+                }
+            ],
         },
     ],
 };

@@ -3,26 +3,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var MainConfig_1 = __importDefault(require("../config/MainConfig"));
-var BufferT_1 = __importDefault(require("../_T/BufferT"));
-var crypto_1 = __importDefault(require("crypto"));
-var path_1 = require("path");
-var Tool_1 = __importDefault(require("../_T/Tool"));
+const MainConfig_1 = __importDefault(require("../config/MainConfig"));
+const BufferT_1 = __importDefault(require("../_T/BufferT"));
+const crypto_1 = __importDefault(require("crypto"));
+const path_1 = require("path");
+const Tool_1 = __importDefault(require("../_T/Tool"));
 /**
  * 文件模块
  * * 会把目标模块内容读取到内存中，方便下次访问，并在该文件被修改时自动更新
  */
-var FileModule = /** @class */ (function () {
+class FileModule {
     /**
      * 初始化
      * @param _url 模块路径
      */
-    function FileModule(_url) {
-        var _this = this;
+    constructor(_url) {
         /** 是否缓存 */
         this.m_ifCache = true;
         /** 任务 */
-        this.m_task = new Promise(function (r) { r(_this); });
+        this.m_task = new Promise((r) => { r(this); });
         /** 更新次数 */
         this.m_updateNumber = 0;
         //设置一个默认值
@@ -33,9 +32,9 @@ var FileModule = /** @class */ (function () {
         this.m_url = _url;
         //绝对路径
         this.m_absolutePath = path_1.join(MainConfig_1.default.config.src, this.m_url);
-        this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
+        this.m_normPath = this.m_absolutePath.replace(/\\+/g, '/');
         //通过url生成唯一标识符
-        this.m_key = crypto_1.default.createHash('md5').update(this.m_absolutePath + "_" + Tool_1.default.getRandomStr()).digest('hex');
+        this.m_key = crypto_1.default.createHash('md5').update(`${this.m_absolutePath}_${Tool_1.default.getRandomStr()}`).digest('hex');
         //更新修改版本
         this.updateModifyV();
         //
@@ -43,106 +42,73 @@ var FileModule = /** @class */ (function () {
         //
         this._init();
     }
-    Object.defineProperty(FileModule.prototype, "key", {
-        /** 获取唯一标识符 */
-        get: function () {
-            return this.m_key;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(FileModule.prototype, "updateNumber", {
-        /** 获取更新次数 */
-        get: function () {
-            return this.m_updateNumber;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(FileModule.prototype, "url", {
-        /** 获取模块路径 */
-        get: function () {
-            return this.m_url;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(FileModule.prototype, "absolutePath", {
-        /** 获取绝对路径 */
-        get: function () {
-            return this.m_absolutePath;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(FileModule.prototype, "normPath", {
-        /** 获取标准路径 */
-        get: function () {
-            return this.m_normPath;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(FileModule.prototype, "task", {
-        /** 获取 任务 */
-        get: function () {
-            //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务，如果不缓存的话直接更新任务
-            if (!this.m_ifCache || (this.m_onTaskModifyV != this.m_modifyV)) {
-                this.updateTask();
-            }
-            //
-            return this.m_task;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(FileModule.prototype, "content", {
-        /** 获取 内容 */
-        get: function () {
-            return this.m_content;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /** 获取唯一标识符 */
+    get key() {
+        return this.m_key;
+    }
+    /** 获取更新次数 */
+    get updateNumber() {
+        return this.m_updateNumber;
+    }
+    /** 获取模块路径 */
+    get url() {
+        return this.m_url;
+    }
+    /** 获取绝对路径 */
+    get absolutePath() {
+        return this.m_absolutePath;
+    }
+    /** 获取标准路径 */
+    get normPath() {
+        return this.m_normPath;
+    }
+    /** 获取 任务 */
+    get task() {
+        //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务，如果不缓存的话直接更新任务
+        if (!this.m_ifCache || (this.m_onTaskModifyV != this.m_modifyV)) {
+            this.updateTask();
+        }
+        //
+        return this.m_task;
+    }
+    /** 获取 内容 */
+    get content() {
+        return this.m_content;
+    }
     /** 初始化 */
-    FileModule.prototype._init = function () { };
+    _init() { }
     /** 更新修改版本 */
-    FileModule.prototype.updateModifyV = function () {
-        this.m_modifyV = Date.now() + "_" + this.m_updateNumber + "_" + Tool_1.default.getRandomStr();
-    };
-    Object.defineProperty(FileModule.prototype, "updateH", {
-        /**
-         * update方法
-         */
-        get: function () {
-            var _this = this;
-            if (!this._updateH) {
-                this._updateH = function () {
-                    _this.update();
-                };
-            }
-            return this._updateH;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    updateModifyV() {
+        this.m_modifyV = `${Date.now()}_${this.m_updateNumber}_${Tool_1.default.getRandomStr()}`;
+    }
+    /**
+     * update方法
+     */
+    get updateH() {
+        if (!this._updateH) {
+            this._updateH = () => {
+                this.update();
+            };
+        }
+        return this._updateH;
+    }
     /**
      * 更新内容
      */
-    FileModule.prototype.update = function () {
+    update() {
         //更新次数刷新
         this.m_updateNumber++;
         //更新修改版本
         this.updateModifyV();
         //
         this._update();
-    };
+    }
     /** 更新回调 */
-    FileModule.prototype._update = function () { };
+    _update() { }
     /**
      * 自动更新任务
      */
-    FileModule.prototype.autoUpdateTask = function () {
+    autoUpdateTask() {
         //如果不缓存的话就不自动更新
         if (!this.m_ifCache) {
             return false;
@@ -155,37 +121,36 @@ var FileModule = /** @class */ (function () {
         this._autoUpdateTask();
         //
         return true;
-    };
+    }
     /** 自动更新任务回调 */
-    FileModule.prototype._autoUpdateTask = function () { };
+    _autoUpdateTask() { }
     /**
      * 更新任务
      * ! 只会被动执行
      */
-    FileModule.prototype.updateTask = function () {
-        var _this = this;
+    updateTask() {
         //重置修改版本
         this.m_onTaskModifyV = this.m_modifyV;
         //先判断地址是否存在
         if (this.m_url) {
             //
-            var _task_1 = this.m_task;
+            let _task = this.m_task;
             //重置任务
-            this.m_task = new Promise(function (r) {
+            this.m_task = new Promise((r) => {
                 //等上一个任务执行完之后在执行
-                _task_1.then(function () {
+                _task.then(() => {
                     //获取内容
-                    _this._updateContent().then(function (_content) {
+                    this._updateContent().then((_content) => {
                         // console.log(_content);
-                        _this.m_content = _this._rightContent(_content);
+                        this.m_content = this._rightContent(_content);
                         //设置是否缓存
-                        _this.m_ifCache = _content.ifCache;
+                        this.m_ifCache = _content.ifCache;
                         // console.log(this);
-                    }).catch(function (E) {
+                    }).catch((E) => {
                         //把错误内容以代码的形式添加进去
-                        _this.m_content.code = Buffer.from(_this._mismanage(E));
-                    }).finally(function () {
-                        r(_this);
+                        this.m_content.code = Buffer.from(this._mismanage(E));
+                    }).finally(() => {
+                        r(this);
                     });
                 });
             });
@@ -194,23 +159,22 @@ var FileModule = /** @class */ (function () {
         else {
             this.m_task = Promise.resolve(this);
         }
-    };
+    }
     /** 更新内容 */
-    FileModule.prototype._updateContent = function () {
+    _updateContent() {
         return Promise.resolve({
             code: BufferT_1.default.nullBuffer,
             map: BufferT_1.default.nullBuffer,
         });
-    };
+    }
     /** 处理正常的内容 */
-    FileModule.prototype._rightContent = function (_content) {
+    _rightContent(_content) {
         return _content;
-    };
+    }
     /** 处理错误回调 */
-    FileModule.prototype._mismanage = function (_e) {
+    _mismanage(_e) {
         return _e;
-    };
-    return FileModule;
-}());
+    }
+}
 exports.default = FileModule;
 //# sourceMappingURL=FileModule.js.map

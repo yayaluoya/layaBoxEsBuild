@@ -83,7 +83,7 @@ export default class FileModule {
         this.m_url = _url;
         //绝对路径
         this.m_absolutePath = join(MainConfig.config.src, this.m_url);
-        this.m_normPath = this.m_absolutePath.replace(/\\/g, '/');
+        this.m_normPath = this.m_absolutePath.replace(/\\+/g, '/');
         //通过url生成唯一标识符
         this.m_key = crypto.createHash('md5').update(`${this.m_absolutePath}_${Tool.getRandomStr()}`).digest('hex');
         //更新修改版本

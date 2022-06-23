@@ -1,35 +1,69 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var path_1 = require("path");
+const getAbsolute_1 = require("../_T/getAbsolute");
 /**
  * 主配置文件
  */
-var MainConfig = /** @class */ (function () {
-    function MainConfig() {
+class MainConfig {
+    /** 获取配置文件 */
+    static get config() {
+        return this.m_config;
     }
-    Object.defineProperty(MainConfig, "config", {
-        /** 获取配置文件 */
-        get: function () {
-            return this.m_config;
-        },
-        /** 设置配置文件 */
-        set: function (_c) {
-            //只能设置一次
-            if (this.m_config) {
-                return;
-            }
-            //执行目录
-            var _cwdUrl = process.cwd();
-            //把_config中的几个关键路径转成绝对路径
-            (!path_1.isAbsolute(_c.src)) && (_c.src = path_1.resolve(_cwdUrl, _c.src));
-            (!path_1.isAbsolute(_c.bin)) && (_c.bin = path_1.resolve(_cwdUrl, _c.bin));
-            //
-            this.m_config = _c;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return MainConfig;
-}());
+    /** 设置配置文件 */
+    static set config(_c) {
+        //只能设置一次
+        if (this.m_config) {
+            return;
+        }
+        this.handleConfig(_c);
+        this.m_config = _c;
+    }
+    /**
+     * 处理配置文件
+     * @param c
+     */
+    static handleConfig(c) {
+        //相对路径转绝对路径
+        c.src = getAbsolute_1.getAbsolute(c.src);
+        c.bin = getAbsolute_1.getAbsolute(c.bin);
+        //文件查找后缀列表加上空后缀并去重
+        c.srcFileDefaultSuffixs.push('');
+        c.srcFileDefaultSuffixs = [...new Set(c.srcFileDefaultSuffixs)];
+        //
+        return c;
+    }
+    /**
+     * 合并配置文件
+     * @param c
+     * @param cs
+     * @returns
+     */
+    static merge(c, ...cs) {
+        return mergeConfig(c, ...cs);
+    }
+}
 exports.default = MainConfig;
+/**
+ * 合并配置文件
+ * @param a
+ * @param bs
+ * @returns
+ */
+function mergeConfig(a, ...bs) {
+    for (let b of bs) {
+        for (let i in b) {
+            if (Array.isArray(a[i])) {
+                a[i].push(...(b[i] || []));
+                continue;
+            }
+            if (a[i] && typeof a[i] == 'object') {
+                mergeConfig(a[i], b[i] || {});
+                continue;
+            }
+            //
+            a[i] = b[i];
+        }
+    }
+    return a;
+}
 //# sourceMappingURL=MainConfig.js.map

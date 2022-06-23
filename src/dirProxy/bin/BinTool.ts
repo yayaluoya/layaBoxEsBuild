@@ -52,8 +52,6 @@ export default class BinTool {
                                 authorName: PackageConfig.package.authorName,
                                 description: PackageConfig.package.description,
                                 repository: PackageConfig.package.repository,
-                                remotePackgeJsonFileUrl: PackageConfig.package.remotePackgeJsonFileUrl,
-                                remotePackgeVersionJsonFileUrl: PackageConfig.package.remotePackgeVersionJsonFileUrl,
                             }).replace(/"/g, '\\"'),
                         });
                         break;

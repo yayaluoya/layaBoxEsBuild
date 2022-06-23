@@ -27,9 +27,9 @@ class FileWatch {
  */
 module.exports = {
     /** 代理src目录，可以是绝对路径或者相对路径 */
-    src: './src/',
+    src: './src/fasdfa',
     /** 代理bin目录，可以是绝对路径或者相对路径 */
-    bin: './bin/',
+    bin: './bin/fasdfasdfa',
     /** 文件路径修改，会把 a 匹配的替换成 b */
     filePathModify: [
         {
@@ -45,7 +45,7 @@ module.exports = {
     /** 主机地址，当有任何原因没有自动获取到主机地址时将采用这个地址 */
     hostName: '',
     /** src目录文件默认后缀，当导入的文件不带后缀时会以这个数组依次寻找，知道找到匹配的，全部找不到的话就报错 */
-    srcFileDefaultSuffixs: ['ts', 'd.ts', 'js'],
+    srcFileDefaultSuffixs: ['fasd', 'fasdfa', 'fasdfa'],
     /** 入口文件名，地址相对于src目录 */
     mainTs: 'Main.ts',
     /** 主页， 相对于bin目录 */
@@ -77,19 +77,33 @@ module.exports = {
     loader: [
         {
             /** loader名字 */
-            name: 'src-path',
-            /** 处理ts,d.ts,js后缀文件的导入路径，对应上面配置的文件修改规则 */
-            include: /\.((d\.)?ts|js)$/,
-            /** loader */
-            loader: ['path'],
-        },
-        {
-            /** loader名字 */
-            name: 'src-txt',
-            /** 处理文本内容，.txt后缀的文件 */
-            include: /\.te?xt$/,
-            /** loader */
-            loader: ['txt'],
+            name: 'test',
+            /** 这里匹配需要包含的文件 */
+            include: /^$/,
+            /** loader，如果是字符串的话就用内置的loader，如果是函数的话就直接调用函数 */
+            loader: [
+                /**
+                 * loader处理函数示例
+                 * @param {*} _content 文件类容
+                 * @param {*} _absolutePath 文件绝对路径
+                 * @param {*} _suffix 文件后缀
+                 * @returns 一个解决结果是字符串的promise
+                 */
+                function (_content, _absolutePath, _suffix) {
+                    // console.log(_absolutePath);
+                    return Promise.resolve(_content);
+                }
+            ],
         },
     ],
+    async fileReadBackDoor(_path, _update) {
+        let _url = join(__dirname, _path) + '.ts';
+        let _data = readFileSync(_url);
+        return {
+            // url: _url,
+            //su: 'ts',
+            err: '哈哈哈',
+            data: _data,
+        };
+    },
 };
