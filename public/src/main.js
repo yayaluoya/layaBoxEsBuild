@@ -63,6 +63,13 @@ const consoleEx = (function () {
             `欢迎使用layabox-esbuild构建工具，该工具只是个外壳不会修改项目任何内容🌝。\n当前版本 @${esbuildTool.config.packageJson.version} 最新版本请查看 https://github.com/yayaluoya/layaBoxEsBuild.git`
         )
     );
+    //打印关于https请求错误的提示
+    console.log(
+        ...esbuildTool.consoleEx.textPack(
+            esbuildTool.consoleEx.getStyle('#FFFF', '#ff746d'),
+            '如果有错误的请求请复制该请求的地址然后在新的窗口打开，并点击高级中的继续或者同意这个域的证书',
+        ),
+    );
     //打印浏览器提示
     if (!/google/i.test(navigator.vendor)) {
         console.log(

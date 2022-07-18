@@ -37,4 +37,9 @@ export default class ResURL {
         }
         return this.m_publicDirName;
     }
+
+    /** pem路径 */
+    public static get pem(): string {
+        return join(this.rootURL, '/pem');
+    }
 }

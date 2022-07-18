@@ -61,7 +61,7 @@ module.exports = {
     /** 自动更新任务时间，分 */
     autoUpdateTaskTime: 3,
     /** 是否打印日志 */
-    ifLog: false,
+    ifLog: true,
     /** 断点类型 */
     breakpointType: 'browser',
     /** 是否启用webSocket工具 */

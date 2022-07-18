@@ -3,6 +3,10 @@ import internalIp from "internal-ip";
 import MainConfig from "../config/MainConfig";
 import PortTool from "./PortTool";
 import chalk from "chalk";
+import spdy from "spdy";
+import { readFileSync } from "fs";
+import { join } from "path";
+import ResURL from "../_T/ResURL";
 
 /**
  * http工具
@@ -24,7 +28,10 @@ export default class HttpTool {
         //
         return _portP.then((port) => {
             //开启一个本地服务
-            let server = http.createServer(_f).listen(port);
+            let server = spdy.createServer({
+                key: readFileSync(join(ResURL.pem, '/privkey.pem')),
+                cert: readFileSync(join(ResURL.pem, '/cacert.pem')),
+            }, _f).listen(port);
             //
             return server;
         });
@@ -44,9 +51,9 @@ export default class HttpTool {
                     console.log(chalk.red(`自动获取主机地址失败！请在配置文件中配置正确的主机地址。当前得到的配置为->${this.m_hostName}`));
                 }
             }
+            MainConfig.config.ifLog && console.log(`当前获取的主机地址为:${this.m_hostName}`);
         }
         //
-        MainConfig.config.ifLog && console.log(`当前获取的主机地址为:${this.m_hostName}`);
         //
         return this.m_hostName;
     }

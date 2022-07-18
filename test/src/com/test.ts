@@ -1,1 +1,1 @@
-console.log('test', 32);
+console.log('test', 12);

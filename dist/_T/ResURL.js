@@ -32,6 +32,10 @@ class ResURL {
         }
         return this.m_publicDirName;
     }
+    /** pem路径 */
+    static get pem() {
+        return path_1.join(this.rootURL, '/pem');
+    }
 }
 exports.default = ResURL;
 //# sourceMappingURL=ResURL.js.map

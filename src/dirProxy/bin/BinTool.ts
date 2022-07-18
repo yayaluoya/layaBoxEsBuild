@@ -43,8 +43,8 @@ export default class BinTool {
                         //进过序列化后的字符串必须对"进行转义处理
                         _content = TemplateT.ReplaceVariable(_content, {
                             version: VersionsT.getV(),
-                            mainURL: `http://${HttpTool.getHostname}:${MainConfig.config.port.src}`,
-                            webSocketUrl: `ws://${HttpTool.getHostname}:${MyConfig.webSocketPort}`,
+                            mainURL: `https://${HttpTool.getHostname}:${MainConfig.config.port.src}`,
+                            webSocketUrl: `wss://${HttpTool.getHostname}:${MyConfig.webSocketPort}`,
                             ifUpdateNow: Boolean(MainConfig.config.ifUpdateNow).toString(),
                             packageJson: JSON.stringify({
                                 name: PackageConfig.package.name,
@@ -133,7 +133,7 @@ ${_html}
                 //替换主脚本地址
                 _js = `
 //! 此文件被包装过，和源文件内容有差异。
-${_js.replace(new RegExp(`\\(["']/?${MainConfig.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://${HttpTool.getHostname}:${MainConfig.config.port.src}/${MainConfig.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
+${_js.replace(new RegExp(`\\(["']/?${MainConfig.config.mainJs.replace(/^\//, '')}["']\\)`), `("https://${HttpTool.getHostname}:${MainConfig.config.port.src}/${MainConfig.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
                 `;
                 //
                 r(_js);

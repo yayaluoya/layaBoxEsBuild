@@ -85,7 +85,7 @@ export function server(): Promise<void> {
     //
     return PortTool.getPool('打包node_modules的服务').then((port) => {
         //开启一个局域网服务
-        http.createServer((rep, res) => {
+        HttpTool.createServer((rep, res) => {
             //获取包名
             let _name: string = decodeURI(rep.url).replace(/\?.*$/, '').replace(/^[\/\\]/, '');
             //获取模块路径
@@ -180,9 +180,9 @@ export default global['${_name}'];
                     //
                     break;
             }
-        }).listen(port, HttpTool.getHostname);
+        }, port);
         //设置nm主机地址
-        _nmHost = `http://${HttpTool.getHostname}:${port}`;
+        _nmHost = `https://${HttpTool.getHostname}:${port}`;
     });
 }
 

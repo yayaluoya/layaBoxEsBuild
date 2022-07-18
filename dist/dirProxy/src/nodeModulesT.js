@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.nmHost = exports.getNMIndexURL = exports.server = exports.getNMIndexPath = exports.getNMUrl = void 0;
 const path_1 = __importDefault(require("path"));
 const chalk_1 = __importDefault(require("chalk"));
-const http_1 = __importDefault(require("http"));
 const mime_1 = __importDefault(require("mime"));
 const MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 const HttpTool_1 = __importDefault(require("../../http/HttpTool"));
@@ -82,7 +81,7 @@ function server() {
     //
     return PortTool_1.default.getPool('打包node_modules的服务').then((port) => {
         //开启一个局域网服务
-        http_1.default.createServer((rep, res) => {
+        HttpTool_1.default.createServer((rep, res) => {
             //获取包名
             let _name = decodeURI(rep.url).replace(/\?.*$/, '').replace(/^[\/\\]/, '');
             //获取模块路径
@@ -165,9 +164,9 @@ export default global['${_name}'];
                     //
                     break;
             }
-        }).listen(port, HttpTool_1.default.getHostname);
+        }, port);
         //设置nm主机地址
-        _nmHost = `http://${HttpTool_1.default.getHostname}:${port}`;
+        _nmHost = `https://${HttpTool_1.default.getHostname}:${port}`;
     });
 }
 exports.server = server;

@@ -81,13 +81,13 @@ class BinProxy {
      * 获取本地主页
      */
     static getLocalHomePage() {
-        return `http://localhost:${MainConfig_1.default.config.port.bin}`;
+        return `https://localhost:${MainConfig_1.default.config.port.bin}`;
     }
     /**
      * 获取主页地址
      */
     static getHomePage() {
-        return `http://${HttpTool_1.default.getHostname}:${MainConfig_1.default.config.port.bin}`;
+        return `https://${HttpTool_1.default.getHostname}:${MainConfig_1.default.config.port.bin}`;
     }
 }
 exports.default = BinProxy;

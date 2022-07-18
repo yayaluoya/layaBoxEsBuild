@@ -28,14 +28,15 @@ export default class WebSocket {
     public static start(): Promise<void> {
         //自动分配端口
         return PortTool.getPool('webSocket')
-            .then((port) => {
+            .then(async (port) => {
                 MyConfig.webSocketPort = port;
                 // 实例化:
                 let _wss = new webSocket.Server({
-                    //主机
-                    host: HttpTool.getHostname,
-                    //端口
-                    port: MyConfig.webSocketPort,
+                    server: await HttpTool.createServer(() => { }, MyConfig.webSocketPort),
+                    // //主机
+                    // host: HttpTool.getHostname,
+                    // //端口
+                    // port: MyConfig.webSocketPort,
                 });
                 //监听连接
                 _wss.on('connection', (ws) => {
@@ -46,7 +47,7 @@ export default class WebSocket {
                     });
                     //监听消息
                     ws.on('message', (event) => {
-                        let { type, mes } = JSON.parse(event);
+                        let { type, mes } = JSON.parse(event.toString());
                         this.m_mesBackList.forEach((f) => {
                             f.back.call(f.this, type, mes);
                         });
