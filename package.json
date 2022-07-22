@@ -1,6 +1,6 @@
 {
   "name": "layabox-esbuild",
-  "version": "1.3.0-beta",
+  "version": "1.3.3-beta",
   "authorName": "yayaluoya",
   "description": "用esbuild来构建layabox项目，修改代码后立即就能看到更改，而不用傻傻等编译。",
   "main": "./index.js",
@@ -37,7 +37,7 @@
     "rollup-plugin-node-polyfills": "^0.2.1",
     "spdy": "^4.0.2",
     "ws": "^7.4.4",
-    "yayaluoya-tool": "^1.5.0"
+    "yayaluoya-tool": "^1.6.1"
   },
   "testEnvironment": "node",
   "devDependencies": {
