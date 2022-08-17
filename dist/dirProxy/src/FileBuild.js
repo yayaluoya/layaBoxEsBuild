@@ -20,7 +20,7 @@ const fs_1 = require("fs");
 const MainConfig_1 = __importDefault(require("../../config/MainConfig"));
 const SrcLoader_1 = require("./SrcLoader");
 const BufferT_1 = __importDefault(require("../../_T/BufferT"));
-const ObjectUtils_1 = require("yayaluoya-tool/dist/ObjectUtils");
+const ObjectUtils_1 = require("yayaluoya-tool/dist/obj/ObjectUtils");
 /** 匹配后缀的正则 */
 const matchSu = /[a-z]*$/;
 const extractSu = /^\./;

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const getAbsolute_1 = require("../_T/getAbsolute");
+const ObjectUtils_1 = require("yayaluoya-tool/dist/obj/ObjectUtils");
 /**
  * 主配置文件
  */
@@ -39,31 +40,8 @@ class MainConfig {
      * @returns
      */
     static merge(c, ...cs) {
-        return mergeConfig(c, ...cs);
+        return ObjectUtils_1.ObjectUtils.merge(c, ...cs);
     }
 }
 exports.default = MainConfig;
-/**
- * 合并配置文件
- * @param a
- * @param bs
- * @returns
- */
-function mergeConfig(a, ...bs) {
-    for (let b of bs) {
-        for (let i in b) {
-            if (Array.isArray(a[i])) {
-                a[i].push(...(b[i] || []));
-                continue;
-            }
-            if (a[i] && typeof a[i] == 'object') {
-                mergeConfig(a[i], b[i] || {});
-                continue;
-            }
-            //
-            a[i] = b[i];
-        }
-    }
-    return a;
-}
 //# sourceMappingURL=MainConfig.js.map

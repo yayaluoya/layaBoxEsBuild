@@ -1,5 +1,6 @@
 import IConfig from "./IConfig";
 import { getAbsolute } from "../_T/getAbsolute";
+import { ObjectUtils } from "yayaluoya-tool/dist/obj/ObjectUtils";
 
 /**
  * 主配置文件
@@ -43,30 +44,6 @@ export default class MainConfig {
      * @returns 
      */
     public static merge(c: IConfig, ...cs: IConfig[]): IConfig {
-        return mergeConfig(c, ...cs);
+        return ObjectUtils.merge(c, ...cs);
     }
-}
-
-/**
- * 合并配置文件
- * @param a 
- * @param bs 
- * @returns 
- */
-function mergeConfig<T>(a: any, ...bs: any): T {
-    for (let b of bs) {
-        for (let i in b) {
-            if (Array.isArray(a[i])) {
-                a[i].push(...(b[i] || []));
-                continue;
-            }
-            if (a[i] && typeof a[i] == 'object') {
-                mergeConfig(a[i], b[i] || {});
-                continue;
-            }
-            //
-            a[i] = b[i];
-        }
-    }
-    return a;
 }
