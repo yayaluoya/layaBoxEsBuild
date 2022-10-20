@@ -95,7 +95,7 @@ function _fileBuild(_url: string, _suffix: string, _code: string): Promise<IFile
         // console.log('构建', _url, _suffix);
         if (/^(ts|js)$/.test(_suffix)) {
             //设置tuansform选项内容
-            let _esbuildTransformOptions = ObjectUtils.clone_(EsbuildTransformOptions);
+            let _esbuildTransformOptions = ObjectUtils.clone2(EsbuildTransformOptions);
             _esbuildTransformOptions.loader = _suffix as any;
             let sourcefile = '';
             switch (MainConfig.config.breakpointType) {

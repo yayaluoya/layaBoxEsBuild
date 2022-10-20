@@ -109,7 +109,7 @@ function _fileBuild(_url, _suffix, _code) {
         // console.log('构建', _url, _suffix);
         if (/^(ts|js)$/.test(_suffix)) {
             //设置tuansform选项内容
-            let _esbuildTransformOptions = ObjectUtils_1.ObjectUtils.clone_(EsbuildTransformOptions);
+            let _esbuildTransformOptions = ObjectUtils_1.ObjectUtils.clone2(EsbuildTransformOptions);
             _esbuildTransformOptions.loader = _suffix;
             let sourcefile = '';
             switch (MainConfig_1.default.config.breakpointType) {
