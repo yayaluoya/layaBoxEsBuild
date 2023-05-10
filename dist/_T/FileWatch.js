@@ -23,12 +23,14 @@ class FileWatch {
         switch (_model) {
             /** 使用chokidar工具监听 */
             case 'chokidar':
-                chokidar_1.default.watch(_path, {
+                chokidar_1.default
+                    .watch(_path, {
                     /** 使用轮询的话可能会导致cpu占用过高，不使用轮询模式的话可能会导致文件夹不能删除 */
                     usePolling: _option.usePolling,
                     /** 轮询时间，usePolling为true时有效 */
                     interval: _option.interval,
-                }).on('all', (evt, _url) => {
+                })
+                    .on('all', (evt, _url) => {
                     _back(evt, _url);
                 });
                 break;

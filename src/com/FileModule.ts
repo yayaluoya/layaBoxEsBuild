@@ -1,8 +1,8 @@
-import MainConfig from "../config/MainConfig";
-import BufferT from "../_T/BufferT";
-import crypto from "crypto";
-import { join } from "path";
-import Tool from "../_T/Tool";
+import MainConfig from '../config/MainConfig';
+import BufferT from '../_T/BufferT';
+import crypto from 'crypto';
+import { join } from 'path';
+import Tool from '../_T/Tool';
 
 /**
  * 文件模块
@@ -28,7 +28,9 @@ export default class FileModule {
     private m_normPath: string;
 
     /** 任务 */
-    private m_task: Promise<FileModule> = new Promise((r) => { r(this); });
+    private m_task: Promise<FileModule> = new Promise((r) => {
+        r(this);
+    });
     /** 内容，有代码和map文件 */
     private m_content: IFileModuleContent;
     /** 更新次数 */
@@ -59,7 +61,7 @@ export default class FileModule {
     /** 获取 任务 */
     public get task(): Promise<FileModule> {
         //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务，如果不缓存的话直接更新任务
-        if (!this.m_ifCache || (this.m_onTaskModifyV != this.m_modifyV)) {
+        if (!this.m_ifCache || this.m_onTaskModifyV != this.m_modifyV) {
             this.updateTask();
         }
         //
@@ -85,7 +87,10 @@ export default class FileModule {
         this.m_absolutePath = join(MainConfig.config.src, this.m_url);
         this.m_normPath = this.m_absolutePath.replace(/\\+/g, '/');
         //通过url生成唯一标识符
-        this.m_key = crypto.createHash('md5').update(`${this.m_absolutePath}_${Tool.getRandomStr()}`).digest('hex');
+        this.m_key = crypto
+            .createHash('md5')
+            .update(`${this.m_absolutePath}_${Tool.getRandomStr()}`)
+            .digest('hex');
         //更新修改版本
         this.updateModifyV();
         //
@@ -95,7 +100,7 @@ export default class FileModule {
     }
 
     /** 初始化 */
-    protected _init() { }
+    protected _init() {}
 
     /** 更新修改版本 */
     private updateModifyV() {
@@ -110,7 +115,7 @@ export default class FileModule {
         if (!this._updateH) {
             this._updateH = () => {
                 this.update();
-            }
+            };
         }
         return this._updateH;
     }
@@ -128,14 +133,16 @@ export default class FileModule {
     }
 
     /** 更新回调 */
-    protected _update() { }
+    protected _update() {}
 
     /**
      * 自动更新任务
      */
     public autoUpdateTask(): boolean {
         //如果不缓存的话就不自动更新
-        if (!this.m_ifCache) { return false; }
+        if (!this.m_ifCache) {
+            return false;
+        }
         //判断版本
         if (this.m_onTaskModifyV == this.m_modifyV) return false;
         //
@@ -146,9 +153,9 @@ export default class FileModule {
     }
 
     /** 自动更新任务回调 */
-    protected _autoUpdateTask() { }
+    protected _autoUpdateTask() {}
 
-    /** 
+    /**
      * 更新任务
      * ! 只会被动执行
      */
@@ -164,18 +171,21 @@ export default class FileModule {
                 //等上一个任务执行完之后在执行
                 _task.then(() => {
                     //获取内容
-                    this._updateContent().then((_content) => {
-                        // console.log(_content);
-                        this.m_content = this._rightContent(_content);
-                        //设置是否缓存
-                        this.m_ifCache = _content.ifCache;
-                        // console.log(this);
-                    }).catch((E) => {
-                        //把错误内容以代码的形式添加进去
-                        this.m_content.code = Buffer.from(this._mismanage(E));
-                    }).finally(() => {
-                        r(this);
-                    });
+                    this._updateContent()
+                        .then((_content) => {
+                            // console.log(_content);
+                            this.m_content = this._rightContent(_content);
+                            //设置是否缓存
+                            this.m_ifCache = _content.ifCache;
+                            // console.log(this);
+                        })
+                        .catch((E) => {
+                            //把错误内容以代码的形式添加进去
+                            this.m_content.code = Buffer.from(this._mismanage(E));
+                        })
+                        .finally(() => {
+                            r(this);
+                        });
                 });
             });
             //

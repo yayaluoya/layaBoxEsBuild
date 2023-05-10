@@ -1,17 +1,17 @@
-import path from "path";
-import chalk from "chalk";
-import http from "http";
-import mime from "mime";
-import MainConfig from "../../config/MainConfig";
-import HttpTool from "../../http/HttpTool";
-import { crossDomainHead } from "../../com/ResHead";
+import path from 'path';
+import chalk from 'chalk';
+import http from 'http';
+import mime from 'mime';
+import MainConfig from '../../config/MainConfig';
+import HttpTool from '../../http/HttpTool';
+import { crossDomainHead } from '../../com/ResHead';
 import { rollup } from 'rollup';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import node_polyfills from 'rollup-plugin-node-polyfills';
 import plugin_josn from '@rollup/plugin-json';
-import PortTool from "../../http/PortTool";
-import Tool from "../../_T/Tool";
+import PortTool from '../../http/PortTool';
+import Tool from '../../_T/Tool';
 
 /** nm路径 */
 let _NMUrl: string;
@@ -24,7 +24,7 @@ export function getNMUrl(): string {
 
 /**
  * 根据npm包名获取包入口文件路径
- * @param _name 
+ * @param _name
  */
 export function getNMIndexPath(_name: string): string {
     let _p: string = '';
@@ -32,7 +32,9 @@ export function getNMIndexPath(_name: string): string {
         //根据当前npm包路径找到包入口文件路径
         _p = require.resolve(_name, { paths: [getNMUrl()] });
     } catch (e) {
-        console.log(chalk.red('读取npm包入口文件时出错，可能没有安装这个包，详细错误如下：'));
+        console.log(
+            chalk.red('读取npm包入口文件时出错，可能没有安装这个包，详细错误如下：'),
+        );
         console.log(e);
     }
     //提取相对路径
@@ -43,10 +45,10 @@ export function getNMIndexPath(_name: string): string {
 const _npmPackageCatch: {
     [index: string]: {
         /** url */
-        url?: string,
+        url?: string;
         /** 代码 */
-        code?: string,
-    }
+        code?: string;
+    };
 } = {};
 /** nm主机地址 */
 let _nmHost: string = '';
@@ -55,12 +57,7 @@ let _nmHost: string = '';
 const inputOptions: any = {
     input: '',
     // 打包插件
-    plugins: [
-        commonjs(),
-        plugin_josn(),
-        node_polyfills(),
-        nodeResolve(),
-    ]
+    plugins: [commonjs(), plugin_josn(), node_polyfills(), nodeResolve()],
 };
 /** rollup出口选项 */
 const outputOptions: any = {
@@ -87,7 +84,9 @@ export function server(): Promise<void> {
         //开启一个局域网服务
         http.createServer((rep, res) => {
             //获取包名
-            let _name: string = decodeURI(rep.url).replace(/\?.*$/, '').replace(/^[\/\\]/, '');
+            let _name: string = decodeURI(rep.url)
+                .replace(/\?.*$/, '')
+                .replace(/^[\/\\]/, '');
             //获取模块路径
             let _url: string = getNMIndexPath(_name);
             if (!_url) {
@@ -167,7 +166,9 @@ try{
 export default global['${_name}'];
                             `;
                             //把改代码存入缓存
-                            (_npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})).code = _code;
+                            (
+                                _npmPackageCatch[_name] || (_npmPackageCatch[_name] = {})
+                            ).code = _code;
                             //
                             res.end(_code);
                         })

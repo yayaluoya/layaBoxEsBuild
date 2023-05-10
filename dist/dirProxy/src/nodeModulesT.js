@@ -53,12 +53,7 @@ let _nmHost = '';
 const inputOptions = {
     input: '',
     // 打包插件
-    plugins: [
-        plugin_commonjs_1.default(),
-        plugin_json_1.default(),
-        rollup_plugin_node_polyfills_1.default(),
-        plugin_node_resolve_1.default(),
-    ]
+    plugins: [plugin_commonjs_1.default(), plugin_json_1.default(), rollup_plugin_node_polyfills_1.default(), plugin_node_resolve_1.default()],
 };
 /** rollup出口选项 */
 const outputOptions = {
@@ -84,7 +79,9 @@ function server() {
         //开启一个局域网服务
         http_1.default.createServer((rep, res) => {
             //获取包名
-            let _name = decodeURI(rep.url).replace(/\?.*$/, '').replace(/^[\/\\]/, '');
+            let _name = decodeURI(rep.url)
+                .replace(/\?.*$/, '')
+                .replace(/^[\/\\]/, '');
             //获取模块路径
             let _url = getNMIndexPath(_name);
             if (!_url) {

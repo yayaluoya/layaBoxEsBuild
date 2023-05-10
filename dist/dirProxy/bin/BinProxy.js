@@ -19,7 +19,7 @@ class BinProxy {
      * 开始
      */
     static start() {
-        // req 请求， res 响应 
+        // req 请求， res 响应
         return HttpTool_1.default.createServer((req, res) => {
             //忽略掉请求后的search和hash值并对特殊字符解码
             let url = decodeURI(req.url.replace(/\?.+/, ''));

@@ -7,9 +7,12 @@ export default class TemplateT {
      * @param _content 源字符串
      * @param _o 目标变量
      */
-    public static ReplaceVariable(_content: string, _o: { [_index: string]: string | object }): string {
+    public static ReplaceVariable(
+        _content: string,
+        _o: { [_index: string]: string | object },
+    ): string {
         return _content.replace(/\$\$([a-zA-Z]+)/g, (_, b) => {
-            return (typeof _o[b] == 'object') ? JSON.stringify(_o[b]) : _o[b] as string;
+            return typeof _o[b] == 'object' ? JSON.stringify(_o[b]) : (_o[b] as string);
         });
     }
 }

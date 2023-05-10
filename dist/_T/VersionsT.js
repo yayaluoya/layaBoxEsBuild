@@ -13,8 +13,10 @@ class VersionsT {
      */
     static getV() {
         if (!this.v) {
-            this.v = crypto_1.default.createHash('md5').update(`${Date.now()}:_versions:${Math.random()}`).digest('hex');
-            ;
+            this.v = crypto_1.default
+                .createHash('md5')
+                .update(`${Date.now()}:_versions:${Math.random()}`)
+                .digest('hex');
         }
         //
         return this.v;

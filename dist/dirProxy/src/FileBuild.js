@@ -104,7 +104,9 @@ function _fileBuild(_url, _suffix, _code) {
         //文件名字
         let _fileName = path_1.default.basename(_url);
         //相对目录，且文件分隔符必须为/
-        let _relativeUrl = _url.replace(path_1.default.join(MainConfig_1.default.config.src, '/'), '').replace(/\\/g, '/');
+        let _relativeUrl = _url
+            .replace(path_1.default.join(MainConfig_1.default.config.src, '/'), '')
+            .replace(/\\/g, '/');
         //判断后缀，js|ts的文件就用esbuild先编译
         // console.log('构建', _url, _suffix);
         if (/^(ts|js)$/.test(_suffix)) {
@@ -123,7 +125,9 @@ function _fileBuild(_url, _suffix, _code) {
             //根据全局配置来定
             _esbuildTransformOptions.sourcefile = sourcefile;
             //使用esbuild编译，如果配置了confing的组合方式就组合一下
-            esbuild_1.transform(_code, MainConfig_1.default.config.comEsbuildConfig ? MainConfig_1.default.config.comEsbuildConfig(_esbuildTransformOptions) : _esbuildTransformOptions)
+            esbuild_1.transform(_code, MainConfig_1.default.config.comEsbuildConfig
+                ? MainConfig_1.default.config.comEsbuildConfig(_esbuildTransformOptions)
+                : _esbuildTransformOptions)
                 .then(({ code, map, warnings }) => {
                 //判断是否有警告
                 if (warnings.length > 0) {
@@ -134,7 +138,8 @@ function _fileBuild(_url, _suffix, _code) {
                 // console.log(_url, _suffix, map);
                 //返回内容，全部转成buffer格式的数据
                 _fileBuildRProxy(r, _url, _suffix, code + `//# sourceMappingURL=${_fileName}.map`, Buffer.from(map));
-            }).catch((E) => {
+            })
+                .catch((E) => {
                 // console.log(E);
                 e(E['errors']);
             });

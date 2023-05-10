@@ -35,7 +35,8 @@ function getImportURL(_, $_, $0, $1) {
     //处理路径
     else {
         //通过配置文件中的路径处理规则处理路径
-        if (MainConfig_1.default.config.filePathModify && MainConfig_1.default.config.filePathModify.length > 0) {
+        if (MainConfig_1.default.config.filePathModify &&
+            MainConfig_1.default.config.filePathModify.length > 0) {
             for (let _o of MainConfig_1.default.config.filePathModify) {
                 $1 = $1.replace(_o.a, _o.b);
             }
@@ -43,7 +44,6 @@ function getImportURL(_, $_, $0, $1) {
         return _getImportURL($_, $0, $1, $1);
     }
 }
-;
 let _asReg = /^\*\s+as\s*/;
 let __absolutePath = '';
 let __getImportURLNumber_ = 0;
@@ -52,10 +52,11 @@ function _getImportURL($_, $0, $1, _packageName, _ifNmpPackage = false) {
     if (_ifNmpPackage) {
         let _name = `__${randomstring_1.default.generate({
             length: 12,
-            charset: 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
+            charset: 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz',
         })}__${__getImportURLNumber_++}`;
         let _ifAs = _asReg.test($0);
-        _ifAs && (console.log(chalk_1.default.yellow(`\n检测到文件@ ${__absolutePath} 导入npm包 ${_packageName} 时用到了as语法，本工具暂不支持该语法导入npm包呢，请改成常规语法导入。\n`)));
+        _ifAs &&
+            console.log(chalk_1.default.yellow(`\n检测到文件@ ${__absolutePath} 导入npm包 ${_packageName} 时用到了as语法，本工具暂不支持该语法导入npm包呢，请改成常规语法导入。\n`));
         $0 = $0.replace(_asReg, '').replace(/\s/g, '');
         if ($0) {
             //没有被{}包裹且带有,则需要拆分开
@@ -73,7 +74,7 @@ function _getImportURL($_, $0, $1, _packageName, _ifNmpPackage = false) {
         return `${$_ || ''}import ${_name} from "${$1}";${$0}//⚠️ 这里是leb工具编译的，作者能力有限，只支持一些常见的导入写法导入npm的包呢，请谅解。🙏🙏🙏`;
     }
     else {
-        return `${$_ || ''}import ${$0 && `${$0} from ` || ''}"${$1}";`;
+        return `${$_ || ''}import ${($0 && `${$0} from `) || ''}"${$1}";`;
     }
 }
 /** 内置loader列表 */
@@ -81,7 +82,7 @@ const Loaders = {
     /**
      * 路径处理loader
      */
-    'path': function (_content, _absolutePath, _suffix) {
+    path: function (_content, _absolutePath, _suffix) {
         __absolutePath = _absolutePath;
         //处理路径，先处理import再处理require
         _content = _content
@@ -93,12 +94,12 @@ const Loaders = {
     /**
      * 文本处理插件
      */
-    'txt': function (_content, _absolutePath, _suffix) {
+    txt: function (_content, _absolutePath, _suffix) {
         //需要转义反引号 `
         return Promise.resolve(`
     export default \`${_content.replace(/`/, '\\`')}\`;
             `);
-    }
+    },
 };
 /**
  * loader处理
@@ -116,7 +117,9 @@ function LoaderHandle(_loaders, _content, _absolutePath, _suffix) {
             //查找是否是需要处理的文件
             if (_loaderConfig.include.test(_absolutePath)) {
                 for (let _loader of _loaderConfig.loader) {
-                    let __loaderF = (typeof _loader == 'string') ? (_names.push(_loader), Loaders[_loader]) : _loader;
+                    let __loaderF = typeof _loader == 'string'
+                        ? (_names.push(_loader), Loaders[_loader])
+                        : _loader;
                     if (!__loaderF) {
                         continue;
                     }

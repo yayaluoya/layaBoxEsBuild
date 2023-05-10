@@ -11,7 +11,7 @@ class TemplateT {
      */
     static ReplaceVariable(_content, _o) {
         return _content.replace(/\$\$([a-zA-Z]+)/g, (_, b) => {
-            return (typeof _o[b] == 'object') ? JSON.stringify(_o[b]) : _o[b];
+            return typeof _o[b] == 'object' ? JSON.stringify(_o[b]) : _o[b];
         });
     }
 }

@@ -3,9 +3,9 @@
  */
 export default interface IFileData {
     /** 文件内容 */
-    content: Buffer,
+    content: Buffer;
     /** 状态码 */
-    stateCode: number,
+    stateCode: number;
     /** 响应头 */
-    resHead: any,
+    resHead: any;
 }

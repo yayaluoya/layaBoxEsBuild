@@ -1,5 +1,17 @@
-"use strict";
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+'use strict';
+function _defineProperty(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true,
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 /**
  * 文件监听类
  */
@@ -11,18 +23,22 @@ class FileWatch {
      * @param {number} _interval 轮询间隔时间，_usePolling=true时有效 [100]
      */
     constructor(_enable = null, _usePolling = null, _interval = null) {
-        _defineProperty(this, "enable", true);
+        _defineProperty(this, 'enable', true);
 
-        _defineProperty(this, "usePolling", true);
+        _defineProperty(this, 'usePolling', true);
 
-        _defineProperty(this, "interval", 100);
+        _defineProperty(this, 'interval', 100);
 
         this.enable = _enable !== null && _enable !== void 0 ? _enable : this.enable;
-        this.usePolling = _usePolling !== null && _usePolling !== void 0 ? _usePolling : this.usePolling;
-        this.interval = _interval !== null && _interval !== void 0 ? _interval : this.interval;
+        this.usePolling =
+            _usePolling !== null && _usePolling !== void 0
+                ? _usePolling
+                : this.usePolling;
+        this.interval =
+            _interval !== null && _interval !== void 0 ? _interval : this.interval;
     }
 }
-/** 
+/**
  * 配置数据
  */
 module.exports = {
@@ -92,7 +108,7 @@ module.exports = {
                 function (_content, _absolutePath, _suffix) {
                     // console.log(_absolutePath);
                     return Promise.resolve(_content);
-                }
+                },
             ],
         },
     ],

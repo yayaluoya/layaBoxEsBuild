@@ -78,20 +78,17 @@ class BinTool {
                 _html = data.toString();
                 //在头部结束时加上css样式表和serviceWorkers工具脚本
                 _html = _html.replace(/\<\/head\>/, `
-<link rel="stylesheet" type="text/css" href="${ResURL_1.default.publicResURL}${MyConfig_1.default.webToolJsName.css}?q=${MyConfig_1.default
-                    .webToolJsOnlyKey.css}">
-<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.main}?q=${MyConfig_1.default
-                    .webToolJsOnlyKey.main}"></script>
-<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.webSocket}?q=${MyConfig_1.default
-                    .webToolJsOnlyKey.webSocket}"></script>
-${MainConfig_1.default.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.alert}?q=${MyConfig_1.default
-                    .webToolJsOnlyKey.alert}"></script>` : ''}
+<link rel="stylesheet" type="text/css" href="${ResURL_1.default.publicResURL}${MyConfig_1.default.webToolJsName.css}?q=${MyConfig_1.default.webToolJsOnlyKey.css}">
+<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.main}?q=${MyConfig_1.default.webToolJsOnlyKey.main}"></script>
+<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.webSocket}?q=${MyConfig_1.default.webToolJsOnlyKey.webSocket}"></script>
+${MainConfig_1.default.config.ifOpenWebSocketTool
+                    ? `<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.alert}?q=${MyConfig_1.default.webToolJsOnlyKey.alert}"></script>`
+                    : ''}
 </head>
                 `);
                 //在所有脚本前加上webload脚本
                 _html = _html.replace(/\<body\>/, `<body>
-<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.load}?q=${MyConfig_1.default
-                    .webToolJsOnlyKey.load}"></script>
+<script type="text/javascript" src="${ResURL_1.default.publicSrcURL}${MyConfig_1.default.webToolJsName.load}?q=${MyConfig_1.default.webToolJsOnlyKey.load}"></script>
                 `);
                 //包装loadLib函数内容，加一个模块的参数
                 _html = _html.replace(/function loadLib\([\s\S]*?\)[\s]\{[\s\S]*?\}/, `

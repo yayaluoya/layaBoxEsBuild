@@ -1,7 +1,7 @@
-import BinWatch from "./dirProxy/bin/BinWatch";
-import SrcCache from "./dirProxy/src/SrcCache";
-import SrcWatch from "./dirProxy/src/SrcWatch";
-import WebSocket from "./webSocket/WebSocket";
+import BinWatch from './dirProxy/bin/BinWatch';
+import SrcCache from './dirProxy/src/SrcCache';
+import SrcWatch from './dirProxy/src/SrcWatch';
+import WebSocket from './webSocket/WebSocket';
 
 /**
  * 初始化

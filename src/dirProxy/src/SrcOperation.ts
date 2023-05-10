@@ -1,7 +1,7 @@
-import IFileData from "../../com/IFileData";
-import BufferT from "../../_T/BufferT";
-import SrcCache from "./SrcCache";
-import SrcModule from "./SrcModule";
+import IFileData from '../../com/IFileData';
+import BufferT from '../../_T/BufferT';
+import SrcCache from './SrcCache';
+import SrcModule from './SrcModule';
 
 /**
  * 文件操作

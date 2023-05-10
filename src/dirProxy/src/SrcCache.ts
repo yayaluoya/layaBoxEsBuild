@@ -1,7 +1,7 @@
-import MainConfig from "../../config/MainConfig";
-import SrcModule from "./SrcModule";
-import chalk from "chalk";
-import { join } from "path";
+import MainConfig from '../../config/MainConfig';
+import SrcModule from './SrcModule';
+import chalk from 'chalk';
+import { join } from 'path';
 
 /**
  * Src目录缓存
@@ -16,7 +16,9 @@ export default class SrcCache {
     public static init() {
         //添加计时器，每过一段时间自动更新所有版本变化的模块
         setInterval(() => {
-            if (this.m_moduleCache.length == 0) { return; }
+            if (this.m_moduleCache.length == 0) {
+                return;
+            }
             let _i: number = 0;
             this.m_moduleCache.forEach((item) => {
                 item.autoUpdateTask() ? _i++ : false;
@@ -77,7 +79,10 @@ export default class SrcCache {
                 if (_su) {
                     _susRegExp = new RegExp(`\\.${_su}$`, 'i');
                     //先判断是否满足当前后缀的格式了，避免重复添加
-                    _b = new RegExp(`^${item.normPath.replace(_susRegExp, '')}\\.${_su}$`, 'i').test(`${_url.replace(_susRegExp, '')}.${_su}`);
+                    _b = new RegExp(
+                        `^${item.normPath.replace(_susRegExp, '')}\\.${_su}$`,
+                        'i',
+                    ).test(`${_url.replace(_susRegExp, '')}.${_su}`);
                 } else {
                     _b = new RegExp(`^${item.normPath}$`, 'i').test(_url);
                 }

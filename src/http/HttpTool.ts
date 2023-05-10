@@ -1,8 +1,8 @@
-import http from "http";
-import internalIp from "internal-ip";
-import MainConfig from "../config/MainConfig";
-import PortTool from "./PortTool";
-import chalk from "chalk";
+import http from 'http';
+import internalIp from 'internal-ip';
+import MainConfig from '../config/MainConfig';
+import PortTool from './PortTool';
+import chalk from 'chalk';
 
 /**
  * http工具
@@ -13,7 +13,10 @@ export default class HttpTool {
      * @param _f 请求响应执行方法
      * @param _port 端口
      */
-    public static createServer(_f: http.RequestListener, _port: number): Promise<http.Server> {
+    public static createServer(
+        _f: http.RequestListener,
+        _port: number,
+    ): Promise<http.Server> {
         let _portP: Promise<number>;
         //端口为0则自动分配端口
         if (_port == 0) {
@@ -41,7 +44,11 @@ export default class HttpTool {
             if (!this.m_hostName) {
                 this.m_hostName = MainConfig.config.hostName;
                 if (!this.m_hostName) {
-                    console.log(chalk.red(`自动获取主机地址失败！请在配置文件中配置正确的主机地址。当前得到的配置为->${this.m_hostName}`));
+                    console.log(
+                        chalk.red(
+                            `自动获取主机地址失败！请在配置文件中配置正确的主机地址。当前得到的配置为->${this.m_hostName}`,
+                        ),
+                    );
                 }
             }
         }

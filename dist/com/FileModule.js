@@ -21,7 +21,9 @@ class FileModule {
         /** 是否缓存 */
         this.m_ifCache = true;
         /** 任务 */
-        this.m_task = new Promise((r) => { r(this); });
+        this.m_task = new Promise((r) => {
+            r(this);
+        });
         /** 更新次数 */
         this.m_updateNumber = 0;
         //设置一个默认值
@@ -34,7 +36,10 @@ class FileModule {
         this.m_absolutePath = path_1.join(MainConfig_1.default.config.src, this.m_url);
         this.m_normPath = this.m_absolutePath.replace(/\\+/g, '/');
         //通过url生成唯一标识符
-        this.m_key = crypto_1.default.createHash('md5').update(`${this.m_absolutePath}_${Tool_1.default.getRandomStr()}`).digest('hex');
+        this.m_key = crypto_1.default
+            .createHash('md5')
+            .update(`${this.m_absolutePath}_${Tool_1.default.getRandomStr()}`)
+            .digest('hex');
         //更新修改版本
         this.updateModifyV();
         //
@@ -65,7 +70,7 @@ class FileModule {
     /** 获取 任务 */
     get task() {
         //判断当前任务修改版本和历史修改版本是否一致，不一致就更新任务，如果不缓存的话直接更新任务
-        if (!this.m_ifCache || (this.m_onTaskModifyV != this.m_modifyV)) {
+        if (!this.m_ifCache || this.m_onTaskModifyV != this.m_modifyV) {
             this.updateTask();
         }
         //
@@ -140,16 +145,19 @@ class FileModule {
                 //等上一个任务执行完之后在执行
                 _task.then(() => {
                     //获取内容
-                    this._updateContent().then((_content) => {
+                    this._updateContent()
+                        .then((_content) => {
                         // console.log(_content);
                         this.m_content = this._rightContent(_content);
                         //设置是否缓存
                         this.m_ifCache = _content.ifCache;
                         // console.log(this);
-                    }).catch((E) => {
+                    })
+                        .catch((E) => {
                         //把错误内容以代码的形式添加进去
                         this.m_content.code = Buffer.from(this._mismanage(E));
-                    }).finally(() => {
+                    })
+                        .finally(() => {
                         r(this);
                     });
                 });

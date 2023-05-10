@@ -1,12 +1,12 @@
-import FileModule, { IFileModuleContent } from "../../com/FileModule";
-import chalk from "chalk";
-import path from "path";
-import { transform, TransformOptions, TransformResult } from "esbuild";
-import { readFile } from "fs";
-import MainConfig from "../../config/MainConfig";
-import { LoaderHandle } from "./SrcLoader";
-import BufferT from "../../_T/BufferT";
-import { ObjectUtils } from "yayaluoya-tool/dist/obj/ObjectUtils";
+import FileModule, { IFileModuleContent } from '../../com/FileModule';
+import chalk from 'chalk';
+import path from 'path';
+import { transform, TransformOptions, TransformResult } from 'esbuild';
+import { readFile } from 'fs';
+import MainConfig from '../../config/MainConfig';
+import { LoaderHandle } from './SrcLoader';
+import BufferT from '../../_T/BufferT';
+import { ObjectUtils } from 'yayaluoya-tool/dist/obj/ObjectUtils';
 
 /** 匹配后缀的正则 */
 const matchSu: RegExp = /[a-z]*$/;
@@ -19,8 +19,12 @@ const extractSu: RegExp = /^\./;
  * @param resUrl 请求路径，浏览器请求用的路径
  * @param _updateH 模块更新方法
  */
-export async function FileBuild(_url: string, resUrl: string, _updateH: (_url?: string) => void): Promise<IFileModuleContent> {
-    let _data: { err?: any, data?: any };
+export async function FileBuild(
+    _url: string,
+    resUrl: string,
+    _updateH: (_url?: string) => void,
+): Promise<IFileModuleContent> {
+    let _data: { err?: any; data?: any };
     let __url: string;
     let _sus: string[] = [...MainConfig.config.srcFileDefaultSuffixs];
     let _su: string;
@@ -43,18 +47,24 @@ export async function FileBuild(_url: string, resUrl: string, _updateH: (_url?: 
             let result = await _fileBuild(__url, _su, _data.data.toString());
             result.ifCache = true;
             return result;
-        }
-        else {
+        } else {
             //如果没有遍历完成则再次遍历
             if (Number(_i) < _sus.length - 1) {
                 continue;
             }
             //实在读取不到就判断用户是否还定义了文件读取后门
             if (MainConfig.config.fileReadBackDoor) {
-                let backDoorData = await MainConfig.config.fileReadBackDoor(resUrl, _updateH);
+                let backDoorData = await MainConfig.config.fileReadBackDoor(
+                    resUrl,
+                    _updateH,
+                );
                 if (backDoorData.data) {
                     //打包
-                    let result = await _fileBuild(backDoorData.url || __url, backDoorData.su || _su, backDoorData.data.toString());
+                    let result = await _fileBuild(
+                        backDoorData.url || __url,
+                        backDoorData.su || _su,
+                        backDoorData.data.toString(),
+                    );
                     result.ifCache = false;
                     return result;
                 }
@@ -84,13 +94,19 @@ const EsbuildTransformOptions: TransformOptions = {
  * @param _suffix 后缀
  * @param _code 代码内容
  */
-function _fileBuild(_url: string, _suffix: string, _code: string): Promise<IFileModuleContent> {
+function _fileBuild(
+    _url: string,
+    _suffix: string,
+    _code: string,
+): Promise<IFileModuleContent> {
     // console.log(_url, _suffix);
     return new Promise((r, e) => {
         //文件名字
         let _fileName: string = path.basename(_url);
         //相对目录，且文件分隔符必须为/
-        let _relativeUrl: string = _url.replace(path.join(MainConfig.config.src, '/'), '').replace(/\\/g, '/');
+        let _relativeUrl: string = _url
+            .replace(path.join(MainConfig.config.src, '/'), '')
+            .replace(/\\/g, '/');
         //判断后缀，js|ts的文件就用esbuild先编译
         // console.log('构建', _url, _suffix);
         if (/^(ts|js)$/.test(_suffix)) {
@@ -109,7 +125,12 @@ function _fileBuild(_url: string, _suffix: string, _code: string): Promise<IFile
             //根据全局配置来定
             _esbuildTransformOptions.sourcefile = sourcefile;
             //使用esbuild编译，如果配置了confing的组合方式就组合一下
-            transform(_code, MainConfig.config.comEsbuildConfig ? MainConfig.config.comEsbuildConfig(_esbuildTransformOptions) : _esbuildTransformOptions)
+            transform(
+                _code,
+                MainConfig.config.comEsbuildConfig
+                    ? MainConfig.config.comEsbuildConfig(_esbuildTransformOptions)
+                    : _esbuildTransformOptions,
+            )
                 .then(({ code, map, warnings }: TransformResult) => {
                     //判断是否有警告
                     if (warnings.length > 0) {
@@ -119,8 +140,15 @@ function _fileBuild(_url: string, _suffix: string, _code: string): Promise<IFile
                     }
                     // console.log(_url, _suffix, map);
                     //返回内容，全部转成buffer格式的数据
-                    _fileBuildRProxy(r, _url, _suffix, code + `//# sourceMappingURL=${_fileName}.map`, Buffer.from(map));
-                }).catch((E) => {
+                    _fileBuildRProxy(
+                        r,
+                        _url,
+                        _suffix,
+                        code + `//# sourceMappingURL=${_fileName}.map`,
+                        Buffer.from(map),
+                    );
+                })
+                .catch((E) => {
                     // console.log(E);
                     e(E['errors']);
                 });
@@ -141,7 +169,13 @@ function _fileBuild(_url: string, _suffix: string, _code: string): Promise<IFile
  * @param _code 代码
  * @param _map 代码map
  */
-function _fileBuildRProxy(_r: (_: IFileModuleContent) => void, _url: string, _suffix: string, _code: string, _map: Buffer) {
+function _fileBuildRProxy(
+    _r: (_: IFileModuleContent) => void,
+    _url: string,
+    _suffix: string,
+    _code: string,
+    _map: Buffer,
+) {
     // console.log(_map.toString());
     if (MainConfig.config.loader && MainConfig.config.loader.length > 0) {
         //loader处理
@@ -173,8 +207,8 @@ function _fileBuildRProxy(_r: (_: IFileModuleContent) => void, _url: string, _su
  * @param _url 文件地址
  * @param resUrl 请求路径，浏览器请求时带的路径
  */
-function _readFile(_url: string, resUrl: string): Promise<{ err?: any, data?: any }> {
-    return new Promise<{ err?: any, data?: any }>((r) => {
+function _readFile(_url: string, resUrl: string): Promise<{ err?: any; data?: any }> {
+    return new Promise<{ err?: any; data?: any }>((r) => {
         // console.log('读取文件', _url, resUrl);
         //读取目标文件
         readFile(_url, (err, rootCodeBuffer) => {

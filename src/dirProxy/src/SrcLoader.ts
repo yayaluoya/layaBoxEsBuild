@@ -1,11 +1,13 @@
-import chalk from "chalk";
-import MainConfig from "../../config/MainConfig";
-import { getNMIndexURL } from "./NodeModulesT";
+import chalk from 'chalk';
+import MainConfig from '../../config/MainConfig';
+import { getNMIndexURL } from './NodeModulesT';
 import randomstring from 'randomstring';
 
 /** 匹配代码中的导入语句 */
-const importReg: RegExp = /([\s])?import\s*([\w{}\s,\.\[\]\*]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
-const requireReg: RegExp = /([\s])?(?:var|let|const|import)?\s*([\w{}\s,\.\[\]\*]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
+const importReg: RegExp =
+    /([\s])?import\s*([\w{}\s,\.\[\]\*]*?)\s*(?:from\s*)?["'](.*?)["'];?/g;
+const requireReg: RegExp =
+    /([\s])?(?:var|let|const|import)?\s*([\w{}\s,\.\[\]\*]*?)\s*=?\s*require\(\s*["'](.*?)['"]\s*\);?/g;
 
 /**
  * 获取导入路径
@@ -22,26 +24,40 @@ function getImportURL(_, $_, $0, $1): string {
     //处理路径
     else {
         //通过配置文件中的路径处理规则处理路径
-        if (MainConfig.config.filePathModify && MainConfig.config.filePathModify.length > 0) {
+        if (
+            MainConfig.config.filePathModify &&
+            MainConfig.config.filePathModify.length > 0
+        ) {
             for (let _o of MainConfig.config.filePathModify) {
                 $1 = $1.replace(_o.a, _o.b);
             }
         }
         return _getImportURL($_, $0, $1, $1);
     }
-};
+}
 let _asReg: RegExp = /^\*\s+as\s*/;
 let __absolutePath: string = '';
 let __getImportURLNumber_: number = 0;
 /** 返回最终的模块导入地址 */
-function _getImportURL($_: string, $0: string, $1: string, _packageName: string, _ifNmpPackage: boolean = false): string {
+function _getImportURL(
+    $_: string,
+    $0: string,
+    $1: string,
+    _packageName: string,
+    _ifNmpPackage: boolean = false,
+): string {
     if (_ifNmpPackage) {
         let _name: string = `__${randomstring.generate({
             length: 12,
-            charset: 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
+            charset: 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz',
         })}__${__getImportURLNumber_++}`;
         let _ifAs: boolean = _asReg.test($0);
-        _ifAs && (console.log(chalk.yellow(`\n检测到文件@ ${__absolutePath} 导入npm包 ${_packageName} 时用到了as语法，本工具暂不支持该语法导入npm包呢，请改成常规语法导入。\n`)));
+        _ifAs &&
+            console.log(
+                chalk.yellow(
+                    `\n检测到文件@ ${__absolutePath} 导入npm包 ${_packageName} 时用到了as语法，本工具暂不支持该语法导入npm包呢，请改成常规语法导入。\n`,
+                ),
+            );
         $0 = $0.replace(_asReg, '').replace(/\s/g, '');
         if ($0) {
             //没有被{}包裹且带有,则需要拆分开
@@ -55,9 +71,11 @@ function _getImportURL($_: string, $0: string, $1: string, _packageName: string,
                 $0 = `const ${$0} = ${_name};`;
             }
         }
-        return `${$_ || ''}import ${_name} from "${$1}";${$0}//⚠️ 这里是leb工具编译的，作者能力有限，只支持一些常见的导入写法导入npm的包呢，请谅解。🙏🙏🙏`;
+        return `${
+            $_ || ''
+        }import ${_name} from "${$1}";${$0}//⚠️ 这里是leb工具编译的，作者能力有限，只支持一些常见的导入写法导入npm的包呢，请谅解。🙏🙏🙏`;
     } else {
-        return `${$_ || ''}import ${$0 && `${$0} from ` || ''}"${$1}";`;
+        return `${$_ || ''}import ${($0 && `${$0} from `) || ''}"${$1}";`;
     }
 }
 
@@ -66,7 +84,11 @@ const Loaders: { [index: string]: ILoaderHandleFunction } = {
     /**
      * 路径处理loader
      */
-    'path': function (_content: string, _absolutePath: string, _suffix: string): Promise<string> {
+    path: function (
+        _content: string,
+        _absolutePath: string,
+        _suffix: string,
+    ): Promise<string> {
         __absolutePath = _absolutePath;
         //处理路径，先处理import再处理require
         _content = _content
@@ -79,12 +101,16 @@ const Loaders: { [index: string]: ILoaderHandleFunction } = {
     /**
      * 文本处理插件
      */
-    'txt': function (_content: string, _absolutePath: string, _suffix: string): Promise<string> {
+    txt: function (
+        _content: string,
+        _absolutePath: string,
+        _suffix: string,
+    ): Promise<string> {
         //需要转义反引号 `
         return Promise.resolve(`
     export default \`${_content.replace(/`/, '\\`')}\`;
             `);
-    }
+    },
 };
 
 /**
@@ -94,7 +120,12 @@ const Loaders: { [index: string]: ILoaderHandleFunction } = {
  * @param _absolutePath 绝对路径
  * @param _suffix 后缀
  */
-export async function LoaderHandle(_loaders: ILoaderConfig[], _content: string, _absolutePath: string, _suffix: string): Promise<string> {
+export async function LoaderHandle(
+    _loaders: ILoaderConfig[],
+    _content: string,
+    _absolutePath: string,
+    _suffix: string,
+): Promise<string> {
     let _loaderF: ILoaderHandleFunction;
     let _names: string[];
     for (let _loaderConfig of _loaders) {
@@ -102,8 +133,13 @@ export async function LoaderHandle(_loaders: ILoaderConfig[], _content: string, 
         //查找是否是需要处理的文件
         if (_loaderConfig.include.test(_absolutePath)) {
             for (let _loader of _loaderConfig.loader) {
-                let __loaderF = (typeof _loader == 'string') ? (_names.push(_loader), Loaders[_loader]) : _loader;
-                if (!__loaderF) { continue; }
+                let __loaderF =
+                    typeof _loader == 'string'
+                        ? (_names.push(_loader), Loaders[_loader])
+                        : _loader;
+                if (!__loaderF) {
+                    continue;
+                }
                 //包装一下__loaderF方法，主要是在这个loader出错时跳过这个loader
                 _loaderF = ((...arg): any => {
                     return new Promise((r, e) => {
@@ -116,8 +152,7 @@ export async function LoaderHandle(_loaders: ILoaderConfig[], _content: string, 
                                     //
                                     loaderErrHand(_names, err);
                                 });
-                        }
-                        catch (err) {
+                        } catch (err) {
                             //loader出错了，跳过这个loader并给出提示
                             r(_content);
                             //

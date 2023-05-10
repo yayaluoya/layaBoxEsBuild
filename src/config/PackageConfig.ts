@@ -6,7 +6,7 @@ export default {
     package: package_,
 } as {
     /** 包信息 */
-    package: IPackageJson,
+    package: IPackageJson;
 };
 
 /**

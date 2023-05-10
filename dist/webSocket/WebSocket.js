@@ -20,8 +20,7 @@ class WebSocket {
      */
     static start() {
         //自动分配端口
-        return PortTool_1.default.getPool('webSocket')
-            .then((port) => {
+        return PortTool_1.default.getPool('webSocket').then((port) => {
             MyConfig_1.default.webSocketPort = port;
             // 实例化:
             let _wss = new ws_1.default.Server({

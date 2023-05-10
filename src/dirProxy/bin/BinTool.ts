@@ -1,12 +1,12 @@
-import MainConfig from "../../config/MainConfig";
-import MyConfig from "../../config/MyConfig";
-import HttpTool from "../../http/HttpTool";
-import ResURL from "../../_T/ResURL";
-import VersionsT from "../../_T/VersionsT";
-import { join } from "path";
-import { readFile } from "fs";
-import TemplateT from "../../_T/TemplateT";
-import PackageConfig from "../../config/PackageConfig";
+import MainConfig from '../../config/MainConfig';
+import MyConfig from '../../config/MyConfig';
+import HttpTool from '../../http/HttpTool';
+import ResURL from '../../_T/ResURL';
+import VersionsT from '../../_T/VersionsT';
+import { join } from 'path';
+import { readFile } from 'fs';
+import TemplateT from '../../_T/TemplateT';
+import PackageConfig from '../../config/PackageConfig';
 
 /**
  * bin目录工具
@@ -14,7 +14,7 @@ import PackageConfig from "../../config/PackageConfig";
 export default class BinTool {
     /** web工具脚本内容缓存 */
     private static m_webToolJs: {
-        [_index: string]: string,
+        [_index: string]: string;
     } = {};
 
     /**
@@ -45,7 +45,9 @@ export default class BinTool {
                             version: VersionsT.getV(),
                             mainURL: `http://${HttpTool.getHostname}:${MainConfig.config.port.src}`,
                             webSocketUrl: `ws://${HttpTool.getHostname}:${MyConfig.webSocketPort}`,
-                            ifUpdateNow: Boolean(MainConfig.config.ifUpdateNow).toString(),
+                            ifUpdateNow: Boolean(
+                                MainConfig.config.ifUpdateNow,
+                            ).toString(),
                             packageJson: JSON.stringify({
                                 name: PackageConfig.package.name,
                                 version: PackageConfig.package.version,
@@ -71,7 +73,10 @@ export default class BinTool {
         return new Promise<string>((r) => {
             //读取主页html
             let _html: string;
-            let _htmlUrl: string = join(MainConfig.config.bin, MainConfig.config.homePage);
+            let _htmlUrl: string = join(
+                MainConfig.config.bin,
+                MainConfig.config.homePage,
+            );
             readFile(_htmlUrl, (err, data) => {
                 if (err) {
                     r('没有找到主页html文件' + _htmlUrl);
@@ -79,24 +84,37 @@ export default class BinTool {
                 }
                 _html = data.toString();
                 //在头部结束时加上css样式表和serviceWorkers工具脚本
-                _html = _html.replace(/\<\/head\>/, `
-<link rel="stylesheet" type="text/css" href="${ResURL.publicResURL}${MyConfig.webToolJsName.css}?q=${MyConfig
-                        .webToolJsOnlyKey.css}">
-<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.main}?q=${MyConfig
-                        .webToolJsOnlyKey.main}"></script>
-<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.webSocket}?q=${MyConfig
-                        .webToolJsOnlyKey.webSocket}"></script>
-${MainConfig.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.alert}?q=${MyConfig
-                        .webToolJsOnlyKey.alert}"></script>` : ''}
+                _html = _html.replace(
+                    /\<\/head\>/,
+                    `
+<link rel="stylesheet" type="text/css" href="${ResURL.publicResURL}${
+                        MyConfig.webToolJsName.css
+                    }?q=${MyConfig.webToolJsOnlyKey.css}">
+<script type="text/javascript" src="${ResURL.publicSrcURL}${
+                        MyConfig.webToolJsName.main
+                    }?q=${MyConfig.webToolJsOnlyKey.main}"></script>
+<script type="text/javascript" src="${ResURL.publicSrcURL}${
+                        MyConfig.webToolJsName.webSocket
+                    }?q=${MyConfig.webToolJsOnlyKey.webSocket}"></script>
+${
+    MainConfig.config.ifOpenWebSocketTool
+        ? `<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.alert}?q=${MyConfig.webToolJsOnlyKey.alert}"></script>`
+        : ''
+}
 </head>
-                `);
+                `,
+                );
                 //在所有脚本前加上webload脚本
-                _html = _html.replace(/\<body\>/, `<body>
-<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.load}?q=${MyConfig
-                        .webToolJsOnlyKey.load}"></script>
-                `);
+                _html = _html.replace(
+                    /\<body\>/,
+                    `<body>
+<script type="text/javascript" src="${ResURL.publicSrcURL}${MyConfig.webToolJsName.load}?q=${MyConfig.webToolJsOnlyKey.load}"></script>
+                `,
+                );
                 //包装loadLib函数内容，加一个模块的参数
-                _html = _html.replace(/function loadLib\([\s\S]*?\)[\s]\{[\s\S]*?\}/, `
+                _html = _html.replace(
+                    /function loadLib\([\s\S]*?\)[\s]\{[\s\S]*?\}/,
+                    `
     function loadLib(url) {
         var type = arguments.length <= 1 || arguments[1] === undefined ? 'text/javascript' : arguments[1];
         var script = document.createElement("script");
@@ -105,7 +123,8 @@ ${MainConfig.config.ifOpenWebSocketTool ? `<script type="text/javascript" src="$
         script.type = type;
         document.body.appendChild(script);
     }
-                    `);
+                    `,
+                );
                 //添加提示
                 _html = `
 <!-- 此文件被包装过，和源文件内容有差异。 -->
@@ -133,7 +152,12 @@ ${_html}
                 //替换主脚本地址
                 _js = `
 //! 此文件被包装过，和源文件内容有差异。
-${_js.replace(new RegExp(`\\(["']/?${MainConfig.config.mainJs.replace(/^\//, '')}["']\\)`), `("http://${HttpTool.getHostname}:${MainConfig.config.port.src}/${MainConfig.config.mainTs.replace(/\..*?$/, '')}", 'module')`)}
+${_js.replace(
+    new RegExp(`\\(["']/?${MainConfig.config.mainJs.replace(/^\//, '')}["']\\)`),
+    `("http://${HttpTool.getHostname}:${
+        MainConfig.config.port.src
+    }/${MainConfig.config.mainTs.replace(/\..*?$/, '')}", 'module')`,
+)}
                 `;
                 //
                 r(_js);

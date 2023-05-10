@@ -1,9 +1,9 @@
-import MainConfig from "../../config/MainConfig";
-import HttpTool from "../../http/HttpTool";
-import SrcOperation from "./SrcOperation";
-import { AddressInfo } from "net";
-import { cacheOneDayHead } from "../../com/ResHead";
-import { server } from "./NodeModulesT";
+import MainConfig from '../../config/MainConfig';
+import HttpTool from '../../http/HttpTool';
+import SrcOperation from './SrcOperation';
+import { AddressInfo } from 'net';
+import { cacheOneDayHead } from '../../com/ResHead';
+import { server } from './NodeModulesT';
 
 /**
  * src代理
@@ -26,7 +26,7 @@ export default class SrcProxy {
                         //
                         res.writeHead(_fileData.stateCode, {
                             ...cacheOneDayHead,
-                            ..._fileData.resHead
+                            ..._fileData.resHead,
                         });
                         //返回数据
                         res.end(_fileData.content);

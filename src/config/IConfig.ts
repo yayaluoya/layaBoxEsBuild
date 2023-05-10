@@ -1,65 +1,68 @@
-import { TransformOptions } from "esbuild";
-import { ILoaderConfig } from "../dirProxy/src/SrcLoader";
+import { TransformOptions } from 'esbuild';
+import { ILoaderConfig } from '../dirProxy/src/SrcLoader';
 
 /**
  * 配置表接口
  */
 export default interface IConfig {
     /** 代理src目录，可以是绝对路径或者相对路径 */
-    src?: string,
+    src?: string;
     /** 代理bin目录，可以是绝对路径或者相对路径 */
-    bin?: string,
+    bin?: string;
     /** 文件路径修改，会把 a 匹配的替换成 b */
     filePathModify?: {
-        a: RegExp,
-        b: string,
+        a: RegExp;
+        b: string;
     }[];
     /** 代理端口，可以随便指定，为0则自动分配，只要不冲突就行 */
     port?: {
-        src: number,
-        bin: number,
-    },
+        src: number;
+        bin: number;
+    };
     /** 主机地址，当有任何原因没有自动获取到主机地址时将采用这个地址 */
-    hostName?: string,
+    hostName?: string;
     /** src目录文件默认后缀，当导入的文件不带后缀时会以这个数组依次寻找，知道找到匹配的，全部找不到的话就报错  */
-    srcFileDefaultSuffixs?: string[],
+    srcFileDefaultSuffixs?: string[];
     /** 入口文件名，地址相对于src目录 */
-    mainTs?: string,
+    mainTs?: string;
     /** 主页地址， 相对于bin目录 */
-    homePage?: string,
+    homePage?: string;
     /** 主页脚本， 相对于bin目录 */
-    homeJs?: string,
+    homeJs?: string;
     /** 入口js文件，相对于bin目录 */
-    mainJs?: string,
+    mainJs?: string;
     /** 自动更新任务时间，分 */
-    autoUpdateTaskTime?: number,
+    autoUpdateTaskTime?: number;
     /** 是否打印日志 */
-    ifLog?: boolean,
+    ifLog?: boolean;
     /** 断点类型 */
-    breakpointType?: 'vscode' | 'browser',
+    breakpointType?: 'vscode' | 'browser';
     /** 是否启用webSocket工具 */
-    ifOpenWebSocketTool?: boolean,
+    ifOpenWebSocketTool?: boolean;
     /** 是否在启动时打开主页 */
-    ifOpenHome?: boolean,
+    ifOpenHome?: boolean;
     /** 是否立即刷新浏览器 */
-    ifUpdateNow?: boolean,
+    ifUpdateNow?: boolean;
     /** 文件监听 */
     fileWatch?: {
         /** src目录的监听配置，enable选项无效 */
-        src: IFileWatch,
+        src: IFileWatch;
         /** bin目录的监听配置 */
-        bin: IFileWatch,
-    },
+        bin: IFileWatch;
+    };
     /** loader列表 */
-    loader?: ILoaderConfig[],
+    loader?: ILoaderConfig[];
     /** 组合esbuild的配置文件 */
-    comEsbuildConfig?: (config: TransformOptions) => TransformOptions,
-    /** 
+    comEsbuildConfig?: (config: TransformOptions) => TransformOptions;
+    /**
      * 文件读取后门
      * 系统读取不到目标文件时将会调用该方法
      * 使用该方法读取到的模块不会被缓存到内存中，故而不会有监听，如果有需要可以自行实现缓存和监听，然后调用_update方法更新页面就行了
      */
-    fileReadBackDoor?: (_src: string, _update: (_url?: string) => void) => Promise<{
+    fileReadBackDoor?: (
+        _src: string,
+        _update: (_url?: string) => void,
+    ) => Promise<{
         /** 真实路径 */
         url?: string;
         /** 后缀 */

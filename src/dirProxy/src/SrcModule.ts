@@ -1,11 +1,11 @@
-import FileModule, { IFileModuleContent } from "../../com/FileModule";
-import MainConfig from "../../config/MainConfig";
-import { EWebSocketMesType } from "../../webSocket/EWebSocketMesType";
-import WebSocket from "../../webSocket/WebSocket";
-import moment from "moment";
-import chalk from "chalk";
-import { Message } from "esbuild";
-import { FileBuild } from "./FileBuild";
+import FileModule, { IFileModuleContent } from '../../com/FileModule';
+import MainConfig from '../../config/MainConfig';
+import { EWebSocketMesType } from '../../webSocket/EWebSocketMesType';
+import WebSocket from '../../webSocket/WebSocket';
+import moment from 'moment';
+import chalk from 'chalk';
+import { Message } from 'esbuild';
+import { FileBuild } from './FileBuild';
 
 /**
  * Src模块
@@ -22,10 +22,13 @@ export default class SrcModule extends FileModule {
         if (!this._updateH) {
             this._updateH = (_url?: string) => {
                 //发送webSocket消息
-                WebSocket.send(`src代码@${_url || this.url}✔️`, EWebSocketMesType.contentUpdate);
+                WebSocket.send(
+                    `src代码@${_url || this.url}✔️`,
+                    EWebSocketMesType.contentUpdate,
+                );
                 //
                 this.update();
-            }
+            };
         }
         return this._updateH;
     }
@@ -48,7 +51,11 @@ export default class SrcModule extends FileModule {
         if (MainConfig.config.ifLog) {
             console.log(chalk.gray('>'));
             console.log(chalk.gray('--> 模块更新'), chalk.yellow(this.absolutePath));
-            console.log(chalk.gray('x', this.updateNumber), chalk.magenta('X', SrcModule.m_updateSum), chalk.blue(moment(Date.now()).format('HH:mm:ss')));
+            console.log(
+                chalk.gray('x', this.updateNumber),
+                chalk.magenta('X', SrcModule.m_updateSum),
+                chalk.blue(moment(Date.now()).format('HH:mm:ss')),
+            );
         }
         //发出脚本更新事件
         WebSocket.send(this.key, EWebSocketMesType.scriptUpdate);
@@ -62,11 +69,13 @@ export default class SrcModule extends FileModule {
 
     /** 处理错误回调 */
     protected _mismanage(_e: Message[] | string): string {
-        if (!_e) { return ''; }
+        if (!_e) {
+            return '';
+        }
         //
         let _mess: {
-            text: string,
-            vsCodeUrl: string,
+            text: string;
+            vsCodeUrl: string;
         }[] = [];
         //
         if (typeof _e == 'object' && Array.isArray(_e)) {
@@ -75,7 +84,9 @@ export default class SrcModule extends FileModule {
                 //
                 _mess.push({
                     text: `文件：${this.normPath}\n位置：${_o.location.line}:${_o.location.column}\n错误代码：${_o.location.lineText}\n错误信息：${_o.text}`,
-                    vsCodeUrl: `vscode://file/${escape(`${this.normPath}:${_o.location.line}:${_o.location.column}`)}`,
+                    vsCodeUrl: `vscode://file/${escape(
+                        `${this.normPath}:${_o.location.line}:${_o.location.column}`,
+                    )}`,
                 });
             }
         } else {
@@ -94,8 +105,12 @@ export default class SrcModule extends FileModule {
             console.log(chalk.gray(_time));
             //这里引入全局定义的函数
             _content += `
-                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),\`esbuild编译错误！\n-\n${_mes.text}${_mes.vsCodeUrl ? `\n-\n在vscode中打开：${_mes.vsCodeUrl}` : ''}\n-\n${_time}\`));
-            `
+                console.error(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', 'red'),\`esbuild编译错误！\n-\n${
+                    _mes.text
+                }${
+                _mes.vsCodeUrl ? `\n-\n在vscode中打开：${_mes.vsCodeUrl}` : ''
+            }\n-\n${_time}\`));
+            `;
         }
         //
         return _content;

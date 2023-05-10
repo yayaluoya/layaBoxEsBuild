@@ -15,7 +15,7 @@ window.addEventListener('load', function () {
         </div>
     `;
         //添加元素
-        let _divDom = document.createElement("div");
+        let _divDom = document.createElement('div');
         _divDom.innerHTML = _div;
         //
         _divDom = document.body.appendChild(_divDom.firstElementChild);
@@ -70,7 +70,7 @@ window.addEventListener('load', function () {
             _backF && _backF(true);
             _hide();
             e.stopPropagation();
-        }
+        };
         //确认按钮
         _yesButDom.onclick = (e) => {
             _backF && _backF(true);
@@ -89,14 +89,13 @@ window.addEventListener('load', function () {
 
     //
     (function () {
-
         /** 项目更新次数 */
         let _updateNumber = 0;
         //是否有确认框在等待
         let _ifConfirm = false;
 
         //监听消息
-        esbuildTool.webSocketT.instance.addEventListener("message", function (event) {
+        esbuildTool.webSocketT.instance.addEventListener('message', function (event) {
             let data = JSON.parse(event.data);
             let _mes = data.mes;
             let _type = data.type;
@@ -104,26 +103,34 @@ window.addEventListener('load', function () {
             if (_type == esbuildTool.webSocketT.mesType.contentUpdate) {
                 _updateNumber++;
                 // 处理数据
-                console.log(...esbuildTool.consoleEx.pack(esbuildTool.consoleEx.getStyle('#eeeeee', '#08d9d6'), _mes));
+                console.log(
+                    ...esbuildTool.consoleEx.pack(
+                        esbuildTool.consoleEx.getStyle('#eeeeee', '#08d9d6'),
+                        _mes,
+                    ),
+                );
                 //弹出提示框
                 if (!_ifConfirm && _updateNumber > 0) {
                     _ifConfirm = true;
                     //
-                    confirmEx(`
+                    confirmEx(
+                        `
                         <div class="title">项目内容有更新 🔔</div>
                         <div class="content">点击消息框或点击确认按钮或按Enter键刷新页面，点击背景或取消按钮取消</div>
-                    `, (flag) => {
-                        _updateNumber = 0;
-                        _ifConfirm = false;
-                        //判断状态
-                        if (flag) {
-                            //刷新页面
-                            location.reload();
-                        } else {
-                            //
-                            // console.log('取消');
-                        }
-                    });
+                    `,
+                        (flag) => {
+                            _updateNumber = 0;
+                            _ifConfirm = false;
+                            //判断状态
+                            if (flag) {
+                                //刷新页面
+                                location.reload();
+                            } else {
+                                //
+                                // console.log('取消');
+                            }
+                        },
+                    );
                 }
             }
         });
@@ -131,33 +138,40 @@ window.addEventListener('load', function () {
         // 监听页面焦点事件
         if (esbuildTool.config.ifUpdateNow) {
             //根据不同浏览器获取属性名称
-            var hidden, visibilityChange;
-            if (typeof document.hidden !== "undefined") {
-                hidden = "hidden";
-                visibilityChange = "visibilitychange";
-            } else if (typeof document.msHidden !== "undefined") {
-                hidden = "msHidden";
-                visibilityChange = "msvisibilitychange";
-            } else if (typeof document.webkitHidden !== "undefined") {
-                hidden = "webkitHidden";
-                visibilityChange = "webkitvisibilitychange";
+            let hidden, visibilityChange;
+            if (typeof document.hidden !== 'undefined') {
+                hidden = 'hidden';
+                visibilityChange = 'visibilitychange';
+            } else if (typeof document.msHidden !== 'undefined') {
+                hidden = 'msHidden';
+                visibilityChange = 'msvisibilitychange';
+            } else if (typeof document.webkitHidden !== 'undefined') {
+                hidden = 'webkitHidden';
+                visibilityChange = 'webkitvisibilitychange';
             }
-            // 判断浏览器的支持情况 
-            if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
-                consol.warn("当前浏览器不能判断窗口是否获取或失去焦点😰");
+            // 判断浏览器的支持情况
+            if (
+                typeof document.addEventListener === 'undefined' ||
+                typeof document[hidden] === 'undefined'
+            ) {
+                console.warn('当前浏览器不能判断窗口是否获取或失去焦点😰');
             } else {
-                // 监听visibilityChange事件    
-                document.addEventListener(visibilityChange, () => {
-                    if (document[hidden]) {
-                        //失去焦点
-                    } else {
-                        // 获取焦点
-                        if (_updateNumber > 0) {
-                            //刷新页面
-                            location.reload();
+                // 监听visibilityChange事件
+                document.addEventListener(
+                    visibilityChange,
+                    () => {
+                        if (document[hidden]) {
+                            //失去焦点
+                        } else {
+                            // 获取焦点
+                            if (_updateNumber > 0) {
+                                //刷新页面
+                                location.reload();
+                            }
                         }
-                    }
-                }, false);
+                    },
+                    false,
+                );
             }
         }
     })();

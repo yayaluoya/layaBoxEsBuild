@@ -1,4 +1,4 @@
-import { join, resolve } from "path";
+import { join, resolve } from 'path';
 
 /**
  * 资源路径类

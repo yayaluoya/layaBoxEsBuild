@@ -1,16 +1,16 @@
-import Tool from "../_T/Tool";
+import Tool from '../_T/Tool';
 
 type webToolJsName = {
     /** 主脚本 */
-    main: string,
+    main: string;
     /** webSocket工具脚本 */
-    webSocket: string,
+    webSocket: string;
     /** css内容 */
-    css: string,
+    css: string;
     /** web加载工具脚本 */
-    load: string,
+    load: string;
     /** alert工具 */
-    alert: string,
+    alert: string;
 };
 
 /**

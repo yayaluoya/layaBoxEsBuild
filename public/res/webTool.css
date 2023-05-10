@@ -8,32 +8,32 @@
     justify-content: center;
     align-items: center;
     animation: 1s show;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     background-color: #eeeeee;
     flex-direction: column;
 }
 
-.loading>b {
+.loading > b {
     color: #393e46;
     font-size: 25px;
     padding-bottom: 5px;
     border-bottom: 5px dashed #ffffff;
 }
 
-.loading>p {
+.loading > p {
     position: absolute;
-    bottom: 0px;
-    color: #9BA4B4;
+    bottom: 0;
+    color: #9ba4b4;
     margin-bottom: 10px;
     font-size: 12px;
 }
 
-.loading>p.v {
+.loading > p.v {
     right: 10px;
 }
 
-.loading>p.explain {
+.loading > p.explain {
     left: 10px;
 }
 
@@ -41,8 +41,8 @@
     width: 100vw;
     height: 100vh;
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     display: none;
 }
 
@@ -56,7 +56,7 @@
     z-index: 9999999999;
 }
 
-.confirmEx>.bg {
+.confirmEx > .bg {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -65,7 +65,7 @@
     z-index: 1;
 }
 
-.confirmEx>.content {
+.confirmEx > .content {
     background-color: rgb(241 243 248 / 85%);
     display: flex;
     flex-direction: column;
@@ -78,29 +78,29 @@
     z-index: 2;
 }
 
-.confirmEx>.content>.mes {
+.confirmEx > .content > .mes {
     font-size: 25px;
     color: #8d93ab;
     padding-bottom: 5px;
     border-bottom: 1px dashed #8d93ab;
 }
 
-.confirmEx>.content>.mes>div {
+.confirmEx > .content > .mes > div {
     width: 100%;
     text-align: center;
     padding: 10px 0;
 }
 
-.confirmEx>.content>.mes>.title {
+.confirmEx > .content > .mes > .title {
     color: #393e46;
     font-weight: bold;
 }
 
-.confirmEx>.content>.mes>.content {
+.confirmEx > .content > .mes > .content {
     font-size: 15px;
 }
 
-.confirmEx>.content>.but {
+.confirmEx > .content > .but {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -110,10 +110,10 @@
     padding-top: 5px;
 }
 
-.confirmEx>.content>.but>button {
+.confirmEx > .content > .but > button {
     cursor: pointer;
     width: 110px;
-    border: 0px;
+    border: 0;
     border-radius: 3px;
     height: 35px;
     font-size: 20px;
@@ -121,15 +121,15 @@
     background-color: #ffffff;
     color: #393b44;
     letter-spacing: 3px;
-    transition: all .15s;
+    transition: all 0.15s;
 }
 
-.confirmEx>.content>.but>button:hover {
+.confirmEx > .content > .but > button:hover {
     background-color: #8d93ab;
     color: #f1f3f8;
 }
 
-.confirmEx>.content>.but>button:active {
+.confirmEx > .content > .but > button:active {
     font-size: 18px;
     letter-spacing: 2px;
     background-color: #393b44;

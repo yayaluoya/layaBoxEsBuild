@@ -38,8 +38,7 @@ program
     .option('-c --config <url>')
     .option('-lc --log-config [url]')
     .option('-b --bug');
-program
-    .parse(process.argv);
+program.parse(process.argv);
 //解析命令行参数
 const options = program.opts();
 // console.log(options);
@@ -54,7 +53,8 @@ let _cwdUrl = process.cwd();
     let _config;
     switch (true) {
         case Boolean(options.version):
-            console.log(chalk_1.default.green('当前layabox-esbuild的版本@ ') + chalk_1.default.yellow(PackageConfig_1.default.package.version));
+            console.log(chalk_1.default.green('当前layabox-esbuild的版本@ ') +
+                chalk_1.default.yellow(PackageConfig_1.default.package.version));
             break;
         //帮助
         case Boolean(options.help):
@@ -70,7 +70,7 @@ let _cwdUrl = process.cwd();
             console.log(chalk_1.default.blue('-lc --log-config [url]'), chalk_1.default.gray('查看配置，不填的话则打印默认配置信息'));
             console.log(chalk_1.default.blue('-b --bug'), chalk_1.default.gray('查看可能的bug和对应的解决方案。'));
             console.log(chalk_1.default.gray('-'));
-            console.log(chalk_1.default.gray('注意：参数是不用带\'或者\"符号的。'));
+            console.log(chalk_1.default.gray('注意：参数是不用带\'或者"符号的。'));
             break;
         //初始化
         case Boolean(options.init):
@@ -82,7 +82,9 @@ let _cwdUrl = process.cwd();
                     return;
                 }
                 //
-                let stream = fs_1.default.createReadStream(temConfigFIlePath).pipe(fs_1.default.createWriteStream(_configUrl));
+                let stream = fs_1.default
+                    .createReadStream(temConfigFIlePath)
+                    .pipe(fs_1.default.createWriteStream(_configUrl));
                 stream.on('close', () => {
                     console.log(chalk_1.default.green('配置文件初始化完成。', _configUrl));
                 });

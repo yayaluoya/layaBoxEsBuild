@@ -1,5 +1,5 @@
-import portfinder from "portfinder";
-import MainConfig from "../config/MainConfig";
+import portfinder from 'portfinder';
+import MainConfig from '../config/MainConfig';
 /**
  * 端口工具
  */
@@ -18,7 +18,7 @@ export default class PortTool {
                 MainConfig.config.ifLog && console.log(`${describe}得到端口`, prot);
                 return prot;
             });
-        })
+        });
         return this.onGetPortTask;
     }
 }

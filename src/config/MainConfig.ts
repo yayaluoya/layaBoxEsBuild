@@ -1,6 +1,6 @@
-import IConfig from "./IConfig";
-import { getAbsolute } from "../_T/getAbsolute";
-import { ObjectUtils } from "yayaluoya-tool/dist/obj/ObjectUtils";
+import IConfig from './IConfig';
+import { getAbsolute } from '../_T/getAbsolute';
+import { ObjectUtils } from 'yayaluoya-tool/dist/obj/ObjectUtils';
 
 /**
  * 主配置文件
@@ -17,14 +17,16 @@ export default class MainConfig {
     /** 设置配置文件 */
     public static set config(_c: IConfig) {
         //只能设置一次
-        if (this.m_config) { return; }
+        if (this.m_config) {
+            return;
+        }
         this.handleConfig(_c);
         this.m_config = _c;
     }
 
     /**
      * 处理配置文件
-     * @param c 
+     * @param c
      */
     public static handleConfig(c: IConfig): IConfig {
         //相对路径转绝对路径
@@ -39,9 +41,9 @@ export default class MainConfig {
 
     /**
      * 合并配置文件
-     * @param c 
-     * @param cs 
-     * @returns 
+     * @param c
+     * @param cs
+     * @returns
      */
     public static merge(c: IConfig, ...cs: IConfig[]): IConfig {
         return ObjectUtils.merge(c, ...cs);
